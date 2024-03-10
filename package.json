@@ -3,8 +3,12 @@
   "version": "0.0.0",
   "description": "Package publisher",
   "author": "William Grosset",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "node src/index.js"
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.2"
   }
 }
