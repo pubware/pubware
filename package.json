@@ -1,0 +1,10 @@
+{
+  "name": "packpub",
+  "version": "0.0.0",
+  "description": "Package publisher",
+  "author": "William Grosset",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "node src/index.js"
+  }
+}
