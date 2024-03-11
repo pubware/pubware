@@ -1,13 +1,11 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "commonjs",
+    "module": "node16",
     "outDir": "./dist",
     "strict": true,
-    "declaration": true,
-    "declarationDir": "./dist/dts",
     "esModuleInterop": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node16"
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
