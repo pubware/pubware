@@ -9,7 +9,7 @@
   },
   "type": "module",
   "bin": {
-    "packpub": "./dist/index.js"
+    "packpub": "./bin/packpub.js"
   },
   "scripts": {
     "build": "tsc",
