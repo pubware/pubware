@@ -6,8 +6,21 @@
 
 ### Local
 
-```
+Install the modules and create build:
+
+```zsh
 pnpm install
 pnpm build
-node dist/index.js --help
+```
+
+Link the project to your global `node_modules`:
+
+```zsh
+pnpm link .
+```
+
+Run the CLI tool:
+
+```zsh
+pnpm packpub
 ```
