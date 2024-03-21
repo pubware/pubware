@@ -23,8 +23,10 @@ Link the build to your global `node_modules`:
 pnpm link .
 ```
 
-Run the CLI tool:
+Run the build:
 
 ```zsh
 pnpm packpub
+# or
+pnpm run packpub
 ```

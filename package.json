@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
-    "start": "node dist/index.js"
+    "packpub": "packpub"
   },
   "devDependencies": {
     "@types/node": "^20.11.25",
