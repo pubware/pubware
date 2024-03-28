@@ -8,7 +8,10 @@ const optsDefault: Options = {
   encoding: 'utf8'
 }
 
-export async function fsRead(path: string, opts: Options = optsDefault) {
+export async function fsRead(
+  path: string,
+  opts: Options = optsDefault
+): Promise<void> {
   try {
     const data = await fs.readFile(path, opts)
     console.log(data)

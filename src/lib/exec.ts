@@ -7,8 +7,9 @@ export async function shExec(cmd: string): Promise<void> {
   const { stdout, stderr } = await execPromise(cmd)
 
   if (stderr) {
-    console.error('Error:', stderr)
+    console.error(stderr)
+    return
   }
 
-  console.log('Output:', stdout)
+  console.log(stdout)
 }
