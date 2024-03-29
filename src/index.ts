@@ -1,22 +1,13 @@
-import chalk from 'chalk'
-import { Command } from 'commander'
-import { fsRead } from './lib/fs/read.js'
-import { shExec } from './lib/shell/exec.js'
+import { createCLI } from './lib/cli.js'
+import { packageJsonPath } from './lib/context.js'
+import { updateVersion } from './lib/operations/update-version.js'
+import { createBuild } from './lib/operations/create-build.js'
 
-const program = new Command()
+async function main() {
+  const cli = createCLI()
 
-program
-  .name('packpub')
-  .description(chalk.blue('CLI tool to publish packages'))
-  .version(chalk.yellow('0.0.0'))
+  await updateVersion(packageJsonPath, 'patch')
+  await createBuild()
+}
 
-program.parse()
-
-// Begin publish lifecycle
-fsRead('./package.json').then(() => {
-  try {
-    shExec('npm run build')
-  } catch (err) {
-    console.error(err)
-  }
-})
+main()
