@@ -11,11 +11,11 @@ const optsDefault: Options = {
 export async function fsRead(
   path: string,
   opts: Options = optsDefault
-): Promise<void> {
+): Promise<string> {
   try {
-    const data = await fs.readFile(path, opts)
-    console.log(data)
+    return await fs.readFile(path, opts)
   } catch (err) {
     console.error(err)
+    return ''
   }
 }
