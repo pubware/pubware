@@ -6,7 +6,7 @@ import { createBuild } from './lib/operations/create-build.js'
 async function main() {
   const cli = createCLI()
 
-  await updateVersion(packageJsonPath, 'patch')
+  const version = await updateVersion(packageJsonPath, 'patch')
   await createBuild()
 }
 
