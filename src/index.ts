@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import { Command } from 'commander'
-import { shExec } from './lib/exec.js'
-import { fsRead } from './lib/read.js'
+import { fsRead } from './lib/fs/read.js'
+import { shExec } from './lib/shell/exec.js'
 
 const program = new Command()
 
@@ -15,7 +15,7 @@ program.parse()
 // Begin publish lifecycle
 fsRead('./package.json').then(() => {
   try {
-    shExec('pnpm build')
+    shExec('npm run build')
   } catch (err) {
     console.error(err)
   }
