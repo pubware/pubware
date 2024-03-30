@@ -9,7 +9,7 @@ class NPM extends Plugin {
     super('npm')
   }
 
-  async getVersion() {
+  async version(): Promise<string> {
     const data = await this.read(PACKAGE_JSON_PATH)
     const packageJson = JSON.parse(data)
     return packageJson.version
