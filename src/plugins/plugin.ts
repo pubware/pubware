@@ -1,6 +1,6 @@
-import { fsRead } from '../lib/fs/read.js'
-import { fsWrite } from '../lib/fs/write.js'
-import { shExec } from '../lib/shell/exec.js'
+import { fsRead } from '../core/fs/read.js'
+import { fsWrite } from '../core/fs/write.js'
+import { shExec } from '../core/shell/exec.js'
 
 class Plugin {
   private _name: string
