@@ -1,13 +1,12 @@
 import { createCLI } from './lib/cli.js'
-import { packageJsonPath } from './lib/context.js'
-import { updateVersion } from './lib/operations/update-version.js'
-import { createBuild } from './lib/operations/create-build.js'
+import NPM from './plugins/npm.js'
 
 async function main() {
   const cli = createCLI()
+  const npm = new NPM()
 
-  const version = await updateVersion(packageJsonPath, 'patch')
-  await createBuild()
+  const version = await npm.bump('patch')
+  await npm.build()
 }
 
 main()
