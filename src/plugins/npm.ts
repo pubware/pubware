@@ -2,7 +2,8 @@ import semver, { ReleaseType } from 'semver'
 import Plugin from './plugin.js'
 
 const PACKAGE_JSON_PATH = './package.json'
-const BUILD_CMD = 'npm run build'
+const NPM_BUILD_CMD = 'npm run build'
+const NPM_PUBLISH_CMD = 'npm publish'
 
 class NPM extends Plugin {
   constructor() {
@@ -31,14 +32,18 @@ class NPM extends Plugin {
 
   async build() {
     try {
-      await this.exec(BUILD_CMD)
+      await this.exec(NPM_BUILD_CMD)
     } catch (err) {
       console.error(err)
     }
   }
 
   async publish() {
-    // TODO
+    try {
+      await this.exec(`${NPM_PUBLISH_CMD} --dry-run`)
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
 
