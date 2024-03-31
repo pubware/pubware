@@ -1,15 +1,24 @@
 import chalk from 'chalk'
 import { Command } from 'commander'
 
-export function createCLI(): Command {
-  const program = new Command()
+const NAME = 'packpub'
+const DESCRIPTION = 'CLI tool to publish packages'
+const VERSION = '0.0.0'
 
-  program
-    .name('packpub')
-    .description(chalk.blue('CLI tool to publish packages'))
-    .version(chalk.yellow('0.0.0'))
+class CLI {
+  private program: Command
 
-  program.parse()
+  constructor() {
+    this.program = new Command()
+    this.program
+      .name(NAME)
+      .description(chalk.blue(DESCRIPTION))
+      .version(chalk.yellow(VERSION))
+  }
 
-  return program
+  run(args: string[]) {
+    this.program.parse(args)
+  }
 }
+
+export default CLI
