@@ -42,6 +42,10 @@ class Plugin {
       console.error(err)
     }
   }
+
+  async request<T>(url: string): Promise<T> {
+    return await this.request(url)
+  }
 }
 
 export default Plugin
