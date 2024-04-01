@@ -17,6 +17,10 @@ class Queue<T> implements GenericQueue<T> {
   pop(): T | undefined {
     return this.queue.shift()
   }
+
+  size(): number {
+    return this.queue.length
+  }
 }
 
 export default Queue
