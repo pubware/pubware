@@ -1,25 +1,26 @@
 interface GenericQueue<T> {
   push(item: T): void
   pop(): T | undefined
+  size(): number
 }
 
 class Queue<T> implements GenericQueue<T> {
-  private queue: T[]
+  private items: T[]
 
   constructor() {
-    this.queue = []
+    this.items = []
   }
 
   push(item: T) {
-    this.queue.push(item)
+    this.items.push(item)
   }
 
   pop(): T | undefined {
-    return this.queue.shift()
+    return this.items.shift()
   }
 
   size(): number {
-    return this.queue.length
+    return this.items.length
   }
 }
 
