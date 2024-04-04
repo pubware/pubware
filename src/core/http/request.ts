@@ -1,5 +1,5 @@
 // TODO `fetch` requires Node 17.5 (unless we use a polyfill?)
-export async function request<T>(url: string): Promise<T | undefined> {
+export async function httpRequest<T>(url: string): Promise<T | undefined> {
   try {
     const response = await fetch(url)
 

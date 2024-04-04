@@ -1,6 +1,7 @@
 import { fsRead } from '../core/fs/read.js'
 import { fsWrite } from '../core/fs/write.js'
 import { shExec } from '../core/shell/exec.js'
+import { httpRequest } from '../core/http/request.js'
 
 class Plugin {
   private _name: string
@@ -43,8 +44,8 @@ class Plugin {
     }
   }
 
-  async request<T>(url: string): Promise<T> {
-    return await this.request(url)
+  async request<T>(url: string): Promise<T | undefined> {
+    return await httpRequest(url)
   }
 }
 
