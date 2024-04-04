@@ -2,7 +2,7 @@ import Queue from '../lib/queue.js'
 
 type HookType = 'pre' | 'intra' | 'post'
 
-class PluginManager {
+class PluginController {
   private hooks: Record<HookType, Queue<Function>>
 
   constructor() {
@@ -13,12 +13,12 @@ class PluginManager {
     }
   }
 
-  addHook(type: HookType, hook: Function): this {
+  on(type: HookType, hook: Function): this {
     this.hooks[type].push(hook)
     return this
   }
 
-  private async executeHooks(type: HookType): Promise<void> {
+  private async execHooks(type: HookType): Promise<void> {
     while (this.hooks[type].size() > 0) {
       const hook = this.hooks[type].pop()
 
@@ -29,10 +29,10 @@ class PluginManager {
   }
 
   async execAll(): Promise<void> {
-    await this.executeHooks('pre')
-    await this.executeHooks('intra')
-    await this.executeHooks('post')
+    await this.execHooks('pre')
+    await this.execHooks('intra')
+    await this.execHooks('post')
   }
 }
 
-export default PluginManager
+export default PluginController

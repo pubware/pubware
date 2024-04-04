@@ -1,5 +1,5 @@
 import CLI from './lib/cli.js'
-import PluginManager from './plugins/plugin-manager.js'
+import PluginController from './plugins/plugin-controller.js'
 import NPM from './plugins/npm.js'
 import Git from './plugins/git.js'
 
@@ -10,17 +10,15 @@ async function main() {
 
   cli.run(args)
 
-  // Initialize plugins and assign hooks
-  const plugins = new PluginManager()
+  // Initialize plugins and register hooks
+  const controller = new PluginController()
   const npm = new NPM()
   const git = new Git()
 
-  plugins
-    .addHook('pre', npm.build.bind(npm))
-    .addHook('pre', npm.bump.bind(npm, 'patch'))
+  controller.on('pre', () => npm.build()).on('pre', () => npm.bump('patch'))
 
   // Execute hooks
-  await plugins.execAll()
+  await controller.execAll()
 }
 
 await main()
