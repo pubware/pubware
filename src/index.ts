@@ -15,16 +15,25 @@ async function main() {
   const npm = new NPM()
   const git = new Git()
 
-  // Register initial lifecycle events
+  // Register lifecycle events
+  // TODO:
+  //   - Initialize core `pre`, `intra`, `post` hooks (should these be hooks?)
+  //   - Then, add custom hooks
   controller
-    .on('pre', () => npm.bump('patch'))
-    // .on('intra', () => git.CTP())
-    .on('post', () => npm.publish())
-
-  // Register custom hooks
-  controller
-    .on('pre', () => npm.build())
-    .on('post', () => console.log('finished!'))
+    .on('pre', async () => {
+      await npm.build()
+      // Last `pre` hook, insert before
+      await npm.bump('patch')
+    })
+    .on('intra', async () => {
+      // Last `intra` hook, insert before
+      // await git.CTP()
+    })
+    .on('post', async () => {
+      // First `post` hook, insert after
+      await npm.publish()
+      console.log('finished!')
+    })
 
   // Execute hooks
   await controller.execAll()
