@@ -40,7 +40,7 @@ class NPM extends Plugin {
 
   async publish() {
     try {
-      await this.exec(`${NPM_PUBLISH_CMD} --dry-run`)
+      await this.exec(NPM_PUBLISH_CMD, '--dry-run')
     } catch (err) {
       console.error(err)
     }

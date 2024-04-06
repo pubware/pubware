@@ -36,9 +36,9 @@ class Plugin {
     await fsWrite(path, data)
   }
 
-  async exec(cmd: string) {
+  async exec(cmd: string, ...args: string[]) {
     try {
-      await shExec(cmd)
+      await shExec(cmd, ...args)
     } catch (err) {
       console.error(err)
     }

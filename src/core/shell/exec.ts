@@ -3,8 +3,10 @@ import util from 'util'
 
 const execPromise = util.promisify(exec)
 
-export async function shExec(cmd: string): Promise<void> {
-  const { stdout, stderr } = await execPromise(cmd)
+export async function shExec(cmd: string, ...args: string[]): Promise<void> {
+  // NOTE: Simplistic joining of a command and args
+  const unsafeCmd = `${cmd} ${args.join(' ')}`
+  const { stdout, stderr } = await execPromise(unsafeCmd)
 
   if (stderr) {
     console.error(stderr)

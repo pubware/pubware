@@ -11,7 +11,7 @@ class Git extends Plugin {
 
   async commit(message: string) {
     try {
-      await this.exec(`${GIT_COMMIT_CMD} -m ${message}`)
+      await this.exec(GIT_COMMIT_CMD, '-m', message)
     } catch (err) {
       console.error(err)
     }
@@ -20,7 +20,7 @@ class Git extends Plugin {
   async tag(version: string): Promise<string> {
     const vers = `v${version}`
     try {
-      await this.exec(`${GIT_TAG_CMD} -a ${vers} -m ${vers}`)
+      await this.exec(GIT_TAG_CMD, '-a', vers, '-m', vers)
       return vers
     } catch (err) {
       console.error(err)
@@ -30,7 +30,7 @@ class Git extends Plugin {
 
   async push(tag: string) {
     try {
-      await this.exec(`${GIT_PUSH_CMD} origin ${tag}`)
+      await this.exec(GIT_PUSH_CMD, 'origin', tag)
     } catch (err) {
       console.error(err)
     }
