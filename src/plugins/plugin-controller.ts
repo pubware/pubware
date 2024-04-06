@@ -1,26 +1,30 @@
 import Queue from '../lib/queue.js'
 
-type HookType = 'pre' | 'intra' | 'post'
+type LifecycleEvent = 'pre' | 'intra' | 'post'
+type Callback<T extends any[], R> = (...args: T) => Promise<R> | R
 
 class PluginController {
-  private hooks: Record<HookType, Queue<Function>>
+  private hooks: Record<LifecycleEvent, Queue<Callback<any[], any>>>
 
   constructor() {
     this.hooks = {
-      pre: new Queue(),
-      intra: new Queue(),
-      post: new Queue()
+      pre: new Queue<Callback<any[], any>>(),
+      intra: new Queue<Callback<any[], any>>(),
+      post: new Queue<Callback<any[], any>>()
     }
   }
 
-  on(type: HookType, hook: Function): this {
-    this.hooks[type].push(hook)
+  on<T extends any[], R>(
+    event: LifecycleEvent,
+    callback: Callback<T, R>
+  ): this {
+    this.hooks[event].push(callback)
     return this
   }
 
-  private async execHooks(type: HookType): Promise<void> {
-    while (this.hooks[type].size() > 0) {
-      const hook = this.hooks[type].pop()
+  private async exec(event: LifecycleEvent): Promise<void> {
+    while (this.hooks[event].size() > 0) {
+      const hook = this.hooks[event].pop()
 
       if (hook) {
         await hook()
@@ -29,9 +33,9 @@ class PluginController {
   }
 
   async execAll(): Promise<void> {
-    await this.execHooks('pre')
-    await this.execHooks('intra')
-    await this.execHooks('post')
+    await this.exec('pre')
+    await this.exec('intra')
+    await this.exec('post')
   }
 }
 
