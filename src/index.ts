@@ -10,12 +10,21 @@ async function main() {
 
   cli.run(args)
 
-  // Initialize plugins and register hooks
+  // Initialize plugins
   const controller = new PluginController()
   const npm = new NPM()
   const git = new Git()
 
-  controller.on('pre', () => npm.build()).on('pre', () => npm.bump('patch'))
+  // Register initial lifecycle events
+  controller
+    .on('pre', () => npm.bump('patch'))
+    // .on('intra', () => git.CTP())
+    .on('post', () => npm.publish())
+
+  // Register custom hooks
+  controller
+    .on('pre', () => npm.build())
+    .on('post', () => console.log('finished!'))
 
   // Execute hooks
   await controller.execAll()
