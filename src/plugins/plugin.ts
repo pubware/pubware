@@ -1,7 +1,6 @@
-import { fsRead } from '../core/fs/read.js'
-import { fsWrite } from '../core/fs/write.js'
-import { shExec } from '../core/shell/exec.js'
-import { httpRequest } from '../core/http/request.js'
+import FileSystem from '../core/fs/index.js'
+import HTTP from '../core/http/index.js'
+import Shell from '../core/shell/index.js'
 
 class Plugin {
   private _name: string
@@ -29,23 +28,23 @@ class Plugin {
   }
 
   async read(path: string): Promise<string> {
-    return await fsRead(path)
+    return await FileSystem.read(path)
   }
 
-  async write(path: string, data: string) {
-    await fsWrite(path, data)
+  async write(path: string, data: string): Promise<void> {
+    await FileSystem.write(path, data)
   }
 
-  async exec(cmd: string, ...args: string[]) {
+  async exec(cmd: string, ...args: string[]): Promise<void> {
     try {
-      await shExec(cmd, ...args)
+      await Shell.exec(cmd, ...args)
     } catch (err) {
       console.error(err)
     }
   }
 
   async request<T>(url: string): Promise<T | undefined> {
-    return await httpRequest(url)
+    return await HTTP.request(url)
   }
 }
 
