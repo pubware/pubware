@@ -42,9 +42,19 @@ class Git extends Plugin {
     }
   }
 
-  async push(tag: string) {
+  async push(remote?: string, tag?: string) {
     try {
-      await this.exec(Git.CLI.CMD.PUSH, tag)
+      let options = []
+
+      if (remote) {
+        options.push(remote)
+      }
+
+      if (tag) {
+        options.push('refs/tags/' + tag)
+      }
+
+      await this.exec(Git.CLI.CMD.PUSH, ...options)
     } catch (err) {
       console.error(err)
     }
