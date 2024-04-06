@@ -1,17 +1,25 @@
 import Plugin from './plugin.js'
 
-const GIT_COMMIT_CMD = 'git commit'
-const GIT_TAG_CMD = 'git tag'
-const GIT_PUSH_CMD = 'git push'
-
 class Git extends Plugin {
+  static CLI = {
+    CMD: {
+      COMMIT: 'git commit',
+      TAG: 'git tag',
+      PUSH: 'git push'
+    },
+    OPTIONS: {
+      ANNOTATE: '-a',
+      MESSAGE: '-m'
+    }
+  }
+
   constructor() {
     super('git')
   }
 
   async commit(message: string) {
     try {
-      await this.exec(GIT_COMMIT_CMD, '-m', message)
+      await this.exec(Git.CLI.CMD.COMMIT, Git.CLI.OPTIONS.MESSAGE, message)
     } catch (err) {
       console.error(err)
     }
@@ -20,7 +28,13 @@ class Git extends Plugin {
   async tag(version: string): Promise<string> {
     const vers = `v${version}`
     try {
-      await this.exec(GIT_TAG_CMD, '-a', vers, '-m', vers)
+      await this.exec(
+        Git.CLI.CMD.TAG,
+        Git.CLI.OPTIONS.ANNOTATE,
+        vers,
+        Git.CLI.OPTIONS.MESSAGE,
+        vers
+      )
       return vers
     } catch (err) {
       console.error(err)
@@ -30,7 +44,7 @@ class Git extends Plugin {
 
   async push(tag: string) {
     try {
-      await this.exec(GIT_PUSH_CMD, 'origin', tag)
+      await this.exec(Git.CLI.CMD.PUSH, tag)
     } catch (err) {
       console.error(err)
     }
