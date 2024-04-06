@@ -24,10 +24,10 @@ class PluginController {
 
   private async exec(event: LifecycleEvent): Promise<void> {
     while (this.hooks[event].size() > 0) {
-      const hook = this.hooks[event].pop()
+      const callback = this.hooks[event].pop()
 
-      if (hook) {
-        await hook()
+      if (callback) {
+        await callback()
       }
     }
   }
