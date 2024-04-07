@@ -4,11 +4,8 @@ import NPM from './plugins/npm.js'
 import Git from './plugins/git.js'
 
 async function main() {
-  // Initialize CLI and process args
-  const cli = new CLI()
-  const args = process.argv
-
-  cli.run(args)
+  // Initialize CLI
+  await CLI.run()
 
   // Initialize plugins
   const controller = new PluginController()

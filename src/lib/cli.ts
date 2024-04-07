@@ -1,23 +1,16 @@
 import chalk from 'chalk'
-import { Command } from 'commander'
+import { Command } from '@oclif/core'
 
-const NAME = 'packpub'
-const DESCRIPTION = 'CLI tool to publish packages'
-const VERSION = '0.0.0'
+class CLI extends Command {
+  static summary = 'CLI for publishing packages'
+  static enableJsonFlag = true
+  static args = {}
+  static flags = {}
 
-class CLI {
-  private program: Command
+  async run() {
+    const { flags } = await this.parse(CLI)
 
-  constructor() {
-    this.program = new Command()
-    this.program
-      .name(NAME)
-      .description(chalk.blue(DESCRIPTION))
-      .version(chalk.yellow(VERSION))
-  }
-
-  run(args: string[]) {
-    this.program.parse(args)
+    this.log(chalk.blue('Running CLI...'))
   }
 }
 
