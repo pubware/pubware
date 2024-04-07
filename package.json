@@ -1,13 +1,13 @@
 {
   "name": "packpub",
   "version": "0.0.0",
-  "description": "Package publisher",
+  "description": "Agnostic & extensible package publisher",
   "author": "William Grosset",
-  "exports": "./dist/index.js",
+  "type": "module",
   "engines": {
     "node": ">=18"
   },
-  "type": "module",
+  "exports": "./dist/index.js",
   "bin": {
     "packpub": "./bin/packpub.js"
   },
