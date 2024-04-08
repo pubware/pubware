@@ -1,5 +1,6 @@
-import chalk from 'chalk'
 import { Command } from '@oclif/core'
+import { input, confirm } from '@inquirer/prompts'
+import chalk from 'chalk'
 
 class CLI extends Command {
   static summary = 'CLI for publishing packages'
@@ -7,10 +8,39 @@ class CLI extends Command {
   static args = {}
   static flags = {}
 
-  async run() {
+  /**
+   * Log info message to console.
+   *
+   * @param {string} message The message to log.
+   */
+  public info(message: string) {
+    this.log(chalk.blue(message))
+  }
+
+  /**
+   * Prompt user for a message input.
+   *
+   * @param {string} message The message to log.
+   * @return {Promise<string>} Returns answer to message.
+   */
+  public static async promptInput(message: string): Promise<string> {
+    return await input({ message })
+  }
+
+  /**
+   * Prompt user for a confirmation.
+   *
+   * @param {string} message The message to log.
+   * @return {Promise<boolean>} Returns answer to message.
+   */
+  public static async promptConfirm(message: string): Promise<boolean> {
+    return await confirm({ message })
+  }
+
+  public async run(): Promise<void> {
     const { flags } = await this.parse(CLI)
 
-    this.log(chalk.blue('Running CLI...'))
+    this.info('Running CLI...')
   }
 }
 
