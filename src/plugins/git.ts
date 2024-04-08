@@ -1,16 +1,15 @@
 import Plugin from './plugin.js'
 
 class Git extends Plugin {
-  static CLI = {
-    CMD: {
-      COMMIT: 'git commit',
-      TAG: 'git tag',
-      PUSH: 'git push'
-    },
-    OPTIONS: {
-      ANNOTATE: '-a',
-      MESSAGE: '-m'
-    }
+  // TODO: Replace with Config (pass in as props)
+  static CMDS = {
+    COMMIT: 'git commit',
+    TAG: 'git tag',
+    PUSH: 'git push'
+  }
+  static FLAGS = {
+    ANNOTATE: '-a',
+    MESSAGE: '-m'
   }
 
   constructor() {
@@ -19,7 +18,7 @@ class Git extends Plugin {
 
   async commit(message: string) {
     try {
-      await this.exec(Git.CLI.CMD.COMMIT, Git.CLI.OPTIONS.MESSAGE, message)
+      await this.exec(Git.CMDS.COMMIT, Git.FLAGS.MESSAGE, message)
     } catch (err) {
       console.error(err)
     }
@@ -29,10 +28,10 @@ class Git extends Plugin {
     const vers = `v${version}`
     try {
       await this.exec(
-        Git.CLI.CMD.TAG,
-        Git.CLI.OPTIONS.ANNOTATE,
+        Git.CMDS.TAG,
+        Git.FLAGS.ANNOTATE,
         vers,
-        Git.CLI.OPTIONS.MESSAGE,
+        Git.FLAGS.MESSAGE,
         vers
       )
       return vers
@@ -54,7 +53,7 @@ class Git extends Plugin {
         options.push('refs/tags/' + tag)
       }
 
-      await this.exec(Git.CLI.CMD.PUSH, ...options)
+      await this.exec(Git.CMDS.PUSH, ...options)
     } catch (err) {
       console.error(err)
     }

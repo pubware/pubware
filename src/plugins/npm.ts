@@ -2,18 +2,16 @@ import semver, { ReleaseType } from 'semver'
 import Plugin from './plugin.js'
 
 class NPM extends Plugin {
-  static CLI = {
-    // TODO: Remove `CONFIG` prop and use from Config class
-    CONFIG: {
-      PACKAGE_JSON_PATH: './package.json'
-    },
-    CMD: {
-      BUILD: 'npm run build',
-      PUBLISH: 'npm publish'
-    },
-    OPTIONS: {
-      DRY_RUN: '--dry-run'
-    }
+  // TODO: Replace with Config (pass in as props)
+  static FILES = {
+    PACKAGE_JSON_PATH: './package.json'
+  }
+  static CMDS = {
+    BUILD: 'npm run build',
+    PUBLISH: 'npm publish'
+  }
+  static FLAGS = {
+    DRY_RUN: '--dry-run'
   }
 
   constructor() {
@@ -21,19 +19,19 @@ class NPM extends Plugin {
   }
 
   async version(): Promise<string> {
-    const data = await this.read(NPM.CLI.CONFIG.PACKAGE_JSON_PATH)
+    const data = await this.read(NPM.FILES.PACKAGE_JSON_PATH)
     const packageJson = JSON.parse(data)
     return packageJson.version
   }
 
   async bump(release: ReleaseType): Promise<string> {
-    const data = await this.read(NPM.CLI.CONFIG.PACKAGE_JSON_PATH)
+    const data = await this.read(NPM.FILES.PACKAGE_JSON_PATH)
     const packageJson = JSON.parse(data)
     const version = semver.inc(packageJson.version, release)
 
     packageJson.version = version
     await this.write(
-      NPM.CLI.CONFIG.PACKAGE_JSON_PATH,
+      NPM.FILES.PACKAGE_JSON_PATH,
       JSON.stringify(packageJson, null, 2) + '\n'
     )
 
@@ -42,7 +40,7 @@ class NPM extends Plugin {
 
   async build() {
     try {
-      await this.exec(NPM.CLI.CMD.BUILD)
+      await this.exec(NPM.CMDS.BUILD)
     } catch (err) {
       console.error(err)
     }
@@ -50,7 +48,7 @@ class NPM extends Plugin {
 
   async publish() {
     try {
-      await this.exec(NPM.CLI.CMD.PUBLISH, NPM.CLI.OPTIONS.DRY_RUN)
+      await this.exec(NPM.CMDS.PUBLISH, NPM.FLAGS.DRY_RUN)
     } catch (err) {
       console.error(err)
     }
