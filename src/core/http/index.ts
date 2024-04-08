@@ -1,11 +1,10 @@
 class HTTP {
-  // TODO: `fetch` requires Node 17.5 (unless we use a polyfill?)
-  static async request<T>(url: string): Promise<T | undefined> {
+  static async request<T>(url: string, options?: RequestInit): Promise<T> {
     try {
-      const response = await fetch(url)
+      const response = await fetch(url, options)
 
       if (!response.ok) {
-        throw new Error(`Error: ${response.status}`)
+        throw new Error(`HTTP Error: ${response.status} ${response.statusText}`)
       }
 
       const data: T = await response.json()
@@ -13,6 +12,8 @@ class HTTP {
       return data
     } catch (err) {
       console.error(err)
+      // Re-throw to allow consumer to handle error
+      throw err
     }
   }
 }

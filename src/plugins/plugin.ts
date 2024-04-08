@@ -43,8 +43,8 @@ class Plugin {
     }
   }
 
-  async request<T>(url: string): Promise<T | undefined> {
-    return await HTTP.request(url)
+  async request<T>(url: string, options?: RequestInit): Promise<T | undefined> {
+    return await HTTP.request(url, options)
   }
 }
 
