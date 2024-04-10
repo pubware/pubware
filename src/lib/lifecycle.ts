@@ -27,7 +27,7 @@ class Lifecycle {
     return this
   }
 
-  async trigger(event: Event): Promise<void> {
+  private async trigger(event: Event): Promise<void> {
     const callbacks = this.events.get(event)
 
     if (callbacks) {
@@ -39,6 +39,12 @@ class Lifecycle {
         }
       }
     }
+  }
+
+  async start(): Promise<void> {
+    await this.trigger('pre-bump')
+    await this.trigger('pre-commit')
+    await this.trigger('post-publish')
   }
 }
 
