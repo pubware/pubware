@@ -31,7 +31,7 @@ class Lifecycle {
     const callbacks = this.events.get(event)
 
     if (callbacks) {
-      while (callbacks.size() > 0) {
+      while (!callbacks.isEmpty()) {
         const callback = callbacks.remove()
 
         if (callback) {

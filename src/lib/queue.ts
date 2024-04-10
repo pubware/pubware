@@ -27,6 +27,10 @@ class Queue<T> implements GenericQueue<T> {
   size(): number {
     return this.items.length
   }
+
+  isEmpty(): boolean {
+    return this.size() === 0
+  }
 }
 
 export default Queue
