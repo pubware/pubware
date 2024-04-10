@@ -1,49 +1,56 @@
 import Queue from './queue.js'
+import NPM from '../plugins/npm.js'
+import Git from '../plugins/git.js'
 
 type Event = 'pre-bump' | 'pre-commit' | 'post-publish'
 type Callback<T extends any[], R> = (...args: T) => Promise<R> | R
 
+interface Plugins {
+  npm: NPM
+  git: Git
+}
+
 class Lifecycle {
-  private events: Map<Event, Queue<Callback<any[], any>>>
+  private hooks: Record<Event, Queue<Callback<any[], any>>>
+  private plugins: Plugins
 
   constructor() {
-    const events: Event[] = ['pre-bump', 'pre-commit', 'post-publish']
-    this.events = new Map(
-      events.map((event): [Event, Queue<Callback<any[], any>>] => [
-        event,
-        new Queue()
-      ])
-    )
+    this.hooks = {
+      'pre-bump': new Queue<Callback<any[], any>>(),
+      'pre-commit': new Queue<Callback<any[], any>>(),
+      'post-publish': new Queue<Callback<any[], any>>()
+    }
+    this.plugins = {
+      npm: new NPM(),
+      git: new Git()
+    }
   }
 
   on<T extends any[], R>(event: Event, cb: Callback<T, R>): this {
-    const callbacks = this.events.get(event)
-
-    if (callbacks) {
-      callbacks.insert(cb)
-      this.events.set(event, callbacks)
-    }
-
+    this.hooks[event].insert(cb)
     return this
   }
 
   private async trigger(event: Event): Promise<void> {
-    const callbacks = this.events.get(event)
+    const callbacks = this.hooks[event]
 
-    if (callbacks) {
-      while (!callbacks.isEmpty()) {
-        const callback = callbacks.remove()
+    while (!callbacks.isEmpty()) {
+      const cb = callbacks.remove()
 
-        if (callback) {
-          await callback()
-        }
+      if (cb) {
+        await cb()
       }
     }
   }
 
   async start(): Promise<void> {
     await this.trigger('pre-bump')
+    // await this.plugins.npm.bump('patch')
+
     await this.trigger('pre-commit')
+    // await this.plugins.git.commit()
+
+    // await this.plugins.npm.publish()
     await this.trigger('post-publish')
   }
 }
