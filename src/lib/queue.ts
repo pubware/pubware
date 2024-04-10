@@ -1,11 +1,4 @@
-interface GenericQueue<T> {
-  insert(item: T): void
-  remove(): T | undefined
-  peek(): T | undefined
-  size(): number
-}
-
-class Queue<T> implements GenericQueue<T> {
+class Queue<T> {
   private items: T[]
 
   constructor() {
