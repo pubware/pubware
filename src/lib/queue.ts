@@ -1,6 +1,7 @@
 interface GenericQueue<T> {
-  push(item: T): void
-  pop(): T | undefined
+  insert(item: T): void
+  remove(): T | undefined
+  peek(): T | undefined
   size(): number
 }
 
@@ -11,12 +12,16 @@ class Queue<T> implements GenericQueue<T> {
     this.items = []
   }
 
-  push(item: T) {
+  insert(item: T) {
     this.items.push(item)
   }
 
-  pop(): T | undefined {
+  remove(): T | undefined {
     return this.items.shift()
+  }
+
+  peek(): T | undefined {
+    return this.items[this.items.length - 1]
   }
 
   size(): number {
