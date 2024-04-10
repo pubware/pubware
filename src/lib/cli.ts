@@ -1,6 +1,7 @@
 import { Command } from '@oclif/core'
 import { input, confirm } from '@inquirer/prompts'
 import chalk from 'chalk'
+import Lifecycle from './lifecycle.js'
 
 class CLI extends Command {
   static summary = 'CLI for publishing packages'
@@ -41,6 +42,16 @@ class CLI extends Command {
     const { flags } = await this.parse(CLI)
 
     this.info('Running CLI...')
+
+    const lifecycle = new Lifecycle()
+
+    lifecycle.on('pre-bump', () => console.log('Preparing to bump version!'))
+    lifecycle.on('pre-commit', () =>
+      console.log('Preparing to git commit and push!')
+    )
+    lifecycle.on('post-publish', () => console.log('Just published!'))
+
+    await lifecycle.start()
   }
 }
 
