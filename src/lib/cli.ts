@@ -5,7 +5,6 @@ import Lifecycle from './lifecycle.js'
 
 class CLI extends Command {
   static summary = 'CLI for publishing packages'
-  static enableJsonFlag = true
   static args = {}
   static flags = {}
 
@@ -38,6 +37,9 @@ class CLI extends Command {
     return await confirm({ message })
   }
 
+  /**
+   * Execute CLI lifecycle.
+   */
   public async run(): Promise<void> {
     const { flags } = await this.parse(CLI)
 
