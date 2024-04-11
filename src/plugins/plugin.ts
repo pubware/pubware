@@ -1,16 +1,14 @@
 import chalk from 'chalk'
 import { confirm, input } from '@inquirer/prompts'
 import FileSystem from '../core/fs/index.js'
-import HTTP from '../core/http/index.js'
 import Shell from '../core/shell/index.js'
+import HTTP from '../core/http/index.js'
 
 class Plugin {
   private _name: string
-  private _disabled: boolean
 
   constructor(name: string) {
     this._name = name
-    this._disabled = false
   }
 
   get name(): string {
@@ -19,14 +17,6 @@ class Plugin {
 
   set name(name: string) {
     this._name = name
-  }
-
-  get disabled(): boolean {
-    return this._disabled
-  }
-
-  set disabled(disabled: boolean) {
-    this._disabled = disabled
   }
 
   log(message: string) {
