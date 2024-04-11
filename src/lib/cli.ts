@@ -1,49 +1,38 @@
-import { Command } from '@oclif/core'
-import { input, confirm } from '@inquirer/prompts'
+import { Command } from 'commander'
 import chalk from 'chalk'
 import Lifecycle from './lifecycle.js'
 
-class CLI extends Command {
-  static summary = 'CLI for publishing packages'
-  static args = {}
-  static flags = {}
+class CLI {
+  private static NAME = 'packpub'
+  private static DESCRIPTION = 'packpub'
+  private static VERSION = '0.0.0'
+
+  private program: Command
+
+  constructor() {
+    this.program = new Command()
+    this.program
+      .name(CLI.NAME)
+      .description(CLI.DESCRIPTION)
+      .version(CLI.VERSION)
+  }
 
   /**
    * Log info message to console.
    *
    * @param {string} message The message to log.
    */
-  public info(message: string) {
-    this.log(chalk.blue(message))
+  public log(message: string) {
+    console.log(chalk.blue(message))
   }
 
   /**
-   * Prompt user for a message input.
-   *
-   * @param {string} message The message to log.
-   * @return {Promise<string>} Returns answer to message.
+   * Execute CLI.
    */
-  public static async promptInput(message: string): Promise<string> {
-    return await input({ message })
-  }
+  public async run(args: string[]): Promise<void> {
+    this.log('CLI initializing...')
 
-  /**
-   * Prompt user for a confirmation.
-   *
-   * @param {string} message The message to log.
-   * @return {Promise<boolean>} Returns answer to message.
-   */
-  public static async promptConfirm(message: string): Promise<boolean> {
-    return await confirm({ message })
-  }
-
-  /**
-   * Execute CLI lifecycle.
-   */
-  public async run(): Promise<void> {
-    const { flags } = await this.parse(CLI)
-
-    this.info('Running CLI...')
+    this.program.parse(args)
 
     const lifecycle = new Lifecycle()
 
@@ -54,6 +43,8 @@ class CLI extends Command {
     lifecycle.on('post-publish', () => console.log('Just published!'))
 
     await lifecycle.start()
+
+    this.log('CLI completed.')
   }
 }
 
