@@ -4,7 +4,7 @@ import Lifecycle from './lifecycle.js'
 
 class CLI {
   private static NAME = 'packpub'
-  private static DESCRIPTION = 'packpub'
+  private static DESCRIPTION = 'Agnostic & extensible package publisher'
   private static VERSION = '0.0.0'
 
   private program: Command
