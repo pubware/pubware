@@ -4,7 +4,7 @@ import FileSystem from '../core/fs/index.js'
 import Shell from '../core/shell/index.js'
 import HTTP from '../core/http/index.js'
 
-class Plugin {
+abstract class Plugin {
   private _name: string
 
   constructor(name: string) {
