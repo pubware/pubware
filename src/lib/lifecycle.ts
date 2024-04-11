@@ -31,7 +31,7 @@ class Lifecycle {
     return this
   }
 
-  private async trigger(event: Event): Promise<void> {
+  async trigger(event: Event): Promise<void> {
     const callbacks = this.hooks[event]
 
     while (!callbacks.isEmpty()) {

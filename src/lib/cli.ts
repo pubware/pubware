@@ -22,14 +22,14 @@ class CLI {
    *
    * @param {string} message The message to log.
    */
-  public log(message: string) {
+  log(message: string) {
     console.log(chalk.blue(message))
   }
 
   /**
    * Execute CLI.
    */
-  public async run(args: string[]): Promise<void> {
+  async run(args: string[]): Promise<void> {
     this.log('CLI initializing...')
 
     this.program.parse(args)
