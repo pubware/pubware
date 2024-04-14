@@ -16,8 +16,7 @@ class FileSystem {
     try {
       return await fs.readFile(path, opts)
     } catch (err) {
-      console.error(err)
-      return ''
+      throw err
     }
   }
 
@@ -25,7 +24,7 @@ class FileSystem {
     try {
       await fs.writeFile(path, content)
     } catch (err) {
-      console.error(err)
+      throw err
     }
   }
 }

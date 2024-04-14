@@ -36,11 +36,10 @@ class CLI {
 
     const lifecycle = new Lifecycle()
 
-    lifecycle.on('pre-bump', () => console.log('Preparing to bump version!'))
-    lifecycle.on('pre-commit', () =>
-      console.log('Preparing to git commit and push!')
-    )
-    lifecycle.on('post-publish', () => console.log('Just published!'))
+    lifecycle
+      .on('pre-bump', () => console.log('Preparing to bump version!'))
+      .on('pre-commit', () => console.log('Preparing to git commit and push!'))
+      .on('post-publish', () => console.log('Just published!'))
 
     await lifecycle.start()
 

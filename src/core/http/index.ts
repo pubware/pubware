@@ -1,5 +1,5 @@
 class HTTP {
-  static async request<T>(url: string, options?: RequestInit): Promise<T> {
+  static async fetch<T>(url: string, options?: RequestInit): Promise<T> {
     try {
       const response = await fetch(url, options)
 
@@ -11,8 +11,6 @@ class HTTP {
 
       return data
     } catch (err) {
-      console.error(err)
-      // Re-throw to allow consumer to handle error
       throw err
     }
   }

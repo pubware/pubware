@@ -23,11 +23,15 @@ abstract class Plugin {
     console.log(chalk.green(message))
   }
 
-  warn(message: string) {
-    console.log(chalk.yellow(message))
+  logWarning(message: string) {
+    console.warn(chalk.yellow(message))
   }
 
-  async promptInput(message: string): Promise<string> {
+  logError(message: string) {
+    console.error(chalk.red(message))
+  }
+
+  async prompt(message: string): Promise<string> {
     return await input({ message })
   }
 
@@ -36,11 +40,22 @@ abstract class Plugin {
   }
 
   async read(path: string): Promise<string> {
-    return await FileSystem.read(path)
+    try {
+      return await FileSystem.read(path)
+    } catch (err) {
+      // TODO Handle errors
+      console.error(err)
+      throw err
+    }
   }
 
   async write(path: string, data: string): Promise<void> {
-    await FileSystem.write(path, data)
+    try {
+      await FileSystem.write(path, data)
+    } catch (err) {
+      console.error(err)
+      throw err
+    }
   }
 
   async exec(cmd: string, ...args: string[]): Promise<void> {
@@ -48,11 +63,17 @@ abstract class Plugin {
       await Shell.exec(cmd, ...args)
     } catch (err) {
       console.error(err)
+      throw err
     }
   }
 
-  async request<T>(url: string, options?: RequestInit): Promise<T> {
-    return await HTTP.request(url, options)
+  async fetch<T>(url: string, options?: RequestInit): Promise<T> {
+    try {
+      return await HTTP.fetch(url, options)
+    } catch (err) {
+      console.error(err)
+      throw err
+    }
   }
 }
 
