@@ -1,8 +1,15 @@
 import chalk from 'chalk'
-import { confirm, input } from '@inquirer/prompts'
+import { confirm, input, select, Separator } from '@inquirer/prompts'
 import FileSystem from '../core/fs/index.js'
 import Shell from '../core/shell/index.js'
 import HTTP from '../core/http/index.js'
+
+interface Choice {
+  name?: string
+  value: string
+  description?: string
+  seperator?: Separator
+}
 
 abstract class Plugin {
   private _name: string
@@ -20,6 +27,10 @@ abstract class Plugin {
   }
 
   log(message: string) {
+    console.log(chalk.blue(message))
+  }
+
+  logSuccess(message: string) {
     console.log(chalk.green(message))
   }
 
@@ -39,12 +50,14 @@ abstract class Plugin {
     return await confirm({ message })
   }
 
+  async promptSelect(message: string, choices: Choice[]) {
+    return await select({ message, choices })
+  }
+
   async read(path: string): Promise<string> {
     try {
       return await FileSystem.read(path)
     } catch (err) {
-      // TODO Handle errors
-      console.error(err)
       throw err
     }
   }
@@ -53,7 +66,6 @@ abstract class Plugin {
     try {
       await FileSystem.write(path, data)
     } catch (err) {
-      console.error(err)
       throw err
     }
   }
@@ -62,7 +74,6 @@ abstract class Plugin {
     try {
       await Shell.exec(cmd, ...args)
     } catch (err) {
-      console.error(err)
       throw err
     }
   }
@@ -71,7 +82,6 @@ abstract class Plugin {
     try {
       return await HTTP.fetch(url, options)
     } catch (err) {
-      console.error(err)
       throw err
     }
   }
