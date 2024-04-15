@@ -27,19 +27,19 @@ abstract class Plugin {
   }
 
   log(message: string) {
-    console.log(chalk.blue(message))
+    console.log(chalk.blue(`🔵 [plugin][${this.name}]: ${message}`))
   }
 
   logSuccess(message: string) {
-    console.log(chalk.green(message))
+    console.log(chalk.green(`🟢 [plugin][${this.name}]: ${message}`))
   }
 
   logWarning(message: string) {
-    console.warn(chalk.yellow(message))
+    console.log(chalk.yellow(`🟡 [plugin][${this.name}]: ${message}`))
   }
 
   logError(message: string) {
-    console.error(chalk.red(message))
+    console.log(chalk.red(`🔴 [plugin][${this.name}]: ${message}`))
   }
 
   async prompt(message: string): Promise<string> {
@@ -50,7 +50,7 @@ abstract class Plugin {
     return await confirm({ message })
   }
 
-  async promptSelect(message: string, choices: Choice[]) {
+  async promptSelect(message: string, choices: Choice[]): Promise<string> {
     return await select({ message, choices })
   }
 
