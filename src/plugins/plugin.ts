@@ -8,7 +8,6 @@ interface Choice {
   name?: string
   value: string
   description?: string
-  seperator?: Separator
 }
 
 abstract class Plugin {
@@ -50,7 +49,10 @@ abstract class Plugin {
     return await confirm({ message })
   }
 
-  async promptSelect(message: string, choices: Choice[]): Promise<string> {
+  async promptSelect(
+    message: string,
+    choices: (Choice | Separator)[]
+  ): Promise<string> {
     return await select({ message, choices })
   }
 
