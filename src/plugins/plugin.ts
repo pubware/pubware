@@ -28,7 +28,7 @@ abstract class Plugin {
     this._name = name
   }
 
-  public output(message: string) {
+  output(message: string) {
     console.log(`[packpub][plugin][${this.name}]: ${message}`)
   }
 
@@ -113,6 +113,13 @@ abstract class Plugin {
       this.throwError('Failed to fetch resource', err as Error)
     }
   }
+
+  init?(): void
+  beforeBump?(): void
+  bump?(version: string): void
+  beforePublish?(): void
+  publish?(): void
+  postPublish?(): void
 }
 
 export default Plugin
