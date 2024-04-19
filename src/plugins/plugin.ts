@@ -16,6 +16,8 @@ abstract class Plugin {
 
   constructor(name: string) {
     this._name = name
+
+    this.log('Initialized')
   }
 
   get name(): string {
@@ -24,6 +26,10 @@ abstract class Plugin {
 
   set name(name: string) {
     this._name = name
+  }
+
+  public output(message: string) {
+    console.log(`[packpub][plugin][${this.name}]: ${message}`)
   }
 
   private log(message: string) {
