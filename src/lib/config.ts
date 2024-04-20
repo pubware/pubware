@@ -14,12 +14,13 @@ class Config {
     this.logger = new Logger()
   }
 
-  private async load(name: string) {
+  private async load(name: string): Promise<any> {
     this.logger.log(`Loading plugin: ${name}`)
 
     let Plugin
 
     try {
+      // Attempt to load plugin from node_modules
       const module = await import(name)
       Plugin = module.default
       return Plugin
@@ -35,7 +36,7 @@ class Config {
     }
   }
 
-  async init() {
+  async init(): Promise<void> {
     const data = await fs.readFile('package.json', 'utf-8')
     const packageJson = JSON.parse(data)
     const { packpub } = packageJson
@@ -53,7 +54,7 @@ class Config {
     }
   }
 
-  getPlugins() {
+  getPlugins(): any[] {
     return this.plugins
   }
 }
