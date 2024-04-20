@@ -1,7 +1,7 @@
 import { Command } from 'commander'
-import chalk from 'chalk'
 import Config from './config.js'
 import Lifecycle from './lifecycle.js'
+import Logger from './logger.js'
 
 class CLI {
   private static NAME = 'packpub'
@@ -9,6 +9,7 @@ class CLI {
   private static VERSION = '0.0.0'
 
   private program: Command
+  private logger: Logger
 
   constructor() {
     this.program = new Command()
@@ -16,22 +17,15 @@ class CLI {
       .name(CLI.NAME)
       .description(CLI.DESCRIPTION)
       .version(CLI.VERSION)
-  }
 
-  /**
-   * Log message to console.
-   *
-   * @param {string} message The message to log.
-   */
-  log(message: string) {
-    console.log(chalk.black(`[packpub]: ${message}`))
+    this.logger = new Logger()
   }
 
   /**
    * Execute CLI.
    */
   async run(args: string[]): Promise<void> {
-    this.log('CLI initializing...')
+    this.logger.log('CLI initializing...')
 
     this.program.parse(args)
 
@@ -51,7 +45,7 @@ class CLI {
 
     await lifecycle.run()
 
-    this.log('CLI finished.')
+    this.logger.log('CLI finished.')
   }
 }
 
