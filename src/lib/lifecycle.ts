@@ -29,6 +29,8 @@ class Lifecycle {
   }
 
   async trigger(event: Event): Promise<void> {
+    this.logger.log(`Executing hooks for lifecycle event: ${event}`)
+
     const callbacks = this.hooks[event]
 
     while (!callbacks.isEmpty()) {
@@ -42,7 +44,6 @@ class Lifecycle {
 
   async run(): Promise<void> {
     for (const event of Lifecycle.EVENTS) {
-      this.logger.log(`Executing hooks for lifecycle event: ${event}`)
       await this.trigger(event)
     }
   }
