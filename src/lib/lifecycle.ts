@@ -1,3 +1,4 @@
+import Logger from './logger.js'
 import Queue from './queue.js'
 
 type Event = 'beforeBump' | 'bump' | 'beforePublish' | 'publish' | 'postPublish'
@@ -13,11 +14,13 @@ class Lifecycle {
     'postPublish'
   ]
   private hooks: Hooks = {} as Hooks
+  private logger: Logger
 
   constructor() {
     Lifecycle.EVENTS.forEach(EVENT => {
       this.hooks[EVENT] = new Queue<Callback<any[], any>>()
     })
+    this.logger = new Logger()
   }
 
   on<T extends any[], R>(event: Event, cb: Callback<T, R>): this {
@@ -39,6 +42,7 @@ class Lifecycle {
 
   async run(): Promise<void> {
     for (const event of Lifecycle.EVENTS) {
+      this.logger.log(`Executing hooks for lifecycle event: ${event}`)
       await this.trigger(event)
     }
   }

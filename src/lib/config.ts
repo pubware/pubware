@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises'
+import Logger from './logger.js'
 
 const INTERNAL_PLUGINS = {
   npm: {}
@@ -6,12 +7,16 @@ const INTERNAL_PLUGINS = {
 
 class Config {
   private plugins: any[]
+  private logger: Logger
 
   constructor() {
     this.plugins = []
+    this.logger = new Logger()
   }
 
   private async load(name: string) {
+    this.logger.log(`Loading plugin: ${name}`)
+
     let Plugin
 
     try {

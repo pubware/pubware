@@ -1,7 +1,7 @@
 import { Command } from 'commander'
+import Logger from './logger.js'
 import Config from './config.js'
 import Lifecycle from './lifecycle.js'
-import Logger from './logger.js'
 
 class CLI {
   private static NAME = 'packpub'
@@ -17,7 +17,6 @@ class CLI {
       .name(CLI.NAME)
       .description(CLI.DESCRIPTION)
       .version(CLI.VERSION)
-
     this.logger = new Logger()
   }
 
