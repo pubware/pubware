@@ -1,7 +1,7 @@
 import { Command } from 'commander'
 import chalk from 'chalk'
+import Config from './config.js'
 import Lifecycle from './lifecycle.js'
-import NPM from '../plugins/npm.js'
 
 class CLI {
   private static NAME = 'packpub'
@@ -35,12 +35,19 @@ class CLI {
 
     this.program.parse(args)
 
+    const config = new Config()
+    await config.init()
+
+    const plugins = config.getPlugins()
     const lifecycle = new Lifecycle()
 
-    // TODO Load plugins dynamically (await import(plugin))
-    const npm = new NPM()
-
-    lifecycle.on('bump', () => npm.bump())
+    for (const plugin of plugins) {
+      for (const event of Lifecycle.EVENTS) {
+        if (plugin[event]) {
+          lifecycle.on(event, () => plugin[event]())
+        }
+      }
+    }
 
     await lifecycle.run()
 
