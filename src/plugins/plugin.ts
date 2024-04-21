@@ -5,7 +5,7 @@ import FileSystem from '../core/fs/index.js'
 import Shell from '../core/shell/index.js'
 import HTTP from '../core/http/index.js'
 
-interface Choice {
+export interface Choice {
   name?: string
   value: string
   description?: string
