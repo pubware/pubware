@@ -1,26 +1,33 @@
 import semver from 'semver'
 import Plugin from './plugin.js'
 
-class NPM extends Plugin {
-  // TODO: Replace with Config (pass in as props)
-  static FILES = {
-    PACKAGE_JSON_PATH: './package.json'
-  }
-  static CMDS = {
-    BUILD: 'npm run build',
-    PUBLISH: 'npm publish'
-  }
-  static FLAGS = {
-    DRY_RUN: '--dry-run'
-  }
+interface Config {
+  packageJsonPath: string
+  buildCmd: string
+  publishCmd: string
+}
 
-  constructor() {
-    super('npm')
+interface Options {
+  name: string
+  config?: Config
+}
+
+class NPM extends Plugin {
+  private config: Config
+
+  constructor({ name, config }: Options) {
+    super(name)
+
+    this.config = {
+      packageJsonPath: config?.packageJsonPath ?? './package.json',
+      buildCmd: config?.buildCmd ?? 'npm run build',
+      publishCmd: config?.publishCmd ?? 'npm publish'
+    }
   }
 
   private async version(): Promise<string> {
     try {
-      const data = await this.read(NPM.FILES.PACKAGE_JSON_PATH)
+      const data = await this.read(this.config.packageJsonPath)
       const packageJson = JSON.parse(data)
       return packageJson.version
     } catch (err) {
@@ -30,7 +37,7 @@ class NPM extends Plugin {
 
   private async build(): Promise<void> {
     try {
-      await this.exec(NPM.CMDS.BUILD)
+      await this.exec(this.config.buildCmd)
     } catch (err) {
       throw err
     }
@@ -48,7 +55,7 @@ class NPM extends Plugin {
     const response = await this.prompt('Which version?')
 
     try {
-      const data = await this.read(NPM.FILES.PACKAGE_JSON_PATH)
+      const data = await this.read(this.config.packageJsonPath)
       const packageJson = JSON.parse(data)
       const version = semver.inc(packageJson.version, 'patch')
 
@@ -59,7 +66,7 @@ class NPM extends Plugin {
       packageJson.version = version
 
       await this.write(
-        NPM.FILES.PACKAGE_JSON_PATH,
+        this.config.packageJsonPath,
         JSON.stringify(packageJson, null, 2) + '\n'
       )
     } catch (err) {
@@ -69,7 +76,7 @@ class NPM extends Plugin {
 
   async publish(): Promise<void> {
     try {
-      await this.exec(NPM.CMDS.PUBLISH, NPM.FLAGS.DRY_RUN)
+      await this.exec(this.config.publishCmd, '--dry-run')
     } catch (err) {
       throw err
     }

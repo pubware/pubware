@@ -14,20 +14,20 @@ class Config {
     this.logger = new Logger()
   }
 
-  private async load(name: string): Promise<any> {
-    this.logger.log(`Loading plugin: ${name}`)
+  private async load(plugin: string): Promise<any> {
+    this.logger.log(`Loading plugin: ${plugin}`)
 
     let Plugin
 
     try {
       // Attempt to load plugin from node_modules
-      const module = await import(name)
+      const module = await import(plugin)
       Plugin = module.default
       return Plugin
     } catch (err) {
       try {
         // Attempt to load local plugin
-        const module = await import(`../plugins/${name}.js`)
+        const module = await import(`../plugins/${plugin}.js`)
         Plugin = module.default
         return Plugin
       } catch (err) {
@@ -48,9 +48,9 @@ class Config {
       plugins = { ...INTERNAL_PLUGINS, ...externalPlugins }
     }
 
-    for (const [key, _] of Object.entries(plugins)) {
-      const Plugin = await this.load(key)
-      this.plugins.push(new Plugin())
+    for (const [plugin, options] of Object.entries(plugins)) {
+      const Plugin = await this.load(plugin)
+      this.plugins.push(new Plugin({ plugin, options }))
     }
   }
 
