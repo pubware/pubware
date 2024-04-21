@@ -48,9 +48,9 @@ class Config {
       plugins = { ...INTERNAL_PLUGINS, ...externalPlugins }
     }
 
-    for (const [plugin, options] of Object.entries(plugins)) {
-      const Plugin = await this.load(plugin)
-      this.plugins.push(new Plugin({ plugin, options }))
+    for (const [name, options] of Object.entries(plugins)) {
+      const Plugin = await this.load(name)
+      this.plugins.push(new Plugin({ name, options }))
     }
   }
 
