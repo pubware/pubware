@@ -9,10 +9,7 @@ const optsDefault: Options = {
 }
 
 class FileSystem {
-  static async read(
-    path: string,
-    opts: Options = optsDefault
-  ): Promise<string> {
+  async read(path: string, opts: Options = optsDefault): Promise<string> {
     try {
       return await fs.readFile(path, opts)
     } catch (err) {
@@ -20,7 +17,7 @@ class FileSystem {
     }
   }
 
-  static async write(path: string, content: string): Promise<void> {
+  async write(path: string, content: string): Promise<void> {
     try {
       await fs.writeFile(path, content)
     } catch (err) {

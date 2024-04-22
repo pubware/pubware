@@ -1,5 +1,5 @@
 class HTTP {
-  static async fetch<T>(url: string, options?: RequestInit): Promise<T> {
+  async fetch<T>(url: string, options?: RequestInit): Promise<T> {
     try {
       const response = await fetch(url, options)
 
