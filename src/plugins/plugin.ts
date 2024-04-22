@@ -1,21 +1,19 @@
-import chalk from 'chalk'
-import { confirm, input, select, Separator } from '@inquirer/prompts'
-import PluginError from './error.js'
+import Logger from './lib/logger.js'
+import Prompter, { Choices } from './lib/prompter.js'
+import PluginError from './lib/error.js'
 import FileSystem from '../core/fs/index.js'
 import Shell from '../core/shell/index.js'
 import HTTP from '../core/http/index.js'
 
-export interface Choice {
-  name?: string
-  value: string
-  description?: string
-}
-
 abstract class Plugin {
   private _name: string
+  private logger: Logger
+  protected prompter: Prompter
 
   constructor(name: string) {
     this._name = name
+    this.logger = new Logger(name)
+    this.prompter = new Prompter()
   }
 
   get name(): string {
@@ -26,54 +24,47 @@ abstract class Plugin {
     this._name = name
   }
 
-  output(message: string) {
-    console.log(`[packpub][plugin][${this.name}]: ${message}`)
-  }
-
-  private log(message: string) {
-    console.log(chalk.blue(`[packpub][plugin][${this.name}]: ${message}`))
-  }
-
-  private logError(message: string) {
-    console.error(
-      chalk.red(`[packpub][plugin][${this.name}][error]: ${message}`)
-    )
-  }
-
-  throwError(message: string, error: Error): never {
-    this.logError(message)
+  private throwError(message: string, error: Error): never {
+    this.logger.logError(message)
     throw new PluginError(this.name, message, error)
   }
 
+  log(message: string) {
+    this.logger.log(message)
+  }
+
   async prompt(message: string): Promise<string> {
+    this.logger.logInfo('Prompting user')
+
     try {
-      return await input({ message })
+      return await this.prompter.input(message)
     } catch (err) {
       this.throwError('Failed to prompt user', err as Error)
     }
   }
 
   async promptConfirm(message: string): Promise<boolean> {
+    this.logger.logInfo('Prompting user')
+
     try {
-      return await confirm({ message })
+      return await this.prompter.confirm(message)
     } catch (err) {
       this.throwError('Failed to prompt user', err as Error)
     }
   }
 
-  async promptSelect(
-    message: string,
-    choices: (Choice | Separator)[]
-  ): Promise<string> {
+  async promptSelect(message: string, choices: Choices): Promise<string> {
+    this.logger.logInfo('Prompting user')
+
     try {
-      return await select({ message, choices })
+      return await this.prompter.select(message, choices)
     } catch (err) {
       this.throwError('Failed to prompt user', err as Error)
     }
   }
 
   async read(path: string): Promise<string> {
-    this.log(`Reading file: ${path}`)
+    this.logger.logInfo(`Reading file: ${path}`)
 
     try {
       return await FileSystem.read(path)
@@ -83,7 +74,7 @@ abstract class Plugin {
   }
 
   async write(path: string, data: string): Promise<void> {
-    this.log(`Writing to file: ${path}`)
+    this.logger.logInfo(`Writing to file: ${path}`)
 
     try {
       await FileSystem.write(path, data)
@@ -93,7 +84,7 @@ abstract class Plugin {
   }
 
   async exec(cmd: string, ...args: string[]): Promise<void> {
-    this.log('Execing command')
+    this.logger.logInfo('Execing command')
 
     try {
       await Shell.exec(cmd, ...args)
@@ -103,7 +94,7 @@ abstract class Plugin {
   }
 
   async fetch<T>(url: string, options?: RequestInit): Promise<T> {
-    this.log('Fetching resource')
+    this.logger.logInfo('Fetching resource')
 
     try {
       return await HTTP.fetch(url, options)

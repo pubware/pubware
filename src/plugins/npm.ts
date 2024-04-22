@@ -1,5 +1,5 @@
 import semver, { ReleaseType } from 'semver'
-import Plugin, { Choice } from './plugin.js'
+import Plugin from './plugin.js'
 
 interface Config {
   packageJsonPath: string
@@ -12,7 +12,7 @@ interface Options {
   config?: Config
 }
 
-const BUMP_PROMPT_SELECT_CHOICES: Choice[] = [
+const BUMP_PROMPT_SELECT_CHOICES = [
   {
     name: 'patch',
     value: 'patch',
@@ -57,7 +57,7 @@ class NPM extends Plugin {
 
   private async logVersion(): Promise<void> {
     const version = await this.version()
-    this.output(`Package version: ${version}`)
+    this.log(`Package version: ${version}`)
   }
 
   private async build(): Promise<void> {
