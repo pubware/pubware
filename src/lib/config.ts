@@ -1,11 +1,10 @@
 import fs from 'node:fs/promises'
 import Logger from './logger.js'
 
-const INTERNAL_PLUGINS = {
-  npm: {}
-}
-
 class Config {
+  static INTERNAL_PLUGINS: Record<string, object> = {
+    npm: {}
+  }
   private plugins: any[]
   private logger: Logger
 
@@ -41,11 +40,11 @@ class Config {
     const packageJson = JSON.parse(data)
     const { packpub } = packageJson
 
-    let plugins = INTERNAL_PLUGINS
+    let plugins = Config.INTERNAL_PLUGINS
 
     if (packpub) {
       const { plugins: externalPlugins } = packpub
-      plugins = { ...INTERNAL_PLUGINS, ...externalPlugins }
+      plugins = { ...plugins, ...externalPlugins }
     }
 
     for (const [name, options] of Object.entries(plugins)) {
