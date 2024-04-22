@@ -21,10 +21,6 @@ abstract class Plugin {
     return this._name
   }
 
-  set name(name: string) {
-    this._name = name
-  }
-
   private throwError(message: string, error: Error): never {
     this.shell.logger.logError(message)
     throw new PluginError(this.name, message, error)
