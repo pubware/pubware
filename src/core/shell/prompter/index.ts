@@ -1,11 +1,12 @@
 import { confirm, input, select, Separator } from '@inquirer/prompts'
 
-export type Choices = (Choice | Separator)[]
 interface Choice {
   name?: string
   value: string
   description?: string
 }
+
+export type Choices = (Choice | Separator)[]
 
 class Prompter {
   async input(message: string): Promise<string> {
