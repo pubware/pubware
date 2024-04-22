@@ -13,7 +13,7 @@ interface Options {
 }
 
 class NPM extends Plugin {
-  static BUMP_PROMPT_CHOICES = [
+  private static BUMP_PROMPT_CHOICES = [
     {
       name: 'patch',
       value: 'patch',

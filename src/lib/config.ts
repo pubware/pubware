@@ -2,7 +2,7 @@ import fs from 'node:fs/promises'
 import Logger from './logger.js'
 
 class Config {
-  static INTERNAL_PLUGINS: Record<string, object> = {
+  private static INTERNAL_PLUGINS: Record<string, object> = {
     npm: {}
   }
   private plugins: any[]
