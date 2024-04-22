@@ -12,25 +12,24 @@ interface Options {
   config?: Config
 }
 
-const BUMP_PROMPT_SELECT_CHOICES = [
-  {
-    name: 'patch',
-    value: 'patch',
-    description: 'Patch (x.x.1)'
-  },
-  {
-    name: 'minor',
-    value: 'minor',
-    description: 'Minor (x.1.x)'
-  },
-  {
-    name: 'major',
-    value: 'major',
-    description: 'Major (1.x.x)'
-  }
-]
-
 class NPM extends Plugin {
+  static BUMP_PROMPT_CHOICES = [
+    {
+      name: 'patch',
+      value: 'patch',
+      description: 'Patch (x.x.1)'
+    },
+    {
+      name: 'minor',
+      value: 'minor',
+      description: 'Minor (x.1.x)'
+    },
+    {
+      name: 'major',
+      value: 'major',
+      description: 'Major (1.x.x)'
+    }
+  ]
   private config: Config
 
   constructor({ name, config }: Options) {
@@ -76,7 +75,7 @@ class NPM extends Plugin {
   async bump(): Promise<void> {
     const response = await this.promptSelect(
       'What type of update do you want to perform?',
-      BUMP_PROMPT_SELECT_CHOICES
+      NPM.BUMP_PROMPT_CHOICES
     )
 
     try {
