@@ -1,12 +1,19 @@
 import Logger from './logger.js'
 import Queue from './queue.js'
 
-type Event = 'beforeBump' | 'bump' | 'beforePublish' | 'publish' | 'postPublish'
+type Event =
+  | 'init'
+  | 'beforeBump'
+  | 'bump'
+  | 'beforePublish'
+  | 'publish'
+  | 'postPublish'
 type Callback<T extends any[], R> = (...args: T) => Promise<R> | R
 type Hooks = Record<Event, Queue<Callback<any[], any>>>
 
 class Lifecycle {
   static EVENTS: Event[] = [
+    'init',
     'beforeBump',
     'bump',
     'beforePublish',

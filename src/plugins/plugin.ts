@@ -16,8 +16,6 @@ abstract class Plugin {
 
   constructor(name: string) {
     this._name = name
-
-    this.log('Initialized')
   }
 
   get name(): string {
