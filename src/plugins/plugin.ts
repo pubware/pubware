@@ -1,7 +1,7 @@
-import { Choices } from '../core/shell/prompter/index.js'
 import PluginError from './lib/error.js'
 import Logger from '../core/logger/index.js'
 import Shell from '../core/shell/index.js'
+import { Choices } from '../core/shell/prompter/index.js'
 import FileSystem from '../core/fs/index.js'
 import HTTP from '../core/http/index.js'
 
