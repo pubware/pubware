@@ -1,24 +1,27 @@
 import { Choices } from '../core/shell/prompter/index.js'
 import PluginError from './lib/error.js'
+import Logger from '../core/logger/index.js'
 import Shell from '../core/shell/index.js'
 import FileSystem from '../core/fs/index.js'
 import HTTP from '../core/http/index.js'
 
 abstract class Plugin {
   private _name: string
+  private logger: Logger
   private shell: Shell
   private fs: FileSystem
   private http: HTTP
 
   constructor(name: string) {
     this._name = name
-    this.shell = new Shell(name)
+    this.logger = new Logger(name)
+    this.shell = new Shell()
     this.fs = new FileSystem()
     this.http = new HTTP()
   }
 
   private throwError(message: string, error: Error): never {
-    this.shell.logger.logError(message)
+    this.logger.logError(message)
     throw new PluginError(this.name, message, error)
   }
 
@@ -27,11 +30,11 @@ abstract class Plugin {
   }
 
   log(message: string) {
-    this.shell.logger.log(message)
+    this.logger.log(message)
   }
 
   async prompt(message: string): Promise<string> {
-    this.shell.logger.logInfo('Prompting user')
+    this.logger.logInfo('Prompting user')
 
     try {
       return await this.shell.prompter.input(message)
@@ -41,7 +44,7 @@ abstract class Plugin {
   }
 
   async promptConfirm(message: string): Promise<boolean> {
-    this.shell.logger.logInfo('Prompting user')
+    this.logger.logInfo('Prompting user')
 
     try {
       return await this.shell.prompter.confirm(message)
@@ -51,7 +54,7 @@ abstract class Plugin {
   }
 
   async promptSelect(message: string, choices: Choices): Promise<string> {
-    this.shell.logger.logInfo('Prompting user')
+    this.logger.logInfo('Prompting user')
 
     try {
       return await this.shell.prompter.select(message, choices)
@@ -61,7 +64,7 @@ abstract class Plugin {
   }
 
   async read(path: string): Promise<string> {
-    this.shell.logger.logInfo(`Reading file: ${path}`)
+    this.logger.logInfo(`Reading file: ${path}`)
 
     try {
       return await this.fs.read(path)
@@ -71,7 +74,7 @@ abstract class Plugin {
   }
 
   async write(path: string, data: string): Promise<void> {
-    this.shell.logger.logInfo(`Writing to file: ${path}`)
+    this.logger.logInfo(`Writing to file: ${path}`)
 
     try {
       await this.fs.write(path, data)
@@ -81,7 +84,7 @@ abstract class Plugin {
   }
 
   async exec(cmd: string, ...args: string[]): Promise<void> {
-    this.shell.logger.logInfo('Execing command')
+    this.logger.logInfo('Execing command')
 
     try {
       await this.shell.exec(cmd, ...args)
@@ -91,7 +94,7 @@ abstract class Plugin {
   }
 
   async fetch<T>(url: string, options?: RequestInit): Promise<T> {
-    this.shell.logger.logInfo('Fetching resource')
+    this.logger.logInfo('Fetching resource')
 
     try {
       return await this.http.fetch(url, options)
