@@ -17,13 +17,13 @@ abstract class Plugin {
     this.http = new HTTP()
   }
 
-  get name(): string {
-    return this._name
-  }
-
   private throwError(message: string, error: Error): never {
     this.shell.logger.logError(message)
     throw new PluginError(this.name, message, error)
+  }
+
+  get name(): string {
+    return this._name
   }
 
   log(message: string) {
