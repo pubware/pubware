@@ -1,23 +1,23 @@
 import chalk from 'chalk'
 
 class Logger {
-  private name: string
+  private context: string
 
-  constructor(name: string) {
-    this.name = name
+  constructor(context: string) {
+    this.context = context
   }
 
   log(message: string) {
-    console.log(`[packpub][plugin][${this.name}]: ${message}`)
+    console.log(`[packpub][plugin][${this.context}]: ${message}`)
   }
 
   logInfo(message: string) {
-    console.log(chalk.blue(`[packpub][plugin][${this.name}]: ${message}`))
+    console.log(chalk.blue(`[packpub][plugin][${this.context}]: ${message}`))
   }
 
   logError(message: string) {
     console.error(
-      chalk.red(`[packpub][plugin][${this.name}][error]: ${message}`)
+      chalk.red(`[packpub][plugin][${this.context}][error]: ${message}`)
     )
   }
 }
