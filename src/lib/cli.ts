@@ -9,9 +9,9 @@ export interface Flags {
 }
 
 class CLI {
-  private static NAME = 'packpub'
-  private static DESCRIPTION = 'Agnostic & extensible package publisher'
-  private static VERSION = '0.0.0'
+  private static NAME: string = 'packpub'
+  private static DESCRIPTION: string = 'Agnostic & extensible package publisher'
+  private static VERSION: string = '0.0.0'
   private program: Command
   private logger: Logger
 
