@@ -65,7 +65,7 @@ class NPM extends Plugin {
     }
   }
 
-  async beforeBump(): Promise<void> {
+  async preBump(): Promise<void> {
     await this.build()
     await this.logVersion()
   }
@@ -96,7 +96,7 @@ class NPM extends Plugin {
     }
   }
 
-  async beforePublish(): Promise<void> {
+  async prePublish(): Promise<void> {
     await this.logVersion()
   }
 

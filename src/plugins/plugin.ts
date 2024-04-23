@@ -148,9 +148,9 @@ abstract class Plugin {
   }
 
   init?(): void
-  beforeBump?(): void
+  preBump?(): void
   bump?(): void
-  beforePublish?(): void
+  prePublish?(): void
   publish?(): void
   postPublish?(): void
 }
