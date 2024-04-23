@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises'
 import Logger from './logger.js'
+import { Flags } from './cli.js'
 
 class Config {
   private static INTERNAL_PLUGINS: Record<string, object> = {
@@ -35,7 +36,7 @@ class Config {
     }
   }
 
-  async init(): Promise<void> {
+  async init(flags: Flags): Promise<void> {
     const data = await fs.readFile('package.json', 'utf-8')
     const packageJson = JSON.parse(data)
     const { packpub } = packageJson
@@ -47,9 +48,11 @@ class Config {
       plugins = { ...plugins, ...externalPlugins }
     }
 
-    for (const [name, options] of Object.entries(plugins)) {
+    for (const [name, config] of Object.entries(plugins)) {
       const Plugin = await this.load(name)
-      this.plugins.push(new Plugin({ name, options }))
+      const plugin = new Plugin({ config })
+      plugin.flags = flags
+      this.plugins.push(plugin)
     }
   }
 

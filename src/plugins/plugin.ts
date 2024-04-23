@@ -5,8 +5,14 @@ import { Choices } from '../core/shell/prompter/index.js'
 import FileSystem from '../core/fs/index.js'
 import HTTP from '../core/http/index.js'
 
+interface Flags {
+  dryRun: boolean
+  headless: boolean
+}
+
 abstract class Plugin {
   private _name: string
+  private _flags: Flags
   private logger: Logger
   private shell: Shell
   private fs: FileSystem
@@ -14,6 +20,11 @@ abstract class Plugin {
 
   constructor(name: string) {
     this._name = name
+    // TODO Update `dryRun` to `false`
+    this._flags = {
+      dryRun: true,
+      headless: false
+    }
     this.logger = new Logger(name)
     this.shell = new Shell()
     this.fs = new FileSystem()
@@ -27,6 +38,14 @@ abstract class Plugin {
 
   get name(): string {
     return this._name
+  }
+
+  get flags(): Flags {
+    return this._flags
+  }
+
+  set flags(flags: Flags) {
+    this._flags = { ...this._flags, ...flags }
   }
 
   log(message: string) {

@@ -8,7 +8,6 @@ interface Config {
 }
 
 interface Options {
-  name: string
   config?: Config
 }
 
@@ -32,9 +31,8 @@ class NPM extends Plugin {
   ]
   private config: Config
 
-  constructor({ name, config }: Options) {
-    super(name)
-
+  constructor({ config }: Options) {
+    super('npm')
     this.config = {
       packageJsonPath: config?.packageJsonPath ?? './package.json',
       buildCmd: config?.buildCmd ?? 'npm run build',
@@ -104,7 +102,10 @@ class NPM extends Plugin {
 
   async publish(): Promise<void> {
     try {
-      await this.exec(this.config.publishCmd, '--dry-run')
+      await this.exec(
+        this.config.publishCmd,
+        this.flags.dryRun ? '--dry-run' : ''
+      )
     } catch (err) {
       throw err
     }
