@@ -27,7 +27,7 @@ class Lifecycle {
     Lifecycle.EVENTS.forEach(EVENT => {
       this.hooks[EVENT] = new Queue<Callback<any[], any>>()
     })
-    this.logger = new Logger()
+    this.logger = new Logger('lifecycle')
   }
 
   on<T extends any[], R>(event: Event, cb: Callback<T, R>): this {

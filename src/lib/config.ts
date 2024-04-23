@@ -11,7 +11,7 @@ class Config {
 
   constructor() {
     this.plugins = []
-    this.logger = new Logger()
+    this.logger = new Logger('config')
   }
 
   private async load(plugin: string): Promise<any> {

@@ -24,7 +24,7 @@ class CLI {
     this.program
       .option('-D, --dry-run', 'Report on what changes would have happened')
       .option('--headless', 'Run without an interface')
-    this.logger = new Logger()
+    this.logger = new Logger('cli')
   }
 
   private parseOptions(args: string[]): Flags {
@@ -36,7 +36,7 @@ class CLI {
    * Execute CLI.
    */
   async run(args: string[]): Promise<void> {
-    this.logger.log('CLI started.')
+    this.logger.log('Started.')
 
     const flags = this.parseOptions(args)
     const config = new Config()
@@ -56,7 +56,7 @@ class CLI {
 
     await lifecycle.run()
 
-    this.logger.log('CLI finished.')
+    this.logger.log('Finished.')
   }
 }
 
