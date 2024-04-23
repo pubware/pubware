@@ -1,5 +1,7 @@
 import semver, { ReleaseType } from 'semver'
 import Plugin from './plugin.js'
+// TODO import { Choices } from '@packpub/plugin'
+import { Choices } from '../core/shell/prompter/index.js'
 
 interface Config {
   packageJsonPath: string
@@ -12,7 +14,7 @@ interface Options {
 }
 
 class NPM extends Plugin {
-  private static BUMP_PROMPT_CHOICES = [
+  private static BUMP_PROMPT_CHOICES: Choices = [
     {
       name: 'patch',
       value: 'patch',
