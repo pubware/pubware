@@ -16,9 +16,8 @@ abstract class Plugin {
 
   constructor(name: string) {
     this._name = name
-    // TODO Update `dryRun` to `false`
     this._flags = {
-      dryRun: true,
+      dryRun: false,
       headless: false
     }
     this.logger = new Logger(name)

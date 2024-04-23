@@ -104,7 +104,8 @@ class NPM extends Plugin {
     try {
       await this.exec(
         this.config.publishCmd,
-        this.flags.dryRun ? '--dry-run' : ''
+        // TODO Check against this.flags.dryRun
+        '--dry-run'
       )
     } catch (err) {
       throw err
