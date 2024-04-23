@@ -14,6 +14,8 @@ interface Options {
 }
 
 class NPM extends Plugin {
+  private static BUMP_PROMPT_QUESTION: string =
+    'What type of update do you want to perform?'
   private static BUMP_PROMPT_CHOICES: Choices = [
     {
       name: 'patch',
@@ -74,7 +76,7 @@ class NPM extends Plugin {
 
   async bump(): Promise<void> {
     const response = await this.promptSelect(
-      'What type of update do you want to perform?',
+      NPM.BUMP_PROMPT_QUESTION,
       NPM.BUMP_PROMPT_CHOICES
     )
 
