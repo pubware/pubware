@@ -1,15 +1,8 @@
 import { exec as nodeExec } from 'child_process'
 import util from 'util'
-import Prompter from './prompter/index.js'
 const execPromise = util.promisify(nodeExec)
 
 class Shell {
-  public prompter: Prompter
-
-  constructor() {
-    this.prompter = new Prompter()
-  }
-
   async exec(cmd: string, ...args: string[]): Promise<void> {
     // NOTE: Simplistic joining of a command and args
     try {

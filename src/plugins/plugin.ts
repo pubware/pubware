@@ -1,8 +1,8 @@
 import PluginError from './lib/error.js'
 import { Flags } from './lib/flags.js'
 import Logger from '../core/logger/index.js'
+import Prompter, { Choices } from '../core/prompter/index.js'
 import Shell from '../core/shell/index.js'
-import { Choices } from '../core/shell/prompter/index.js'
 import FileSystem from '../core/fs/index.js'
 import HTTP from '../core/http/index.js'
 
@@ -10,6 +10,7 @@ abstract class Plugin {
   private _name: string
   private _flags: Flags
   private logger: Logger
+  private prompter: Prompter
   private shell: Shell
   private fs: FileSystem
   private http: HTTP
@@ -21,6 +22,7 @@ abstract class Plugin {
       headless: false
     }
     this.logger = new Logger(name)
+    this.prompter = new Prompter()
     this.shell = new Shell()
     this.fs = new FileSystem()
     this.http = new HTTP()
@@ -46,7 +48,7 @@ abstract class Plugin {
     this.logger.logInfo('Prompting user')
 
     try {
-      return await this.shell.prompter.input(message)
+      return await this.prompter.input(message)
     } catch (err) {
       throw new PluginError(
         this.name,
@@ -61,7 +63,7 @@ abstract class Plugin {
     this.logger.logInfo('Prompting user')
 
     try {
-      return await this.shell.prompter.confirm(message)
+      return await this.prompter.confirm(message)
     } catch (err) {
       throw new PluginError(
         this.name,
@@ -76,7 +78,7 @@ abstract class Plugin {
     this.logger.logInfo('Prompting user')
 
     try {
-      return await this.shell.prompter.select(message, choices)
+      return await this.prompter.select(message, choices)
     } catch (err) {
       throw new PluginError(
         this.name,
