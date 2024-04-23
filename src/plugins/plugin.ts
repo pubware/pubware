@@ -1,14 +1,10 @@
 import PluginError from './lib/error.js'
+import { Flags } from './lib/flags.js'
 import Logger from '../core/logger/index.js'
 import Shell from '../core/shell/index.js'
 import { Choices } from '../core/shell/prompter/index.js'
 import FileSystem from '../core/fs/index.js'
 import HTTP from '../core/http/index.js'
-
-interface Flags {
-  dryRun: boolean
-  headless: boolean
-}
 
 abstract class Plugin {
   private _name: string
