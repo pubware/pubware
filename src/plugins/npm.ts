@@ -1,12 +1,14 @@
+// TODO
+// import Plugin, { Choices } from '@packpub/plugin'
 import semver, { ReleaseType } from 'semver'
 import Plugin from './plugin.js'
-// TODO import { Choices } from '@packpub/plugin'
-import { Choices } from '../core/shell/prompter/index.js'
+import { Choices } from '../core/prompter/index.js'
 
 interface Config {
   packageJsonPath: string
   buildCmd: string
   publishCmd: string
+  preReleaseId: string
 }
 
 interface Options {
@@ -16,21 +18,42 @@ interface Options {
 class NPM extends Plugin {
   private static BUMP_PROMPT_QUESTION: string =
     'What type of update do you want to perform?'
+  // TODO Make choices dynamic to only include pre-* if `releaseIdentifer` is defined
   private static BUMP_PROMPT_CHOICES: Choices = [
     {
       name: 'patch',
       value: 'patch',
-      description: 'Patch (x.x.1)'
+      description: 'Patch'
     },
     {
       name: 'minor',
       value: 'minor',
-      description: 'Minor (x.1.x)'
+      description: 'Minor'
     },
     {
       name: 'major',
       value: 'major',
-      description: 'Major (1.x.x)'
+      description: 'Major'
+    },
+    {
+      name: 'prepatch',
+      value: 'prepatch',
+      description: 'Prepatch'
+    },
+    {
+      name: 'preminor',
+      value: 'preminor',
+      description: 'Preminor'
+    },
+    {
+      name: 'premajor',
+      value: 'premajor',
+      description: 'Premajor'
+    },
+    {
+      name: 'prerelease',
+      value: 'prerelease',
+      description: 'Prerelease'
     }
   ]
   private config: Config
@@ -40,7 +63,8 @@ class NPM extends Plugin {
     this.config = {
       packageJsonPath: config?.packageJsonPath ?? './package.json',
       buildCmd: config?.buildCmd ?? 'npm run build',
-      publishCmd: config?.publishCmd ?? 'npm publish'
+      publishCmd: config?.publishCmd ?? 'npm publish',
+      preReleaseId: config?.preReleaseId ?? ''
     }
   }
 
@@ -83,7 +107,11 @@ class NPM extends Plugin {
     try {
       const data = await this.read(this.config.packageJsonPath)
       const packageJson = JSON.parse(data)
-      const version = semver.inc(packageJson.version, response as ReleaseType)
+      const version = semver.inc(
+        packageJson.version,
+        response as ReleaseType,
+        this.config.preReleaseId
+      )
 
       if (!version) {
         throw new Error('Semver failed to bump package version')
@@ -108,7 +136,7 @@ class NPM extends Plugin {
     try {
       await this.exec(
         this.config.publishCmd,
-        // TODO Check against this.flags.dryRun
+        // TODO Check against `this.flags.dryRun` once ready for prod
         '--dry-run'
       )
     } catch (err) {
