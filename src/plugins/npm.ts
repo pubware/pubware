@@ -1,8 +1,5 @@
-// TODO
-// import Plugin, { Choices } from '@packpub/plugin'
 import semver, { ReleaseType } from 'semver'
 import Plugin from './plugin.js'
-import { Choices } from '../core/prompter/index.js'
 
 interface Config {
   packageJsonPath: string
@@ -16,46 +13,6 @@ interface Options {
 }
 
 class NPM extends Plugin {
-  private static BUMP_PROMPT_QUESTION: string =
-    'What type of update do you want to perform?'
-  // TODO Make choices dynamic to only include pre-* if `releaseIdentifer` is defined
-  private static BUMP_PROMPT_CHOICES: Choices = [
-    {
-      name: 'patch',
-      value: 'patch',
-      description: 'Patch'
-    },
-    {
-      name: 'minor',
-      value: 'minor',
-      description: 'Minor'
-    },
-    {
-      name: 'major',
-      value: 'major',
-      description: 'Major'
-    },
-    {
-      name: 'prepatch',
-      value: 'prepatch',
-      description: 'Prepatch'
-    },
-    {
-      name: 'preminor',
-      value: 'preminor',
-      description: 'Preminor'
-    },
-    {
-      name: 'premajor',
-      value: 'premajor',
-      description: 'Premajor'
-    },
-    {
-      name: 'prerelease',
-      value: 'prerelease',
-      description: 'Prerelease'
-    }
-  ]
   private config: Config
 
   constructor({ config }: Options) {
@@ -93,16 +50,65 @@ class NPM extends Plugin {
     }
   }
 
+  private async promptBump(): Promise<string> {
+    let choices = [
+      {
+        name: 'patch',
+        value: 'patch',
+        description: 'Patch'
+      },
+      {
+        name: 'minor',
+        value: 'minor',
+        description: 'Minor'
+      },
+      {
+        name: 'major',
+        value: 'major',
+        description: 'Major'
+      }
+    ]
+
+    if (this.config.preReleaseId) {
+      const preReleaseChoices = [
+        {
+          name: 'prepatch',
+          value: 'prepatch',
+          description: 'Prepatch'
+        },
+        {
+          name: 'preminor',
+          value: 'preminor',
+          description: 'Preminor'
+        },
+        {
+          name: 'premajor',
+          value: 'premajor',
+          description: 'Premajor'
+        },
+        {
+          name: 'prerelease',
+          value: 'prerelease',
+          description: 'Prerelease'
+        }
+      ]
+
+      choices = [...choices, ...preReleaseChoices]
+    }
+
+    return await this.promptSelect(
+      'What type of update do you want to perform?',
+      choices
+    )
+  }
+
   async preBump(): Promise<void> {
     await this.build()
     await this.logVersion()
   }
 
   async bump(): Promise<void> {
-    const response = await this.promptSelect(
-      NPM.BUMP_PROMPT_QUESTION,
-      NPM.BUMP_PROMPT_CHOICES
-    )
+    const response = await this.promptBump()
 
     try {
       const data = await this.read(this.config.packageJsonPath)
