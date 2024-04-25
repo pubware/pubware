@@ -2,6 +2,25 @@ import fs from 'node:fs/promises'
 import Logger from './logger.js'
 import { Flags } from './cli.js'
 
+/*
+ * Example config:
+ *   {
+ *     "packpub": {
+ *       "plugins": {
+ *         "internal": {
+ *           "npm": {},
+ *           "git": {}
+ *         },
+ *         "external": {
+ *           "github": {},
+ *           "slack": {},
+ *           "doordash": {}
+ *         }
+ *       }
+ *     }
+ *   }
+ */
+
 class Config {
   private static INTERNAL_PLUGINS: Record<string, object> = {
     npm: {}
@@ -12,6 +31,15 @@ class Config {
   constructor() {
     this.plugins = []
     this.logger = new Logger('config')
+  }
+
+  private parseJson(data: string): any {
+    try {
+      const json = JSON.parse(data)
+      return json
+    } catch (_) {
+      throw new Error('Failed to parse json')
+    }
   }
 
   private async load(plugin: string): Promise<any> {
@@ -38,17 +66,28 @@ class Config {
 
   async init(flags: Flags): Promise<void> {
     const data = await fs.readFile('package.json', 'utf-8')
-    const packageJson = JSON.parse(data)
+    const packageJson = this.parseJson(data)
     const { packpub } = packageJson
 
-    let plugins = Config.INTERNAL_PLUGINS
+    // TODO Ensure internal plugins are loaded first
+    let pluginConfigs = Config.INTERNAL_PLUGINS
 
     if (packpub) {
-      const { plugins: externalPlugins } = packpub
-      plugins = { ...plugins, ...externalPlugins }
+      const { plugins } = packpub
+      const { internal, external } = plugins
+
+      if (internal) {
+        // TODO Only fetch `npm` and `git` modules as internal plugins and
+        // enforce ordering (npm -> git)
+        pluginConfigs = { ...pluginConfigs, ...internal }
+      }
+
+      if (external) {
+        pluginConfigs = { ...pluginConfigs, ...external }
+      }
     }
 
-    for (const [name, config] of Object.entries(plugins)) {
+    for (const [name, config] of Object.entries(pluginConfigs)) {
       const Plugin = await this.load(name)
       const plugin = new Plugin({ config })
       plugin.flags = flags
