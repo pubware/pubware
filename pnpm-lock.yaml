@@ -19,9 +19,6 @@ devDependencies:
   '@types/node':
     specifier: ^20.11.25
     version: 20.11.25
-  '@types/semver':
-    specifier: ^7.5.8
-    version: 7.5.8
   typescript:
     specifier: ^5.4.2
     version: 5.4.2
@@ -158,10 +155,6 @@ packages:
     dependencies:
       undici-types: 5.26.5
     dev: false
-
-  /@types/semver@7.5.8:
-    resolution: {integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==}
-    dev: true
 
   /@types/wrap-ansi@3.0.0:
     resolution: {integrity: sha512-ltIpx+kM7g/MLRZfkbL7EsCEjfzCcScLpkg37eXEtx5kmrAKBkTJwd1GIAjDSL8wTpM6Hzn5YO4pSb91BEwu1g==}
