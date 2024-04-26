@@ -111,7 +111,12 @@ class NPM extends Plugin {
     const response = await this.promptBump()
 
     try {
-      await this.exec('npm version', response, '--git-tag-version=false')
+      await this.exec(
+        'npm version',
+        response,
+        this.config.versionArgs,
+        '--git-tag-version=false'
+      )
     } catch (err) {
       throw err
     }
