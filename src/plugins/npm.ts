@@ -4,7 +4,7 @@ import Plugin from './plugin.js'
 interface Config {
   packageJsonPath: string
   buildCmd: string
-  publishCmd: string
+  publishArgs: string
   preReleaseId: string
 }
 
@@ -20,7 +20,7 @@ class NPM extends Plugin {
     this.config = {
       packageJsonPath: config?.packageJsonPath ?? './package.json',
       buildCmd: config?.buildCmd ?? 'npm run build',
-      publishCmd: config?.publishCmd ?? 'npm publish',
+      publishArgs: config?.publishArgs ?? '',
       preReleaseId: config?.preReleaseId ?? ''
     }
   }
@@ -141,7 +141,8 @@ class NPM extends Plugin {
   async publish(): Promise<void> {
     try {
       await this.exec(
-        this.config.publishCmd,
+        'npm publish',
+        this.config.publishArgs,
         // TODO Check against `this.flags.dryRun` once ready for prod
         '--dry-run'
       )
