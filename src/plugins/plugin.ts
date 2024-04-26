@@ -1,4 +1,3 @@
-import PluginError from './lib/error.js'
 import { Flags } from './lib/flags.js'
 import Logger from '../core/logger/index.js'
 import Prompter, { Choices } from '../core/prompter/index.js'
@@ -50,12 +49,8 @@ abstract class Plugin {
     try {
       return await this.prompter.input(message)
     } catch (err) {
-      throw new PluginError(
-        this.name,
-        'Failed to prompt user',
-        err as Error,
-        this.logger
-      )
+      this.logger.error('Failed to prompt user')
+      throw err
     }
   }
 
@@ -65,12 +60,8 @@ abstract class Plugin {
     try {
       return await this.prompter.confirm(message)
     } catch (err) {
-      throw new PluginError(
-        this.name,
-        'Failed to prompt user',
-        err as Error,
-        this.logger
-      )
+      this.logger.error('Failed to prompt user')
+      throw err
     }
   }
 
@@ -80,12 +71,8 @@ abstract class Plugin {
     try {
       return await this.prompter.select(message, choices)
     } catch (err) {
-      throw new PluginError(
-        this.name,
-        'Failed to prompt user',
-        err as Error,
-        this.logger
-      )
+      this.logger.error('Failed to prompt user')
+      throw err
     }
   }
 
@@ -95,12 +82,8 @@ abstract class Plugin {
     try {
       return await this.fs.read(path)
     } catch (err) {
-      throw new PluginError(
-        this.name,
-        'Failed to read user',
-        err as Error,
-        this.logger
-      )
+      this.logger.error('Failed to read file')
+      throw err
     }
   }
 
@@ -110,12 +93,8 @@ abstract class Plugin {
     try {
       await this.fs.write(path, data)
     } catch (err) {
-      throw new PluginError(
-        this.name,
-        'Failed to write to file',
-        err as Error,
-        this.logger
-      )
+      this.logger.error('Failed to write to file')
+      throw err
     }
   }
 
@@ -125,12 +104,8 @@ abstract class Plugin {
     try {
       await this.shell.exec(cmd, ...args)
     } catch (err) {
-      throw new PluginError(
-        this.name,
-        'Failed to execute command',
-        err as Error,
-        this.logger
-      )
+      this.logger.error('Failed to execute command')
+      throw err
     }
   }
 
@@ -140,12 +115,8 @@ abstract class Plugin {
     try {
       return await this.http.fetch(url, options)
     } catch (err) {
-      throw new PluginError(
-        this.name,
-        'Failed to fetch resource',
-        err as Error,
-        this.logger
-      )
+      this.logger.error('Failed to fetch resource')
+      throw err
     }
   }
 

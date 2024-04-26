@@ -27,13 +27,13 @@ class NPM extends Plugin {
   }
 
   private async getPackageVersion(): Promise<string> {
+    const data = await this.read(this.config.packageJsonPath)
+
     try {
-      const data = await this.read(this.config.packageJsonPath)
       const packageJson = JSON.parse(data)
-      const { version } = packageJson
-      return version
+      return packageJson.version
     } catch (err) {
-      throw err
+      throw new Error('Failed to parse package json')
     }
   }
 
@@ -43,11 +43,7 @@ class NPM extends Plugin {
   }
 
   private async build(): Promise<void> {
-    try {
-      await this.exec(this.config.buildCmd)
-    } catch (err) {
-      throw err
-    }
+    await this.exec(this.config.buildCmd)
   }
 
   private async promptBump(): Promise<string> {
@@ -109,17 +105,12 @@ class NPM extends Plugin {
 
   async bump(): Promise<void> {
     const response = await this.promptBump()
-
-    try {
-      await this.exec(
-        'npm version',
-        response,
-        this.config.versionArgs,
-        '--git-tag-version=false'
-      )
-    } catch (err) {
-      throw err
-    }
+    await this.exec(
+      'npm version',
+      response,
+      this.config.versionArgs,
+      '--git-tag-version=false'
+    )
   }
 
   async prePublish(): Promise<void> {
@@ -127,16 +118,12 @@ class NPM extends Plugin {
   }
 
   async publish(): Promise<void> {
-    try {
-      await this.exec(
-        'npm publish',
-        this.config.publishArgs,
-        // TODO Check against `this.flags.dryRun` once ready for prod
-        '--dry-run'
-      )
-    } catch (err) {
-      throw err
-    }
+    await this.exec(
+      'npm publish',
+      this.config.publishArgs,
+      // TODO Check against `this.flags.dryRun` once ready for prod
+      '--dry-run'
+    )
   }
 }
 
