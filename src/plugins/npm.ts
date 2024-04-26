@@ -1,9 +1,9 @@
-import semver, { ReleaseType } from 'semver'
 import Plugin from './plugin.js'
 
 interface Config {
   packageJsonPath: string
   buildCmd: string
+  versionArgs: string
   publishArgs: string
   preReleaseId: string
 }
@@ -20,17 +20,17 @@ class NPM extends Plugin {
     this.config = {
       packageJsonPath: config?.packageJsonPath ?? './package.json',
       buildCmd: config?.buildCmd ?? 'npm run build',
+      versionArgs: config?.versionArgs ?? '',
       publishArgs: config?.publishArgs ?? '',
       preReleaseId: config?.preReleaseId ?? ''
     }
   }
 
-  private async version(): Promise<string> {
+  private async getPackageVersion(): Promise<string> {
     try {
       const data = await this.read(this.config.packageJsonPath)
       const packageJson = JSON.parse(data)
       const { version } = packageJson
-
       return version
     } catch (err) {
       throw err
@@ -38,7 +38,7 @@ class NPM extends Plugin {
   }
 
   private async logVersion(): Promise<void> {
-    const version = await this.version()
+    const version = await this.getPackageVersion()
     this.log(`Package version: ${version}`)
   }
 
@@ -111,24 +111,7 @@ class NPM extends Plugin {
     const response = await this.promptBump()
 
     try {
-      const data = await this.read(this.config.packageJsonPath)
-      const packageJson = JSON.parse(data)
-      const version = semver.inc(
-        packageJson.version,
-        response as ReleaseType,
-        this.config.preReleaseId
-      )
-
-      if (!version) {
-        throw new Error('Semver failed to bump package version')
-      }
-
-      packageJson.version = version
-
-      await this.write(
-        this.config.packageJsonPath,
-        JSON.stringify(packageJson, null, 2) + '\n'
-      )
+      await this.exec('npm version', response, '--git-tag-version=false')
     } catch (err) {
       throw err
     }
