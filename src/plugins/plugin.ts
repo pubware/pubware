@@ -120,7 +120,7 @@ abstract class Plugin {
   }
 
   async exec(cmd: string, ...args: string[]): Promise<void> {
-    this.logger.info('Execing command')
+    this.logger.info(`Execing command: ${cmd} ${args.join(' ').trim()}`)
 
     try {
       await this.shell.exec(cmd, ...args)
