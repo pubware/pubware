@@ -1,5 +1,7 @@
 import chalk from 'chalk'
 
+type PluginContext = 'info' | 'warn' | 'error'
+
 class Logger {
   private context: string
 
@@ -7,18 +9,30 @@ class Logger {
     this.context = context
   }
 
+  private pluginContext(type?: PluginContext): string {
+    if (type === 'warn') {
+      return `[packpub][plugin][${this.context}][warning]`
+    } else if (type === 'error') {
+      return `[packpub][plugin][${this.context}][error]`
+    }
+
+    return `[packpub][plugin][${this.context}]`
+  }
+
   log(message: string) {
-    console.log(`[packpub][plugin][${this.context}]: ${message}`)
+    console.log(`${this.pluginContext()}: ${message}`)
   }
 
-  logInfo(message: string) {
-    console.log(chalk.blue(`[packpub][plugin][${this.context}]: ${message}`))
+  info(message: string) {
+    console.log(chalk.blue(`${this.pluginContext()}: ${message}`))
   }
 
-  logError(message: string) {
-    console.error(
-      chalk.red(`[packpub][plugin][${this.context}][error]: ${message}`)
-    )
+  warn(message: string) {
+    console.log(chalk.yellow(`${this.pluginContext('warn')}: ${message}`))
+  }
+
+  error(message: string) {
+    console.error(chalk.red(`${this.pluginContext('error')}: ${message}`))
   }
 }
 

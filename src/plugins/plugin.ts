@@ -45,7 +45,7 @@ abstract class Plugin {
   }
 
   async prompt(message: string): Promise<string> {
-    this.logger.logInfo('Prompting user')
+    this.logger.info('Prompting user')
 
     try {
       return await this.prompter.input(message)
@@ -60,7 +60,7 @@ abstract class Plugin {
   }
 
   async promptConfirm(message: string): Promise<boolean> {
-    this.logger.logInfo('Prompting user')
+    this.logger.info('Prompting user')
 
     try {
       return await this.prompter.confirm(message)
@@ -75,7 +75,7 @@ abstract class Plugin {
   }
 
   async promptSelect(message: string, choices: Choices): Promise<string> {
-    this.logger.logInfo('Prompting user')
+    this.logger.info('Prompting user')
 
     try {
       return await this.prompter.select(message, choices)
@@ -90,7 +90,7 @@ abstract class Plugin {
   }
 
   async read(path: string): Promise<string> {
-    this.logger.logInfo(`Reading file: ${path}`)
+    this.logger.info(`Reading file: ${path}`)
 
     try {
       return await this.fs.read(path)
@@ -105,7 +105,7 @@ abstract class Plugin {
   }
 
   async write(path: string, data: string): Promise<void> {
-    this.logger.logInfo(`Writing to file: ${path}`)
+    this.logger.info(`Writing to file: ${path}`)
 
     try {
       await this.fs.write(path, data)
@@ -120,7 +120,7 @@ abstract class Plugin {
   }
 
   async exec(cmd: string, ...args: string[]): Promise<void> {
-    this.logger.logInfo('Execing command')
+    this.logger.info('Execing command')
 
     try {
       await this.shell.exec(cmd, ...args)
@@ -135,7 +135,7 @@ abstract class Plugin {
   }
 
   async fetch<T>(url: string, options?: RequestInit): Promise<T> {
-    this.logger.logInfo('Fetching resource')
+    this.logger.info('Fetching resource')
 
     try {
       return await this.http.fetch(url, options)

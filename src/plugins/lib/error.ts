@@ -18,7 +18,7 @@ class PluginError extends Error {
     this.message = message
     this.cause = cause
     this.logger = logger
-    this.logger.logError(message)
+    this.logger.error(message)
   }
 }
 
