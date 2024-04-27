@@ -8,10 +8,27 @@ export interface Flags {
   headless?: boolean
 }
 
+type Options = {
+  [key in keyof Flags]: {
+    arg: string
+    description: string
+  }
+}
+
 class CLI {
   private static NAME: string = 'packpub'
   private static DESCRIPTION: string = 'Agnostic & extensible package publisher'
   private static VERSION: string = '0.0.0'
+  private static OPTIONS: Options = {
+    dryRun: {
+      arg: '--dry-run',
+      description: 'Report on what changes would have happened'
+    },
+    headless: {
+      arg: '--headless',
+      description: 'Run without an interface'
+    }
+  }
   private program: Command
   private logger: Logger
 
@@ -21,15 +38,23 @@ class CLI {
       .name(CLI.NAME)
       .description(CLI.DESCRIPTION)
       .version(CLI.VERSION)
-    this.program
-      .option('-D, --dry-run', 'Report on what changes would have happened')
-      .option('--headless', 'Run without an interface')
+
+    for (const option of Object.values(CLI.OPTIONS)) {
+      this.program.option(option.arg, option.description)
+    }
+
     this.logger = new Logger('cli')
   }
 
   private parseOptions(args: string[]): Flags {
     this.program.parse(args)
     return this.program.opts()
+  }
+
+  private logEnabledFlags(flags: Flags) {
+    for (const flag of Object.keys(flags)) {
+      this.logger.log(`Flag enabled: ${CLI.OPTIONS[flag as keyof Flags]?.arg}`)
+    }
   }
 
   /**
@@ -39,10 +64,11 @@ class CLI {
     this.logger.log('Started.')
 
     const flags = this.parseOptions(args)
+
+    this.logEnabledFlags(flags)
+
     const config = new Config()
-
     await config.init(flags)
-
     const plugins = config.getPlugins()
     const lifecycle = new Lifecycle()
 
