@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises'
+import path from 'node:path'
 import Logger from './logger.js'
 import { Flags } from './cli.js'
 
@@ -37,6 +38,10 @@ class Config {
     return this._plugins
   }
 
+  private getPluginName(name: string) {
+    return name.startsWith('.') ? path.parse(name).name : name
+  }
+
   private parseJson(data: string): any {
     try {
       const json = JSON.parse(data)
@@ -47,19 +52,21 @@ class Config {
   }
 
   private async load(plugin: string): Promise<any> {
-    this.logger.log(`Loading plugin: ${plugin}`)
+    this.logger.log(`Loading plugin: ${this.getPluginName(plugin)}`)
 
     let Plugin
 
     try {
       // Attempt to load plugin from node_modules
-      const module = await import(plugin)
+      // const module = await import(plugin)
+      // TODO Remove once `npm` module is imported
+      const module = await import(`../plugins/${plugin}.js`)
       Plugin = module.default
       return Plugin
     } catch (err) {
       try {
         // Attempt to load local plugin
-        const module = await import(`../plugins/${plugin}.js`)
+        const module = await import(path.join(process.cwd(), plugin))
         Plugin = module.default
         return Plugin
       } catch (err) {
