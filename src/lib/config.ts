@@ -33,7 +33,7 @@ class Config {
     this.logger = new Logger('config')
   }
 
-  plugins(): any[] {
+  get plugins(): any[] {
     return this._plugins
   }
 
