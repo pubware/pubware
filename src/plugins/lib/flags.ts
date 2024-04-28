@@ -1,4 +1,4 @@
 export interface Flags {
-  dryRun: boolean
+  dry: boolean
   headless: boolean
 }
