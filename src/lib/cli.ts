@@ -71,7 +71,7 @@ class CLI {
     const config = new Config()
     await config.init(flags)
 
-    for (const plugin of config.plugins()) {
+    for (const plugin of config.plugins) {
       for (const event of Lifecycle.EVENTS) {
         if (plugin[event]) {
           lifecycle.on(event, () => plugin[event]())
