@@ -4,21 +4,21 @@ import { Flags } from './cli.js'
 
 /*
  * Example config:
- *   {
- *     "packpub": {
- *       "plugins": {
- *         "internal": {
- *           "npm": {},
- *           "git": {}
- *         },
- *         "external": {
- *           "github": {},
- *           "slack": {},
- *           "doordash": {}
- *         }
+ * {
+ *   "packpub": {
+ *     "plugins": {
+ *       "internal": {
+ *         "npm": {},
+ *         "git": {}
+ *       },
+ *       "external": {
+ *         "github": {},
+ *         "slack": {},
+ *         "doordash": {}
  *       }
  *     }
  *   }
+ * }
  */
 
 class Config {
@@ -73,17 +73,19 @@ class Config {
     const packageJson = this.parseJson(data)
     const { packpub } = packageJson
 
-    // TODO Ensure internal plugins are loaded first
+    // Load internal plugins before external
     let pluginConfigs = Config.INTERNAL_PLUGINS
 
-    if (packpub) {
+    if (packpub && packpub.plugins) {
       const { plugins } = packpub
       const { internal, external } = plugins
 
       if (internal) {
-        // TODO Only fetch `npm` and `git` modules as internal plugins and
-        // enforce ordering (npm -> git)
-        pluginConfigs = { ...pluginConfigs, ...internal }
+        pluginConfigs = {
+          ...pluginConfigs,
+          npm: internal?.npm,
+          git: internal?.git
+        }
       }
 
       if (external) {
