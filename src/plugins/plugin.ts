@@ -55,7 +55,7 @@ abstract class Plugin {
   }
 
   async promptConfirm(message: string): Promise<boolean> {
-    this.logger.info('Prompting user')
+    this.logger.info('Prompting user confirmation')
 
     try {
       return await this.prompter.confirm(message)
@@ -66,7 +66,7 @@ abstract class Plugin {
   }
 
   async promptSelect(message: string, choices: Choices): Promise<string> {
-    this.logger.info('Prompting user')
+    this.logger.info('Prompting user selection')
 
     try {
       return await this.prompter.select(message, choices)
@@ -110,7 +110,7 @@ abstract class Plugin {
   }
 
   async fetch<T>(url: string, options?: RequestInit): Promise<T> {
-    this.logger.info('Fetching resource')
+    this.logger.info(`Fetching resource: ${url}`)
 
     try {
       return await this.http.fetch(url, options)
