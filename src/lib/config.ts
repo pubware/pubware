@@ -84,10 +84,12 @@ class Config {
     let pluginConfigs = Config.INTERNAL_PLUGINS
 
     if (packpub && packpub.plugins) {
-      const { plugins } = packpub
-      const { internal, external } = plugins
+      const { internal, external } = packpub.plugins
 
-      if (internal) {
+      if (internal && internal.disabled) {
+        // Disable internal plugins
+        pluginConfigs = {}
+      } else if (internal) {
         pluginConfigs = {
           ...pluginConfigs,
           npm: internal?.npm,
