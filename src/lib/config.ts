@@ -25,12 +25,16 @@ class Config {
   private static INTERNAL_PLUGINS: Record<string, object> = {
     npm: {}
   }
-  private plugins: any[]
+  private _plugins: any[]
   private logger: Logger
 
   constructor() {
-    this.plugins = []
+    this._plugins = []
     this.logger = new Logger('config')
+  }
+
+  plugins(): any[] {
+    return this._plugins
   }
 
   private parseJson(data: string): any {
@@ -94,12 +98,8 @@ class Config {
       // Map CLI flags to plugin
       plugin.flags = { dry: flags.dryRun, headless: flags.headless }
 
-      this.plugins.push(plugin)
+      this._plugins.push(plugin)
     }
-  }
-
-  getPlugins(): any[] {
-    return this.plugins
   }
 }
 

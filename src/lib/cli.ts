@@ -67,12 +67,11 @@ class CLI {
 
     this.logEnabledFlags(flags)
 
+    const lifecycle = new Lifecycle()
     const config = new Config()
     await config.init(flags)
-    const plugins = config.getPlugins()
-    const lifecycle = new Lifecycle()
 
-    for (const plugin of plugins) {
+    for (const plugin of config.plugins()) {
       for (const event of Lifecycle.EVENTS) {
         if (plugin[event]) {
           lifecycle.on(event, () => plugin[event]())
