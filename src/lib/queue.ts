@@ -9,11 +9,19 @@ class Queue<T> {
     this.items.push(item)
   }
 
-  remove(): T | undefined {
-    return this.items.shift()
+  remove(): T {
+    if (this.isEmpty()) {
+      throw new Error('Cannot remove from an empty queue')
+    }
+
+    return this.items.shift() as T
   }
 
-  peek(): T | undefined {
+  peek(): T {
+    if (this.isEmpty()) {
+      throw new Error('Cannot peek into an empty queue')
+    }
+
     return this.items[0]
   }
 
