@@ -14,7 +14,7 @@ class Queue<T> {
   }
 
   peek(): T | undefined {
-    return this.items[this.items.length - 1]
+    return this.items[0]
   }
 
   size(): number {
