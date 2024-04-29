@@ -2,10 +2,11 @@ import Plugin from './plugin.js'
 
 interface Config {
   packageJsonPath: string
+  tagCommit: boolean
+  preReleaseId: string
   buildCmd: string
   versionArgs: string
   publishArgs: string
-  preReleaseId: string
 }
 
 interface Options {
@@ -19,10 +20,11 @@ class NPM extends Plugin {
     super('npm')
     this.config = {
       packageJsonPath: config?.packageJsonPath ?? './package.json',
+      tagCommit: config?.tagCommit ?? false,
+      preReleaseId: config?.preReleaseId ?? '',
       buildCmd: config?.buildCmd ?? 'npm run build',
       versionArgs: config?.versionArgs ?? '',
-      publishArgs: config?.publishArgs ?? '',
-      preReleaseId: config?.preReleaseId ?? ''
+      publishArgs: config?.publishArgs ?? ''
     }
   }
 
@@ -109,7 +111,9 @@ class NPM extends Plugin {
       'npm version',
       response,
       this.config.versionArgs,
-      '--git-tag-version=false'
+      this.config.tagCommit
+        ? '--git-tag-version=true'
+        : '--git-tag-version=false'
     )
   }
 
