@@ -1,8 +1,12 @@
 {
-  "name": "packpub",
+  "name": "@packpub/packpub",
   "version": "0.0.0",
-  "description": "Agnostic & extensible package publisher",
-  "author": "William Grosset",
+  "description": "Package publisher",
+  "author": "William Grosset (https://williamgrosset.com)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/packpub/packpub"
+  },
   "type": "module",
   "engines": {
     "node": ">=18"
