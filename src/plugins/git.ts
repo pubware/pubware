@@ -1,43 +1,69 @@
 import Plugin from './plugin.js'
 
+interface Config {
+  commitVersion: boolean
+  tagVersion: boolean
+  remote: string
+}
+
+interface Options {
+  config?: Config
+}
+
 class Git extends Plugin {
-  // TODO: Replace with Config (pass in as props)
-  static CMDS = {
-    COMMIT: 'git commit',
-    TAG: 'git tag',
-    PUSH: 'git push'
-  }
-  static FLAGS = {
-    ANNOTATE: '-a',
-    MESSAGE: '-m'
-  }
+  private config: Config
 
-  constructor() {
+  constructor({ config }: Options) {
     super('git')
-  }
-
-  async commit(message: string) {
-    try {
-      await this.exec(Git.CMDS.COMMIT, Git.FLAGS.MESSAGE, message)
-    } catch (err) {
-      console.error(err)
+    this.config = {
+      commitVersion: config?.commitVersion ?? true,
+      tagVersion: config?.tagVersion ?? true,
+      remote: config?.remote ?? 'origin'
     }
   }
 
-  async tag(version: string): Promise<string> {
-    const vers = `v${version}`
+  private async getPackageVersion(): Promise<string> {
+    const data = await this.read('./package.json')
+
     try {
-      await this.exec(
-        Git.CMDS.TAG,
-        Git.FLAGS.ANNOTATE,
-        vers,
-        Git.FLAGS.MESSAGE,
-        vers
-      )
-      return vers
+      const packageJson = JSON.parse(data)
+      return packageJson.version
     } catch (err) {
-      console.error(err)
-      return ''
+      throw new Error('Failed to parse package json')
+    }
+  }
+
+  async commit() {
+    let message = ''
+
+    if (this.config.commitVersion) {
+      const version = await this.getPackageVersion()
+      this.log(`Using package version as commit message: ${version}`)
+      message = version
+    } else {
+      message = await this.prompt('Set a commit message')
+    }
+
+    if (!message) {
+      throw new Error('git commit must contain a message')
+    }
+
+    try {
+      await this.exec('git commit', '-m', message, '--dry-run')
+    } catch (err) {
+      throw err
+    }
+  }
+
+  async tag(): Promise<string> {
+    const version = await this.getPackageVersion()
+    const tag = `v${version}`
+
+    try {
+      await this.exec('git tag', '-a', tag, '-m', tag)
+      return tag
+    } catch (err) {
+      throw err
     }
   }
 
@@ -53,9 +79,20 @@ class Git extends Plugin {
         options.push('refs/tags/' + tag)
       }
 
-      await this.exec(Git.CMDS.PUSH, ...options)
+      await this.exec('git push', ...options, '--dry-run')
     } catch (err) {
-      console.error(err)
+      throw err
+    }
+  }
+
+  async postPublish(): Promise<void> {
+    await this.commit()
+
+    if (this.config.tagVersion) {
+      const tag = await this.tag()
+      await this.push(this.config.remote, tag)
+    } else {
+      await this.push(this.config.remote)
     }
   }
 }
