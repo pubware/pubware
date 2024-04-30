@@ -1,7 +1,6 @@
 import Plugin from './plugin.js'
 
 interface Config {
-  packageJsonPath: string
   tagCommit: boolean
   preReleaseId: string
   buildCmd: string
@@ -19,7 +18,6 @@ class NPM extends Plugin {
   constructor({ config }: Options) {
     super('npm')
     this.config = {
-      packageJsonPath: config?.packageJsonPath ?? './package.json',
       tagCommit: config?.tagCommit ?? false,
       preReleaseId: config?.preReleaseId ?? '',
       buildCmd: config?.buildCmd ?? 'npm run build',
@@ -29,7 +27,7 @@ class NPM extends Plugin {
   }
 
   private async getPackageVersion(): Promise<string> {
-    const data = await this.read(this.config.packageJsonPath)
+    const data = await this.read('./package.json')
 
     try {
       const packageJson = JSON.parse(data)
