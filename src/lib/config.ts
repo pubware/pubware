@@ -24,7 +24,8 @@ import { Flags } from './cli.js'
 
 class Config {
   private static INTERNAL_PLUGINS: Record<string, object> = {
-    npm: {}
+    npm: {},
+    git: {}
   }
   private _plugins: any[]
   private logger: Logger
