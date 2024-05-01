@@ -1,4 +1,4 @@
-import semver from 'semver'
+import semver, { ReleaseType } from 'semver'
 import Plugin from './plugin.js'
 
 interface Config {
@@ -8,7 +8,7 @@ interface Config {
   versionArgs: string
   publishArgs: string
   defaults: {
-    bump: string
+    choice: string
   }
 }
 
@@ -28,7 +28,7 @@ class NPM extends Plugin {
       versionArgs: config?.versionArgs ?? '',
       publishArgs: config?.publishArgs ?? '',
       defaults: {
-        bump: config?.defaults?.bump ?? ''
+        choice: config?.defaults?.choice ?? ''
       }
     }
   }
@@ -53,8 +53,8 @@ class NPM extends Plugin {
     await this.exec(this.config.buildCmd)
   }
 
-  private isValidVersion(version: string): boolean {
-    return semver.valid(version) !== null
+  private isValidSemverChoice(version: ReleaseType): boolean {
+    return semver.RELEASE_TYPES.includes(version)
   }
 
   private async promptBump(): Promise<string> {
@@ -103,14 +103,14 @@ class NPM extends Plugin {
       choices = [...choices, ...preReleaseChoices]
     }
 
-    const choice = await this.promptSelect(
+    const choice = (await this.promptSelect(
       'What type of update do you want to perform?',
       choices,
-      this.config.defaults.bump
-    )
+      this.config.defaults.choice
+    )) as ReleaseType
 
-    if (!this.isValidVersion(choice)) {
-      throw new Error('Version bump must return a valid semver string')
+    if (!this.isValidSemverChoice(choice)) {
+      throw new Error('Must select a valid release type for bump')
     }
 
     return choice
