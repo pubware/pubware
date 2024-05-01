@@ -33,7 +33,30 @@ class Git extends Plugin {
     }
   }
 
+  async status() {
+    await this.exec('git status')
+  }
+
+  async add(...args: string[]) {
+    await this.exec(`git add ${args.join(' ').trim()}`)
+  }
+
+  async addAll() {
+    await this.add('.')
+  }
+
   async commit() {
+    await this.addAll()
+    await this.status()
+
+    const confirm = await this.promptConfirm(
+      'Do you want to commit these changes?'
+    )
+
+    if (!confirm) {
+      throw new Error('Failed to confirm commit changes')
+    }
+
     let message = ''
 
     if (this.config.commitVersion) {
@@ -55,6 +78,7 @@ class Git extends Plugin {
     }
   }
 
+  // TODO Handle --dry-run
   async tag(): Promise<string> {
     const version = await this.getPackageVersion()
     const tag = `v${version}`
@@ -67,18 +91,9 @@ class Git extends Plugin {
     }
   }
 
-  async push(remote?: string, tag?: string) {
+  async push(remote: string, tag: string = '') {
     try {
-      let options = []
-
-      if (remote) {
-        options.push(remote)
-      }
-
-      if (tag) {
-        options.push('refs/tags/' + tag)
-      }
-
+      const options = [remote, tag].filter(Boolean)
       await this.exec('git push', ...options, '--dry-run')
     } catch (err) {
       throw err
