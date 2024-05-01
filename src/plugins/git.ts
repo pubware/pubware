@@ -72,7 +72,8 @@ class Git extends Plugin {
     }
 
     try {
-      await this.exec(`git commit -m ${message}`)
+      const msg = message.replace(/"/g, '\\"')
+      await this.exec(`git commit -m "${msg}"`)
     } catch (err) {
       throw err
     }
