@@ -34,11 +34,11 @@ class Git extends Plugin {
   }
 
   async status() {
-    await this.exec({ write: false }, 'git status')
+    await this.exec('git status', { write: false })
   }
 
   async add(...args: string[]) {
-    await this.exec({ write: true }, 'git add', ...args)
+    await this.exec(`git add ${args.join(' ').trim()}`)
   }
 
   async addAll() {
@@ -72,7 +72,7 @@ class Git extends Plugin {
     }
 
     try {
-      await this.exec({ write: true }, 'git commit', '-m', message)
+      await this.exec(`git commit -m ${message}`)
     } catch (err) {
       throw err
     }
@@ -83,7 +83,7 @@ class Git extends Plugin {
     const tag = `v${version}`
 
     try {
-      await this.exec({ write: true }, 'git tag', '-a', tag, '-m', tag)
+      await this.exec(`git tag '-a' ${tag} '-m' ${tag}`)
       return tag
     } catch (err) {
       throw err
@@ -93,7 +93,7 @@ class Git extends Plugin {
   async push(remote: string, tag: string = ''): Promise<void> {
     try {
       const options = [remote, tag].filter(Boolean)
-      await this.exec({ write: true }, 'git push', ...options)
+      await this.exec(`git push ${options.join(' ')}`)
     } catch (err) {
       throw err
     }

@@ -108,11 +108,10 @@ abstract class Plugin {
   }
 
   async exec(
-    options: ExecOptions = { write: true },
     cmd: string,
-    ...args: string[]
+    options: ExecOptions = { write: true }
   ): Promise<void> {
-    this.logger.info(`Execing command: ${cmd} ${args.join(' ').trim()}`)
+    this.logger.info(`Execing command: ${cmd}`)
 
     const { write } = options
 
@@ -122,7 +121,7 @@ abstract class Plugin {
     }
 
     try {
-      await this.shell.exec(cmd, ...args)
+      await this.shell.exec(cmd)
     } catch (err) {
       this.logger.error('Failed to execute command')
       throw err
