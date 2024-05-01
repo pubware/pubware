@@ -5,6 +5,10 @@ import Shell from '../core/shell/index.js'
 import FileSystem from '../core/fs/index.js'
 import HTTP from '../core/http/index.js'
 
+interface ExecOptions {
+  write?: boolean
+}
+
 abstract class Plugin {
   private _name: string
   private _flags: Flags
@@ -98,8 +102,19 @@ abstract class Plugin {
     }
   }
 
-  async exec(cmd: string, ...args: string[]): Promise<void> {
+  async exec(
+    cmd: string,
+    options: ExecOptions = { write: true },
+    ...args: string[]
+  ): Promise<void> {
     this.logger.info(`Execing command: ${cmd} ${args.join(' ').trim()}`)
+
+    const { write } = options
+
+    if (this.flags.dry && write) {
+      this.logger.info('Aborting write-based command during dry run')
+      return
+    }
 
     try {
       await this.shell.exec(cmd, ...args)

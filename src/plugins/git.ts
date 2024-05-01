@@ -34,11 +34,11 @@ class Git extends Plugin {
   }
 
   async status() {
-    await this.exec('git status')
+    await this.exec('git status', { write: false })
   }
 
   async add(...args: string[]) {
-    await this.exec(`git add ${args.join(' ').trim()}`)
+    await this.exec('git add', { write: true }, ...args)
   }
 
   async addAll() {
@@ -72,29 +72,28 @@ class Git extends Plugin {
     }
 
     try {
-      await this.exec('git commit', '-m', message, '--dry-run')
+      await this.exec('git commit', { write: true }, '-m', message)
     } catch (err) {
       throw err
     }
   }
 
-  // TODO Handle --dry-run
   async tag(): Promise<string> {
     const version = await this.getPackageVersion()
     const tag = `v${version}`
 
     try {
-      await this.exec('git tag', '-a', tag, '-m', tag)
+      await this.exec('git tag', { write: true }, '-a', tag, '-m', tag)
       return tag
     } catch (err) {
       throw err
     }
   }
 
-  async push(remote: string, tag: string = '') {
+  async push(remote: string, tag: string = ''): Promise<void> {
     try {
       const options = [remote, tag].filter(Boolean)
-      await this.exec('git push', ...options, '--dry-run')
+      await this.exec('git push', { write: true }, ...options)
     } catch (err) {
       throw err
     }

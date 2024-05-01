@@ -107,6 +107,7 @@ class NPM extends Plugin {
     const response = await this.promptBump()
     await this.exec(
       'npm version',
+      { write: true },
       response,
       this.config.versionArgs,
       this.config.tagCommit
@@ -120,12 +121,7 @@ class NPM extends Plugin {
   }
 
   async publish(): Promise<void> {
-    await this.exec(
-      'npm publish',
-      this.config.publishArgs,
-      // TODO Check against `this.flags.dryRun` once ready for prod
-      '--dry-run'
-    )
+    await this.exec('npm publish', { write: true }, this.config.publishArgs)
   }
 }
 
