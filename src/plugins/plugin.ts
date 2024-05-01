@@ -113,9 +113,7 @@ abstract class Plugin {
   ): Promise<void> {
     this.logger.info(`Execing command: ${cmd}`)
 
-    const { write } = options
-
-    if (this.flags.dry && write) {
+    if (this.flags.dry && options.write) {
       this.logger.info('Aborting write-based command during dry run')
       return
     }
