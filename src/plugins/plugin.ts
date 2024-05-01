@@ -94,6 +94,11 @@ abstract class Plugin {
   async write(path: string, data: string): Promise<void> {
     this.logger.info(`Writing to file: ${path}`)
 
+    if (this.flags.dry) {
+      this.logger.info('Aborting write-based file interaction during dry run')
+      return
+    }
+
     try {
       await this.fs.write(path, data)
     } catch (err) {
@@ -103,8 +108,8 @@ abstract class Plugin {
   }
 
   async exec(
-    cmd: string,
     options: ExecOptions = { write: true },
+    cmd: string,
     ...args: string[]
   ): Promise<void> {
     this.logger.info(`Execing command: ${cmd} ${args.join(' ').trim()}`)

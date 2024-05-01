@@ -43,7 +43,7 @@ class NPM extends Plugin {
   }
 
   private async build(): Promise<void> {
-    await this.exec(this.config.buildCmd)
+    await this.exec({ write: false }, this.config.buildCmd)
   }
 
   private async promptBump(): Promise<string> {
@@ -106,8 +106,8 @@ class NPM extends Plugin {
   async bump(): Promise<void> {
     const response = await this.promptBump()
     await this.exec(
-      'npm version',
       { write: true },
+      'npm version',
       response,
       this.config.versionArgs,
       this.config.tagCommit
@@ -121,7 +121,7 @@ class NPM extends Plugin {
   }
 
   async publish(): Promise<void> {
-    await this.exec('npm publish', { write: true }, this.config.publishArgs)
+    await this.exec({ write: true }, 'npm publish', this.config.publishArgs)
   }
 }
 
