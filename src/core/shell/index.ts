@@ -6,8 +6,8 @@ const execPromise = util.promisify(nodeExec)
 class Shell {
   async exec(cmd: string, ...args: string[]): Promise<void> {
     try {
-      const cmdArgs = `${cmd} ${args.join(' ')}`.trim()
-      const { stdout, stderr } = await execPromise(cmdArgs)
+      const command = `${cmd} ${args.join(' ')}`.trim()
+      const { stdout, stderr } = await execPromise(command)
 
       if (stderr) {
         console.error(stderr)
