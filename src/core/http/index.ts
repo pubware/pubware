@@ -7,9 +7,7 @@ class HTTP {
         throw new Error(`HTTP Error: ${response.status} ${response.statusText}`)
       }
 
-      const data: T = await response.json()
-
-      return data
+      return (await response.json()) as T
     } catch (err) {
       throw err
     }
