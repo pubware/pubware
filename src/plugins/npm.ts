@@ -1,3 +1,4 @@
+import semver from 'semver'
 import Plugin from './plugin.js'
 
 interface Config {
@@ -46,6 +47,10 @@ class NPM extends Plugin {
     await this.exec(this.config.buildCmd)
   }
 
+  private isValidVersion(version: string): boolean {
+    return semver.valid(version) !== null
+  }
+
   private async promptBump(): Promise<string> {
     let choices = [
       {
@@ -92,10 +97,16 @@ class NPM extends Plugin {
       choices = [...choices, ...preReleaseChoices]
     }
 
-    return await this.promptSelect(
+    const choice = await this.promptSelect(
       'What type of update do you want to perform?',
       choices
     )
+
+    if (!this.isValidVersion(choice)) {
+      throw new Error('Version bump must return a valid semver string')
+    }
+
+    return choice
   }
 
   async preBump(): Promise<void> {
