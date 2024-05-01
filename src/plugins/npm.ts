@@ -7,6 +7,9 @@ interface Config {
   buildCmd: string
   versionArgs: string
   publishArgs: string
+  defaults: {
+    bump: string
+  }
 }
 
 interface Options {
@@ -21,6 +24,9 @@ class NPM extends Plugin {
     this.config = {
       tagCommit: config?.tagCommit ?? false,
       preReleaseId: config?.preReleaseId ?? '',
+      defaults: {
+        bump: config?.defaults?.bump ?? ''
+      },
       buildCmd: config?.buildCmd ?? 'npm run build',
       versionArgs: config?.versionArgs ?? '',
       publishArgs: config?.publishArgs ?? ''
@@ -99,7 +105,8 @@ class NPM extends Plugin {
 
     const choice = await this.promptSelect(
       'What type of update do you want to perform?',
-      choices
+      choices,
+      this.config.defaults.bump
     )
 
     if (!this.isValidVersion(choice)) {

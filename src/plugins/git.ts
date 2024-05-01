@@ -4,6 +4,9 @@ interface Config {
   commitVersion: boolean
   tagVersion: boolean
   remote: string
+  defaults: {
+    message: string
+  }
 }
 
 interface Options {
@@ -18,7 +21,10 @@ class Git extends Plugin {
     this.config = {
       commitVersion: config?.commitVersion ?? true,
       tagVersion: config?.tagVersion ?? true,
-      remote: config?.remote ?? 'origin'
+      remote: config?.remote ?? 'origin',
+      defaults: {
+        message: config?.defaults?.message ?? ''
+      }
     }
   }
 
@@ -64,7 +70,10 @@ class Git extends Plugin {
       this.log(`Using package version as commit message: ${version}`)
       message = version
     } else {
-      message = await this.prompt('Set a commit message')
+      message = await this.prompt(
+        'Set a commit message',
+        this.config.defaults.message
+      )
     }
 
     if (!message) {
