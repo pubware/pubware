@@ -102,12 +102,11 @@ class Git extends Plugin {
 
   async postPublish(): Promise<void> {
     await this.commit()
+    await this.push(this.config.remote)
 
     if (this.config.tagVersion) {
       const tag = await this.tag()
       await this.push(this.config.remote, tag)
-    } else {
-      await this.push(this.config.remote)
     }
   }
 }
