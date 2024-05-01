@@ -47,8 +47,12 @@ abstract class Plugin {
     this.logger.log(message)
   }
 
-  async prompt(message: string): Promise<string> {
+  async prompt(message: string, defaultValue: string = ''): Promise<string> {
     this.logger.info('Prompting user')
+
+    if (this.flags.headless) {
+      return defaultValue
+    }
 
     try {
       return await this.prompter.input(message)
@@ -58,8 +62,15 @@ abstract class Plugin {
     }
   }
 
-  async promptConfirm(message: string): Promise<boolean> {
+  async promptConfirm(
+    message: string,
+    defaultValue: boolean = false
+  ): Promise<boolean> {
     this.logger.info('Prompting user confirmation')
+
+    if (this.flags.headless) {
+      return defaultValue
+    }
 
     try {
       return await this.prompter.confirm(message)
@@ -69,8 +80,16 @@ abstract class Plugin {
     }
   }
 
-  async promptSelect(message: string, choices: Choices): Promise<string> {
+  async promptSelect(
+    message: string,
+    choices: Choices,
+    defaultValue: string = ''
+  ): Promise<string> {
     this.logger.info('Prompting user selection')
+
+    if (this.flags.headless) {
+      return defaultValue
+    }
 
     try {
       return await this.prompter.select(message, choices)
