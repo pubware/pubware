@@ -41,12 +41,12 @@ class Git extends Plugin {
     await this.exec(`git add ${args.join(' ').trim()}`)
   }
 
-  async addAll() {
+  async stageAll() {
     await this.add('.')
   }
 
   async commit() {
-    await this.addAll()
+    await this.stageAll()
     await this.status()
 
     const confirm = await this.promptConfirm(
