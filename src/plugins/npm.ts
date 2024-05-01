@@ -24,12 +24,12 @@ class NPM extends Plugin {
     this.config = {
       tagCommit: config?.tagCommit ?? false,
       preReleaseId: config?.preReleaseId ?? '',
-      defaults: {
-        bump: config?.defaults?.bump ?? ''
-      },
       buildCmd: config?.buildCmd ?? 'npm run build',
       versionArgs: config?.versionArgs ?? '',
-      publishArgs: config?.publishArgs ?? ''
+      publishArgs: config?.publishArgs ?? '',
+      defaults: {
+        bump: config?.defaults?.bump ?? ''
+      }
     }
   }
 
