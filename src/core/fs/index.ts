@@ -17,9 +17,13 @@ class FileSystem {
     }
   }
 
-  async write(path: string, content: string): Promise<void> {
+  async write(
+    path: string,
+    content: string,
+    opts: Options = optsDefault
+  ): Promise<void> {
     try {
-      await fs.writeFile(path, content)
+      await fs.writeFile(path, content, opts)
     } catch (err) {
       throw err
     }
