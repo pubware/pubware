@@ -76,10 +76,19 @@ class Config {
     }
   }
 
+  private async readConfigFile(): Promise<any> {
+    try {
+      const data = await fs.readFile('packpub.json', 'utf-8')
+      return this.parseJson(data)
+    } catch {
+      const data = await fs.readFile('package.json', 'utf-8')
+      return this.parseJson(data)
+    }
+  }
+
   async init(flags: Flags): Promise<void> {
-    const data = await fs.readFile('package.json', 'utf-8')
-    const packageJson = this.parseJson(data)
-    const { packpub } = packageJson
+    const data = await this.readConfigFile()
+    const { packpub } = data
 
     // Load internal plugins before external
     let pluginConfigs = Config.INTERNAL_PLUGINS
