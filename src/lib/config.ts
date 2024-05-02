@@ -96,15 +96,19 @@ class Config {
     if (packpub && packpub.plugins) {
       const { internal, external } = packpub.plugins
 
-      if (internal && internal.disabled) {
-        // Disable internal plugins
-        pluginConfigs = {}
-      } else if (internal) {
-        pluginConfigs = {
-          ...pluginConfigs,
-          npm: internal?.npm,
-          git: internal?.git
-        }
+      if (internal) {
+        Object.keys(Config.INTERNAL_PLUGINS).forEach(key => {
+          if (internal[key] && internal[key].disabled) {
+            // Do not load the plugin if it is disabled
+            this.logger.log(`Skipping disabled plugin: ${key}`)
+          } else {
+            // Merge the configurations if the plugin is not disabled
+            pluginConfigs[key] = {
+              ...Config.INTERNAL_PLUGINS[key],
+              ...internal[key]
+            }
+          }
+        })
       }
 
       if (external) {
