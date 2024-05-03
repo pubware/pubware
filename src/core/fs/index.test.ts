@@ -21,7 +21,7 @@ describe('FileSystem', () => {
     expect(fs.readFile).toHaveBeenCalledWith(file, { encoding: 'utf8' })
   })
 
-  test('throws an error when reading a file that does not exist', async () => {
+  test('throws error when reading a file that does not exist', async () => {
     expect(async () => {
       jest
         .mocked(fs.readFile)
@@ -42,7 +42,7 @@ describe('FileSystem', () => {
     })
   })
 
-  test('throws an error when writing to a file that does not exist', () => {
+  test('throws error when writing to a file that does not exist', () => {
     expect(async () => {
       jest
         .mocked(fs.writeFile)
