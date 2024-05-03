@@ -7,7 +7,7 @@ describe('Shell', () => {
   const command = 'echo "Hello World"'
   const args = ['--version']
 
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks()
   })
 

@@ -7,7 +7,7 @@ describe('FileSystem', () => {
   const file = './file.txt'
   const content = 'Hello, world!'
 
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks()
   })
 
