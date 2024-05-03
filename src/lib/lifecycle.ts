@@ -1,4 +1,4 @@
-import Logger from './logger.js'
+import Logger from './logger/index.js'
 import Queue from './queue/index.js'
 
 type Event =

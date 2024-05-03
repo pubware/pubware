@@ -1,5 +1,5 @@
 import { Command } from 'commander'
-import Logger from './logger.js'
+import Logger from './logger/index.js'
 import Config from './config.js'
 import Lifecycle from './lifecycle.js'
 

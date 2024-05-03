@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import Logger from './logger.js'
+import Logger from './logger/index.js'
 import { Flags } from './cli.js'
 
 /*
