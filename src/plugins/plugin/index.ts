@@ -1,8 +1,8 @@
-import Logger from '../../core/logger/index.js'
-import Prompter, { Choices } from '../../core/prompter/index.js'
-import Shell from '../../core/shell/index.js'
-import FileSystem from '../../core/fs/index.js'
-import HTTP from '../../core/http/index.js'
+import Logger from './core/logger/index.js'
+import Prompter, { Choices } from './core/prompter/index.js'
+import Shell from './core/shell/index.js'
+import FileSystem from './core/fs/index.js'
+import HTTP from './core/http/index.js'
 import { Flags, ExecOptions } from './lib/types.js'
 
 abstract class Plugin {
