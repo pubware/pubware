@@ -1,5 +1,5 @@
 import semver, { ReleaseType } from 'semver'
-import Plugin from './plugin.js'
+import Plugin from './plugin/index.js'
 
 interface Config {
   tagCommit: boolean

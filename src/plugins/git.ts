@@ -1,4 +1,4 @@
-import Plugin from './plugin.js'
+import Plugin from './plugin/index.js'
 
 interface Config {
   commitVersion: boolean
