@@ -5,6 +5,14 @@ class Queue<T> {
     this.items = []
   }
 
+  get size(): number {
+    return this.items.length
+  }
+
+  get isEmpty(): boolean {
+    return this.size === 0
+  }
+
   insert(item: T) {
     this.items.push(item)
   }
@@ -23,14 +31,6 @@ class Queue<T> {
     }
 
     return this.items[0]
-  }
-
-  get size(): number {
-    return this.items.length
-  }
-
-  get isEmpty(): boolean {
-    return this.size === 0
   }
 }
 

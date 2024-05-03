@@ -1,6 +1,19 @@
 import Queue from './index.js'
 
 describe('Queue', () => {
+  test('retrieves size', () => {
+    const queue = new Queue()
+    queue.insert('hello')
+    expect(queue.size).toBe(1)
+  })
+
+  test('checks if empty', () => {
+    const queue = new Queue()
+    queue.insert(1)
+    queue.remove()
+    expect(queue.isEmpty).toBe(true)
+  })
+
   test('inserts items', () => {
     const queue = new Queue()
     queue.insert(1)
@@ -33,18 +46,5 @@ describe('Queue', () => {
       const queue = new Queue()
       queue.peek()
     }).toThrow('Cannot peek into an empty queue')
-  })
-
-  test('retrieves size', () => {
-    const queue = new Queue()
-    queue.insert('hello')
-    expect(queue.size).toBe(1)
-  })
-
-  test('checks if empty', () => {
-    const queue = new Queue()
-    queue.insert(1)
-    queue.remove()
-    expect(queue.isEmpty).toBe(true)
   })
 })
