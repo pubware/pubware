@@ -4,14 +4,14 @@ describe('Queue', () => {
   test('inserts items', () => {
     const queue = new Queue()
     queue.insert(1)
-    expect(queue.size()).toBe(1)
+    expect(queue.size).toBe(1)
   })
 
   test('removes items', () => {
     const queue = new Queue()
     queue.insert(1)
     queue.remove()
-    expect(queue.size()).toBe(0)
+    expect(queue.size).toBe(0)
   })
 
   test('throws error when removing item from empty queue', () => {
@@ -38,13 +38,13 @@ describe('Queue', () => {
   test('retrieves size', () => {
     const queue = new Queue()
     queue.insert('hello')
-    expect(queue.size()).toBe(1)
+    expect(queue.size).toBe(1)
   })
 
   test('checks if empty', () => {
     const queue = new Queue()
     queue.insert(1)
     queue.remove()
-    expect(queue.isEmpty()).toBe(true)
+    expect(queue.isEmpty).toBe(true)
   })
 })

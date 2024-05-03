@@ -10,7 +10,7 @@ class Queue<T> {
   }
 
   remove(): T {
-    if (this.isEmpty()) {
+    if (this.isEmpty) {
       throw new Error('Cannot remove from an empty queue')
     }
 
@@ -18,19 +18,19 @@ class Queue<T> {
   }
 
   peek(): T {
-    if (this.isEmpty()) {
+    if (this.isEmpty) {
       throw new Error('Cannot peek into an empty queue')
     }
 
     return this.items[0]
   }
 
-  size(): number {
+  get size(): number {
     return this.items.length
   }
 
-  isEmpty(): boolean {
-    return this.size() === 0
+  get isEmpty(): boolean {
+    return this.size === 0
   }
 }
 

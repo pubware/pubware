@@ -40,7 +40,7 @@ class Lifecycle {
 
     const callbacks = this.hooks[event]
 
-    while (!callbacks.isEmpty()) {
+    while (!callbacks.isEmpty) {
       const callback = callbacks.remove()
 
       if (callback) {
