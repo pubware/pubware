@@ -8,15 +8,17 @@ class Logger {
   }
 
   private pluginContext(type?: PluginContext): string {
+    const consoleContext = `[packpub][plugin][${this.context}]`
+
     if (type === 'info') {
-      return `[packpub][plugin][${this.context}][info]`
+      return `${consoleContext}[info]`
     } else if (type === 'warn') {
-      return `[packpub][plugin][${this.context}][warning]`
+      return `${consoleContext}[warning]`
     } else if (type === 'error') {
-      return `[packpub][plugin][${this.context}][error]`
+      return `${consoleContext}[error]`
     }
 
-    return `[packpub][plugin][${this.context}]`
+    return consoleContext
   }
 
   log(message: string) {
