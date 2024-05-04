@@ -1,5 +1,3 @@
-import chalk from 'chalk'
-
 class Logger {
   private context: string
 
@@ -13,7 +11,7 @@ class Logger {
    * @param {string} message The message to log.
    */
   log(message: string) {
-    console.log(chalk.black(`[packpub][${this.context}]: ${message}`))
+    console.log(`[packpub][${this.context}]: ${message}`)
   }
 }
 

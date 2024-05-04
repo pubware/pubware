@@ -1,5 +1,3 @@
-import chalk from 'chalk'
-
 type PluginContext = 'info' | 'warn' | 'error'
 
 class Logger {
@@ -10,7 +8,9 @@ class Logger {
   }
 
   private pluginContext(type?: PluginContext): string {
-    if (type === 'warn') {
+    if (type === 'info') {
+      return `[packpub][plugin][${this.context}][info]`
+    } else if (type === 'warn') {
       return `[packpub][plugin][${this.context}][warning]`
     } else if (type === 'error') {
       return `[packpub][plugin][${this.context}][error]`
@@ -24,15 +24,15 @@ class Logger {
   }
 
   info(message: string) {
-    console.log(chalk.blue(`${this.pluginContext()}: ${message}`))
+    console.log(`${this.pluginContext('info')}: ${message}`)
   }
 
   warn(message: string) {
-    console.log(chalk.yellow(`${this.pluginContext('warn')}: ${message}`))
+    console.log(`${this.pluginContext('warn')}: ${message}`)
   }
 
   error(message: string) {
-    console.error(chalk.red(`${this.pluginContext('error')}: ${message}`))
+    console.error(`${this.pluginContext('error')}: ${message}`)
   }
 }
 
