@@ -1,5 +1,5 @@
-import Logger from './logger/index.js'
-import Queue from './queue/index.js'
+import Logger from '../logger/index.js'
+import Queue from '../queue/index.js'
 
 type Event =
   | 'init'
