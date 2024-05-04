@@ -141,7 +141,7 @@ abstract class Plugin {
     }
   }
 
-  async fetch<T>(url: string, options?: RequestInit): Promise<T> {
+  async fetch<T>(url: string, options: RequestInit = {}): Promise<T> {
     this.logger.info(`Fetching resource: ${url}`)
 
     try {
