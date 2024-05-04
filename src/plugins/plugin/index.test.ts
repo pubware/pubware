@@ -19,6 +19,15 @@ class TestPlugin extends Plugin {
 
 describe('Plugin', () => {
   beforeEach(() => {
+    logBase.mockReset()
+    logInfo.mockReset()
+    fsRead.mockReset()
+    fsWrite.mockReset()
+    promptInput.mockReset()
+    promptConfirm.mockReset()
+    promptSelect.mockReset()
+    shExec.mockReset()
+    httpFetch.mockReset()
     jest.clearAllMocks()
   })
 

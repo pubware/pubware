@@ -2,11 +2,6 @@ const logBase = jest.fn()
 const logInfo = jest.fn()
 const logError = jest.fn()
 
-beforeEach(() => {
-  logInfo.mockReset()
-  logError.mockReset()
-})
-
 jest.mock('../core/logger/index.js', () => ({
   __esModule: true,
   default: jest.fn().mockImplementation(() => ({
@@ -18,11 +13,6 @@ jest.mock('../core/logger/index.js', () => ({
 
 const fsRead = jest.fn()
 const fsWrite = jest.fn()
-
-beforeEach(() => {
-  fsRead.mockReset()
-  fsWrite.mockReset()
-})
 
 jest.mock('../core/fs/index.js', () => ({
   __esModule: true,
@@ -36,12 +26,6 @@ const promptInput = jest.fn()
 const promptConfirm = jest.fn()
 const promptSelect = jest.fn()
 
-beforeEach(() => {
-  promptInput.mockReset()
-  promptConfirm.mockReset()
-  promptSelect.mockReset()
-})
-
 jest.mock('../core/prompter/index.js', () => ({
   __esModule: true,
   default: jest.fn().mockImplementation(() => ({
@@ -53,10 +37,6 @@ jest.mock('../core/prompter/index.js', () => ({
 
 const shExec = jest.fn()
 
-beforeEach(() => {
-  shExec.mockReset()
-})
-
 jest.mock('../core/shell/index.js', () => ({
   __esModule: true,
   default: jest.fn().mockImplementation(() => ({
@@ -65,10 +45,6 @@ jest.mock('../core/shell/index.js', () => ({
 }))
 
 const httpFetch = jest.fn()
-
-beforeEach(() => {
-  httpFetch.mockReset()
-})
 
 jest.mock('../core/http/index.js', () => ({
   __esModule: true,
