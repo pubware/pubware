@@ -1,4 +1,4 @@
-import CLI from './lib/cli.js'
+import CLI from './lib/cli/index.js'
 
 async function main() {
   const cli = new CLI()
