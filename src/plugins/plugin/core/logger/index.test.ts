@@ -14,7 +14,7 @@ describe('Logger', () => {
     consoleErrorSpy.mockRestore()
   })
 
-  test('`log` logs with standard message and context', () => {
+  test('logs standard message', () => {
     const logger = new Logger('test')
     logger.log('Hello, world!')
 
@@ -23,7 +23,7 @@ describe('Logger', () => {
     )
   })
 
-  test('`info` logs with blue message and context', () => {
+  test('logs info message', () => {
     const logger = new Logger('test')
     logger.info('Information message')
 
@@ -32,7 +32,7 @@ describe('Logger', () => {
     )
   })
 
-  test('`warn` logs with yellow message and warning context', () => {
+  test('logs warning message', () => {
     const logger = new Logger('test')
     logger.warn('Warning message')
 
@@ -41,7 +41,7 @@ describe('Logger', () => {
     )
   })
 
-  test('`error` logs with red message and error context', () => {
+  test('logs error message', () => {
     const logger = new Logger('test')
     logger.error('Error message')
 

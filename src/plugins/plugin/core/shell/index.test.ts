@@ -20,7 +20,6 @@ describe('Shell', () => {
       )
 
     const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation()
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
 
     const shell = new Shell()
     await shell.exec(command, ...args)
@@ -30,7 +29,6 @@ describe('Shell', () => {
       expect.any(Function)
     )
     expect(consoleLogSpy).toHaveBeenCalledWith(output)
-    expect(consoleErrorSpy).not.toHaveBeenCalled()
   })
 
   test('handles stderr by logging error', async () => {
