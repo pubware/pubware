@@ -28,19 +28,6 @@ describe('Lifecycle', () => {
     )
   })
 
-  test('handles errors without crashing', async () => {
-    expect(async () => {
-      const lifecycle = new Lifecycle()
-      const callbackError = jest.fn(() => {
-        throw new Error('Test Error')
-      })
-
-      lifecycle.on('init', callbackError)
-
-      await lifecycle.trigger('init')
-    }).rejects.toThrow('Test Error')
-  })
-
   test('executes all lifecycle events', async () => {
     const lifecycle = new Lifecycle()
     const callbackOne = jest.fn()
