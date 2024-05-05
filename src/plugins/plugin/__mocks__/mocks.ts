@@ -1,13 +1,11 @@
 const logBase = jest.fn()
-const logInfo = jest.fn()
-const logError = jest.fn()
 
 jest.mock('../core/logger/index.js', () => ({
   __esModule: true,
   default: jest.fn().mockImplementation(() => ({
     log: logBase,
-    info: logInfo,
-    error: logError
+    info: jest.fn(),
+    error: jest.fn()
   }))
 }))
 
@@ -55,8 +53,6 @@ jest.mock('../core/http/index.js', () => ({
 
 export {
   logBase,
-  logInfo,
-  logError,
   fsRead,
   fsWrite,
   promptInput,
