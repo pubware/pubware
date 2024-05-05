@@ -8,7 +8,7 @@ describe('Prompter', () => {
     jest.clearAllMocks()
   })
 
-  test('calls `input` with correct message', async () => {
+  test('prompts for input', async () => {
     const message = "What's your name?"
     const mockResponse = 'John Doe'
     jest.mocked(input).mockResolvedValue(mockResponse)
@@ -31,7 +31,7 @@ describe('Prompter', () => {
     }).rejects.toThrow('Input failed')
   })
 
-  test('calls `confirm` with correct message', async () => {
+  test('prompts for confirmation', async () => {
     const message = 'Are you sure?'
     const mockResponse = true
     jest.mocked(confirm).mockResolvedValue(mockResponse)
@@ -43,7 +43,7 @@ describe('Prompter', () => {
     expect(response).toBe(mockResponse)
   })
 
-  test('calls `select` with correct message and choices', async () => {
+  test('prompts for choice selection', async () => {
     const message = 'Select an option'
     const choices = [
       { name: 'Option 1', value: '1' },
