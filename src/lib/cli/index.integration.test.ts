@@ -15,6 +15,10 @@ describe('CLI', () => {
     jest.spyOn(Lifecycle.prototype, 'run').mockResolvedValue()
   })
 
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   afterAll(() => {
     jest.restoreAllMocks()
   })
