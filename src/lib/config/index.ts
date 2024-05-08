@@ -61,7 +61,7 @@ class Config {
       // Attempt to load plugin from node_modules
       // const module = await import(plugin)
       // TODO Remove once `npm` module is imported
-      const module = await import(`../plugins/${plugin}.js`)
+      const module = await import(`../../plugins/${plugin}.js`)
       Plugin = module.default
       return Plugin
     } catch (err) {
