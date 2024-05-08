@@ -25,8 +25,6 @@ describe('CLI', () => {
     await cli.run(['node', '../bin/packpub.js', '--dry-run', '--headless'])
 
     expect(initSpy).toHaveBeenCalledWith({ dryRun: true, headless: true })
-
-    initSpy.mockRestore()
   })
 
   test('attaches events to lifecycle', async () => {
@@ -45,7 +43,5 @@ describe('CLI', () => {
     await cli.run(['node', '../bin/packpub.js'])
 
     expect(lifecycleSpy).toHaveBeenCalled()
-
-    lifecycleSpy.mockRestore()
   })
 })

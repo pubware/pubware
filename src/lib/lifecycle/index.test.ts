@@ -10,6 +10,10 @@ describe('Lifecycle', () => {
     jest.spyOn(Logger.prototype, 'log').mockImplementation(() => {})
   })
 
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
   test('executes all callbacks for an event', async () => {
     const lifecycle = new Lifecycle()
     const callbackOne = jest.fn()
