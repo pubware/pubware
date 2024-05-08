@@ -14,30 +14,15 @@ describe('Lifecycle', () => {
     jest.restoreAllMocks()
   })
 
-  test('executes all callbacks for an event', async () => {
+  test('executes lifecycle events', async () => {
     const lifecycle = new Lifecycle()
     const callbackOne = jest.fn()
     const callbackTwo = jest.fn()
+    const callbackThree = jest.fn()
 
     lifecycle.on('init', callbackOne)
-    lifecycle.on('init', callbackTwo)
-
-    await lifecycle.trigger('init')
-
-    expect(callbackOne).toHaveBeenCalled()
-    expect(callbackTwo).toHaveBeenCalled()
-    expect(callbackOne.mock.invocationCallOrder[0]).toBeLessThan(
-      callbackTwo.mock.invocationCallOrder[0]
-    )
-  })
-
-  test('executes all lifecycle events', async () => {
-    const lifecycle = new Lifecycle()
-    const callbackOne = jest.fn()
-    const callbackTwo = jest.fn()
-
     lifecycle.on('preBump', callbackTwo)
-    lifecycle.on('init', callbackOne)
+    lifecycle.on('preBump', callbackThree)
 
     await lifecycle.run()
 
@@ -45,6 +30,9 @@ describe('Lifecycle', () => {
     expect(callbackTwo).toHaveBeenCalled()
     expect(callbackOne.mock.invocationCallOrder[0]).toBeLessThan(
       callbackTwo.mock.invocationCallOrder[0]
+    )
+    expect(callbackTwo.mock.invocationCallOrder[0]).toBeLessThan(
+      callbackThree.mock.invocationCallOrder[0]
     )
   })
 })
