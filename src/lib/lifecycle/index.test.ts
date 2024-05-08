@@ -1,15 +1,13 @@
 import { jest } from '@jest/globals'
 import Lifecycle from './index.js'
 
+jest.mock('../logger/index.js')
+
+const Logger = (await import('../logger/index.js')).default
+
 describe('Lifecycle', () => {
   beforeAll(() => {
-    jest.spyOn(console, 'log').mockImplementation(() => {})
-    jest.spyOn(console, 'error').mockImplementation(() => {})
-  })
-
-  afterAll(() => {
-    jest.spyOn(console, 'log').mockRestore()
-    jest.spyOn(console, 'error').mockRestore()
+    jest.spyOn(Logger.prototype, 'log').mockImplementation(() => {})
   })
 
   test('executes all callbacks for an event', async () => {
