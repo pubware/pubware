@@ -1,9 +1,9 @@
 import { jest } from '@jest/globals'
+import FileSystem from './index.js'
 
 jest.mock('node:fs/promises')
 
 const fs = (await import('node:fs/promises')).default
-const FileSystem = (await import('./index.js')).default
 
 describe('FileSystem', () => {
   const file = './file.txt'
