@@ -1,7 +1,13 @@
-import { input, confirm, select } from '@inquirer/prompts'
-import Prompter from './index.js'
+import { jest } from '@jest/globals'
 
-jest.mock('@inquirer/prompts')
+jest.unstable_mockModule('@inquirer/prompts', () => ({
+  input: jest.fn(),
+  confirm: jest.fn(),
+  select: jest.fn()
+}))
+
+const prompts = await import('@inquirer/prompts')
+const Prompter = (await import('./index.js')).default
 
 describe('Prompter', () => {
   beforeEach(() => {
@@ -11,21 +17,20 @@ describe('Prompter', () => {
   test('prompts for input', async () => {
     const message = "What's your name?"
     const mockResponse = 'John Doe'
-    jest.mocked(input).mockResolvedValue(mockResponse)
-
+    const promptSpy = jest
+      .spyOn(prompts, 'input')
+      .mockResolvedValue(mockResponse)
     const prompter = new Prompter()
     const response = await prompter.input(message)
 
-    expect(input).toHaveBeenCalledWith({ message })
+    expect(promptSpy).toHaveBeenCalledWith({ message })
     expect(response).toBe(mockResponse)
   })
 
   test('throws error when input fails', async () => {
     expect(async () => {
       const message = "What's your name?"
-      const error = new Error('Input failed')
-      jest.mocked(input).mockRejectedValue(error)
-
+      jest.spyOn(prompts, 'input').mockRejectedValue(new Error('Input failed'))
       const prompter = new Prompter()
       await prompter.input(message)
     }).rejects.toThrow('Input failed')
@@ -33,14 +38,12 @@ describe('Prompter', () => {
 
   test('prompts for confirmation', async () => {
     const message = 'Are you sure?'
-    const mockResponse = true
-    jest.mocked(confirm).mockResolvedValue(mockResponse)
-
+    const promptSpy = jest.spyOn(prompts, 'confirm').mockResolvedValue(true)
     const prompter = new Prompter()
     const response = await prompter.confirm(message)
 
-    expect(confirm).toHaveBeenCalledWith({ message })
-    expect(response).toBe(mockResponse)
+    expect(promptSpy).toHaveBeenCalledWith({ message })
+    expect(response).toBe(true)
   })
 
   test('prompts for choice selection', async () => {
@@ -49,16 +52,14 @@ describe('Prompter', () => {
       { name: 'Option 1', value: '1' },
       { name: 'Option 2', value: '2' }
     ]
-    const mockResponse = '1'
-    jest.mocked(select).mockResolvedValue(mockResponse)
-
+    const promptSpy = jest.spyOn(prompts, 'select').mockResolvedValue('1')
     const prompter = new Prompter()
     const response = await prompter.select(message, choices)
 
-    expect(select).toHaveBeenCalledWith({
+    expect(promptSpy).toHaveBeenCalledWith({
       message,
       choices
     })
-    expect(response).toBe(mockResponse)
+    expect(response).toBe('1')
   })
 })

@@ -1,12 +1,13 @@
+import { jest } from '@jest/globals'
 import Logger from './index.js'
 
 describe('Logger', () => {
-  let consoleLogSpy: jest.SpyInstance
-  let consoleErrorSpy: jest.SpyInstance
+  let consoleLogSpy: jest.SpiedFunction<{ (message?: string): void }>
+  let consoleErrorSpy: jest.SpiedFunction<{ (message?: string): void }>
 
   beforeEach(() => {
-    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation()
-    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
+    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
   })
 
   afterEach(() => {
@@ -14,7 +15,7 @@ describe('Logger', () => {
     consoleErrorSpy.mockRestore()
   })
 
-  test('logs standard message', () => {
+  test('logs message', () => {
     const logger = new Logger('test')
     logger.log('Hello, world!')
 

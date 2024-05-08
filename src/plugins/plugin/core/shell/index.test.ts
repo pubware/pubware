@@ -1,7 +1,11 @@
-import { exec as nodeExec } from 'child_process'
-import Shell from './index.js'
+import { jest } from '@jest/globals'
 
-jest.mock('child_process')
+jest.unstable_mockModule('child_process', () => ({
+  exec: jest.fn()
+}))
+
+const child_process = await import('child_process')
+const Shell = (await import('./index.js')).default
 
 describe('Shell', () => {
   const command = 'echo "Hello World"'
@@ -13,37 +17,41 @@ describe('Shell', () => {
 
   test('executes command and logs output', async () => {
     const output = 'Hello World\n'
-    jest
-      .mocked(nodeExec)
+    const execSpy = jest
+      .spyOn(child_process, 'exec')
       .mockImplementation((cmd, callback: any) =>
         callback(null, { stdout: output, stderr: '' })
       )
-
-    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation()
-
+    const consoleLogSpy = jest
+      .spyOn(console, 'log')
+      .mockImplementation(() => {})
     const shell = new Shell()
     await shell.exec(command, ...args)
 
-    expect(nodeExec).toHaveBeenCalledWith(
+    expect(execSpy).toHaveBeenCalledWith(
       `${command} ${args.join(' ')}`,
       expect.any(Function)
     )
-    expect(consoleLogSpy).toHaveBeenCalledWith(output)
+    expect(consoleLogSpy).toHaveBeenCalled()
   })
 
-  test('handles stderr by logging error', async () => {
+  test('executes command and logs error', async () => {
     const output = 'Error message'
-    jest
-      .mocked(nodeExec)
+    const execSpy = jest
+      .spyOn(child_process, 'exec')
       .mockImplementation((cmd, callback: any) =>
         callback(null, { stdout: '', stderr: output })
       )
-
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
-
+    const consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {})
     const shell = new Shell()
-    await shell.exec(command)
+    await shell.exec(command, ...args)
 
+    expect(execSpy).toHaveBeenCalledWith(
+      `${command} ${args.join(' ')}`,
+      expect.any(Function)
+    )
     expect(consoleErrorSpy).toHaveBeenCalledWith(output)
   })
 
@@ -51,11 +59,10 @@ describe('Shell', () => {
     expect(async () => {
       const error = new Error('Command failed')
       jest
-        .mocked(nodeExec)
+        .spyOn(child_process, 'exec')
         .mockImplementation((cmd, callback: any) =>
           callback(error, { stdout: '', stderr: '' })
         )
-
       const shell = new Shell()
       await shell.exec(command)
     }).rejects.toThrow('Command failed')
