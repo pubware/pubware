@@ -36,7 +36,26 @@ describe('CLI', () => {
     const cli = new CLI()
     await cli.run(['node', '../bin/packpub.js'])
 
-    expect(lifecycleListenerSpy).toHaveBeenCalled()
+    expect(lifecycleListenerSpy).toHaveBeenCalledWith(
+      'preBump',
+      expect.any(Function)
+    )
+    expect(lifecycleListenerSpy).toHaveBeenCalledWith(
+      'bump',
+      expect.any(Function)
+    )
+    expect(lifecycleListenerSpy).toHaveBeenCalledWith(
+      'prePublish',
+      expect.any(Function)
+    )
+    expect(lifecycleListenerSpy).toHaveBeenCalledWith(
+      'publish',
+      expect.any(Function)
+    )
+    expect(lifecycleListenerSpy).toHaveBeenCalledWith(
+      'postPublish',
+      expect.any(Function)
+    )
   })
 
   test('runs lifecycle', async () => {
