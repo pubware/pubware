@@ -10,6 +10,10 @@ describe('Config', () => {
     jest.spyOn(Logger.prototype, 'log').mockImplementation(() => {})
   })
 
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
   test('loads npm and git plugins', async () => {
     const config = new Config()
     await config.init({})
