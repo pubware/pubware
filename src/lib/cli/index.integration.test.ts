@@ -20,7 +20,7 @@ describe('CLI', () => {
   })
 
   test('initializes config with flags', async () => {
-    const initSpy = jest.spyOn(Config.prototype, 'init').mockResolvedValue()
+    const initSpy = jest.spyOn(Config.prototype, 'init')
     const cli = new CLI()
     await cli.run(['node', '../bin/packpub.js', '--dry-run', '--headless'])
 
@@ -30,16 +30,11 @@ describe('CLI', () => {
   })
 
   test('attaches events to lifecycle', async () => {
-    const lifecycleRunSpy = jest
-      .spyOn(Lifecycle.prototype, 'run')
-      .mockResolvedValue()
     const lifecycleListenerSpy = jest.spyOn(Lifecycle.prototype, 'on')
     const cli = new CLI()
     await cli.run(['node', '../bin/packpub.js'])
 
     expect(lifecycleListenerSpy).toHaveBeenCalled()
-
-    lifecycleRunSpy.mockRestore()
   })
 
   test('runs lifecycle', async () => {
