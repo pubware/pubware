@@ -15,7 +15,7 @@ describe('Config', () => {
     await config.init({})
 
     expect(config.plugins.length).toBe(2)
-    expect(config.plugins[0].name).toBe('npm')
-    expect(config.plugins[1].name).toBe('git')
+    expect(config.plugins[0].constructor.name).toBe('NPM')
+    expect(config.plugins[1].constructor.name).toBe('Git')
   })
 })
