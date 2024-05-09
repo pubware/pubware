@@ -6,7 +6,7 @@ describe('NPM', () => {
     jest.clearAllMocks()
   })
 
-  test('pre-bump runs npm build cmd and logs version', async () => {
+  test('`preBump` runs npm build cmd and logs version', async () => {
     const npm = new NPM({})
     jest
       .spyOn(npm, 'read')
@@ -19,7 +19,7 @@ describe('NPM', () => {
     expect(logSpy).toHaveBeenCalledWith('Package version: 9.9.9')
   })
 
-  test('bump runs npm version cmd', async () => {
+  test('`bump` runs npm version cmd', async () => {
     const npm = new NPM({})
     jest.spyOn(npm, 'promptSelect').mockResolvedValue('patch')
     const execSpy = jest.spyOn(npm, 'exec').mockResolvedValue()
@@ -30,7 +30,7 @@ describe('NPM', () => {
     )
   })
 
-  test('pre-publish logs version', async () => {
+  test('`prePublish` logs version', async () => {
     const npm = new NPM({})
     jest
       .spyOn(npm, 'read')
@@ -41,7 +41,7 @@ describe('NPM', () => {
     expect(logSpy).toHaveBeenCalledWith('Package version: 1.1.1')
   })
 
-  test('publish runs npm publish cmd', async () => {
+  test('`publish` runs npm publish cmd', async () => {
     const npm = new NPM({})
     const execSpy = jest.spyOn(npm, 'exec').mockResolvedValue()
     await npm.publish()

@@ -6,7 +6,7 @@ describe('Git', () => {
     jest.clearAllMocks()
   })
 
-  test('post-publish commits tag and pushes to remote', async () => {
+  test('`postPublish` commits and pushes tag', async () => {
     const git = new Git({})
     jest.spyOn(git, 'promptConfirm').mockResolvedValue(true)
     jest
