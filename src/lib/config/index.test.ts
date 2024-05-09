@@ -1,19 +1,16 @@
 import { jest } from '@jest/globals'
-import Config from './index.js'
 
-jest.mock('../logger/index.js')
+jest.unstable_mockModule('../logger/index.js', () => ({
+  default: jest.fn().mockImplementation(() => ({
+    log: jest.fn(),
+    info: jest.fn(),
+    error: jest.fn()
+  }))
+}))
 
-const Logger = (await import('../logger/index.js')).default
+const Config = (await import('./index.js')).default
 
 describe('Config', () => {
-  beforeAll(() => {
-    jest.spyOn(Logger.prototype, 'log').mockImplementation(() => {})
-  })
-
-  afterAll(() => {
-    jest.restoreAllMocks()
-  })
-
   test('loads npm and git plugins', async () => {
     const config = new Config()
     await config.init({})

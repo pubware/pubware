@@ -1,19 +1,16 @@
 import { jest } from '@jest/globals'
-import Lifecycle from './index.js'
 
-jest.mock('../logger/index.js')
+jest.unstable_mockModule('../logger/index.js', () => ({
+  default: jest.fn().mockImplementation(() => ({
+    log: jest.fn(),
+    info: jest.fn(),
+    error: jest.fn()
+  }))
+}))
 
-const Logger = (await import('../logger/index.js')).default
+const Lifecycle = (await import('./index.js')).default
 
 describe('Lifecycle', () => {
-  beforeAll(() => {
-    jest.spyOn(Logger.prototype, 'log').mockImplementation(() => {})
-  })
-
-  afterAll(() => {
-    jest.restoreAllMocks()
-  })
-
   test('executes lifecycle events in order', async () => {
     const lifecycle = new Lifecycle()
     const callbackOne = jest.fn()

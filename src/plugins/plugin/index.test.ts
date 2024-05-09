@@ -1,18 +1,11 @@
 import { jest } from '@jest/globals'
-import Plugin from './index.js'
-
-jest.mock('./core/logger/index.js')
-jest.mock('./core/fs/index.js')
-jest.mock('./core/prompter/index.js')
-jest.mock('./core/shell/index.js')
-jest.mock('./core/http/index.js')
-jest.mock('./index.js')
 
 const Logger = (await import('./core/logger/index.js')).default
 const FileSystem = (await import('./core/fs/index.js')).default
 const Prompter = (await import('./core/prompter/index.js')).default
 const Shell = (await import('./core/shell/index.js')).default
 const HTTP = (await import('./core/http/index.js')).default
+const Plugin = (await import('./index.js')).default
 
 class TestPlugin extends Plugin {
   constructor(name: string) {
