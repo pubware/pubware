@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import Logger from '../logger/index.js'
-import { Flags } from '../cli/index.js'
+import { Flags } from '../../cli/index.js'
 
 /*
  * Example config:

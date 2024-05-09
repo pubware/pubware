@@ -1,7 +1,7 @@
 import { Command } from 'commander'
-import Logger from '../logger/index.js'
-import Config from '../config/index.js'
-import Lifecycle from '../lifecycle/index.js'
+import Logger from '../lib/logger/index.js'
+import Config from '../lib/config/index.js'
+import Lifecycle from '../lib/lifecycle/index.js'
 
 export interface Flags {
   dryRun?: boolean
