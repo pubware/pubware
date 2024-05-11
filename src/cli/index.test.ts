@@ -1,7 +1,6 @@
 import { jest } from '@jest/globals'
-
-const Lifecycle = (await import('../lib/lifecycle/index.js')).default
-const CLI = (await import('./index.js')).default
+import Lifecycle from '../lib/lifecycle/index.js'
+import CLI from './index.js'
 
 describe('CLI', () => {
   beforeAll(() => {

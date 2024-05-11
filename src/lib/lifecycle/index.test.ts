@@ -1,6 +1,5 @@
 import { jest } from '@jest/globals'
-
-const Lifecycle = (await import('./index.js')).default
+import Lifecycle from './index.js'
 
 describe('Lifecycle', () => {
   test('executes lifecycle events in order', async () => {
