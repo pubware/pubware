@@ -6,20 +6,12 @@ jest.unstable_mockModule('node:fs/promises', () => ({
   }
 }))
 
-jest.unstable_mockModule('../logger/index.js', () => ({
-  default: jest.fn().mockImplementation(() => ({
-    log: jest.fn(),
-    info: jest.fn(),
-    error: jest.fn()
-  }))
-}))
-
 const fs = (await import('node:fs/promises')).default
 const Config = (await import('./index.js')).default
 
 describe('Config', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.resetAllMocks()
   })
 
   test('loads npm and git plugins', async () => {

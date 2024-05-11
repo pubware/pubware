@@ -15,22 +15,22 @@ describe('FileSystem', () => {
   const content = 'Hello, world!'
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.resetAllMocks()
   })
 
   test('reads file content', async () => {
-    const readSpy = jest.spyOn(fs, 'readFile').mockResolvedValue(content)
+    jest.mocked(fs.readFile).mockResolvedValue(content)
     const fileSystem = new FileSystem()
     const data = await fileSystem.read(file)
 
     expect(data).toBe(content)
-    expect(readSpy).toHaveBeenCalledWith(file, { encoding: 'utf8' })
+    expect(fs.readFile).toHaveBeenCalledWith(file, { encoding: 'utf8' })
   })
 
   test('throws error when reading a file that does not exist', async () => {
     expect(async () => {
       jest
-        .spyOn(fs, 'readFile')
+        .mocked(fs.readFile)
         .mockRejectedValue(new Error('Failed to read file'))
       const fileSystem = new FileSystem()
       await fileSystem.read('error.txt')
@@ -38,12 +38,12 @@ describe('FileSystem', () => {
   })
 
   test('writes content to file', async () => {
-    const writeSpy = jest.spyOn(fs, 'writeFile').mockResolvedValue()
+    jest.mocked(fs.writeFile).mockResolvedValue()
     const content = 'Hello, world!'
     const fileSystem = new FileSystem()
     await fileSystem.write(file, content)
 
-    expect(writeSpy).toHaveBeenCalledWith(file, content, {
+    expect(fs.writeFile).toHaveBeenCalledWith(file, content, {
       encoding: 'utf8'
     })
   })
@@ -51,7 +51,7 @@ describe('FileSystem', () => {
   test('throws error when writing to a file that does not exist', () => {
     expect(async () => {
       jest
-        .spyOn(fs, 'writeFile')
+        .mocked(fs.writeFile)
         .mockRejectedValue(new Error('Failed to write to file'))
       const fileSystem = new FileSystem()
       await fileSystem.write('error.txt', content)

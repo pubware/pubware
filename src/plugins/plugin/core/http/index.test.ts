@@ -5,7 +5,7 @@ describe('HTTP', () => {
   const url = 'https://api.example.com/'
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.restoreAllMocks()
   })
 
   test('returns json when response is successful', async () => {

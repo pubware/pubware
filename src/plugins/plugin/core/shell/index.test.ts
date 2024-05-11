@@ -12,7 +12,7 @@ describe('Shell', () => {
   const args = ['--version']
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.restoreAllMocks()
   })
 
   test('executes command and logs output', async () => {

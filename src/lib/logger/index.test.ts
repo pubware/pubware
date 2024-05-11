@@ -3,7 +3,7 @@ import Logger from './index.js'
 
 describe('Logger', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.restoreAllMocks()
   })
 
   test('logs message to console', () => {

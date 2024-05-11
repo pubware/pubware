@@ -3,7 +3,7 @@ import NPM from './npm.js'
 
 describe('NPM', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.restoreAllMocks()
   })
 
   test('`preBump` runs npm build cmd and logs version', async () => {

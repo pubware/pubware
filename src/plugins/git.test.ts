@@ -3,7 +3,7 @@ import Git from './git.js'
 
 describe('Git', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.restoreAllMocks()
   })
 
   test('`postPublish` commits and pushes tag', async () => {

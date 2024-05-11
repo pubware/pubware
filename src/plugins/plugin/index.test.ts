@@ -14,15 +14,7 @@ class TestPlugin extends Plugin {
 }
 
 describe('Plugin', () => {
-  beforeAll(() => {
-    jest.spyOn(Logger.prototype, 'info').mockImplementation(() => {})
-  })
-
   beforeEach(() => {
-    jest.clearAllMocks()
-  })
-
-  afterAll(() => {
     jest.restoreAllMocks()
   })
 

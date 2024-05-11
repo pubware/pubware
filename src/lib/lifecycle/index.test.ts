@@ -1,13 +1,5 @@
 import { jest } from '@jest/globals'
 
-jest.unstable_mockModule('../logger/index.js', () => ({
-  default: jest.fn().mockImplementation(() => ({
-    log: jest.fn(),
-    info: jest.fn(),
-    error: jest.fn()
-  }))
-}))
-
 const Lifecycle = (await import('./index.js')).default
 
 describe('Lifecycle', () => {
