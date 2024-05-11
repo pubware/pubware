@@ -38,6 +38,14 @@ describe('Plugin', () => {
     expect(data).toBe('file content')
   })
 
+  test('re-throws error when read fails', async () => {
+    jest
+      .spyOn(FileSystem.prototype, 'read')
+      .mockRejectedValue(new Error('test'))
+    const plugin = new TestPlugin('test')
+    await expect(plugin.read('./file.txt')).rejects.toThrow('test')
+  })
+
   test('writes to file', async () => {
     const writeSpy = jest
       .spyOn(FileSystem.prototype, 'write')
@@ -46,6 +54,16 @@ describe('Plugin', () => {
     await plugin.write('./file.txt', 'new content')
 
     expect(writeSpy).toHaveBeenCalledWith('./file.txt', 'new content')
+  })
+
+  test('re-throws error when write fails', async () => {
+    jest
+      .spyOn(FileSystem.prototype, 'write')
+      .mockRejectedValue(new Error('test'))
+    const plugin = new TestPlugin('test')
+    await expect(plugin.write('./file.txt', 'new content')).rejects.toThrow(
+      'test'
+    )
   })
 
   test('prompts for user input', async () => {
@@ -71,6 +89,12 @@ describe('Plugin', () => {
     expect(response).toBe('default')
   })
 
+  test('re-throws error when prompt fails', async () => {
+    jest.spyOn(Prompter.prototype, 'input').mockRejectedValue(new Error('test'))
+    const plugin = new TestPlugin('test')
+    await expect(plugin.prompt('foo?')).rejects.toThrow('test')
+  })
+
   test('prompts for user confirmation', async () => {
     const promptSpy = jest
       .spyOn(Prompter.prototype, 'confirm')
@@ -82,7 +106,7 @@ describe('Plugin', () => {
     expect(response).toBe(true)
   })
 
-  test('prompt returns default if headless', async () => {
+  test('prompt confirm returns default if headless', async () => {
     const promptSpy = jest
       .spyOn(Prompter.prototype, 'confirm')
       .mockResolvedValue(true)
@@ -92,6 +116,14 @@ describe('Plugin', () => {
 
     expect(promptSpy).not.toHaveBeenCalled()
     expect(response).toBe(false)
+  })
+
+  test('re-throws error when prompt confirm fails', async () => {
+    jest
+      .spyOn(Prompter.prototype, 'confirm')
+      .mockRejectedValue(new Error('test'))
+    const plugin = new TestPlugin('test')
+    await expect(plugin.promptConfirm('foo?')).rejects.toThrow('test')
   })
 
   test('prompts for user selection', async () => {
@@ -111,7 +143,7 @@ describe('Plugin', () => {
     expect(response).toBe('bar')
   })
 
-  test('prompt returns default if headless', async () => {
+  test('prompt select returns default if headless', async () => {
     const promptSpy = jest
       .spyOn(Prompter.prototype, 'select')
       .mockResolvedValue('bar')
@@ -125,6 +157,16 @@ describe('Plugin', () => {
 
     expect(promptSpy).not.toHaveBeenCalled()
     expect(response).toBe('foo')
+  })
+
+  test('re-throws error when prompt select fails', async () => {
+    jest
+      .spyOn(Prompter.prototype, 'select')
+      .mockRejectedValue(new Error('test'))
+    const plugin = new TestPlugin('test')
+    await expect(
+      plugin.promptSelect('foo?', [{ value: 'foo' }, { value: 'bar' }])
+    ).rejects.toThrow('test')
   })
 
   test('execs command', async () => {
@@ -148,9 +190,15 @@ describe('Plugin', () => {
     const execSpy = jest.spyOn(Shell.prototype, 'exec').mockResolvedValue()
     const plugin = new TestPlugin('test')
     plugin.flags.dry = true
-    await plugin.exec('rm -rf', { write: true })
+    await plugin.exec('echo "Hello World"', { write: true })
 
     expect(execSpy).not.toHaveBeenCalled()
+  })
+
+  test('re-throws error when exec fails', async () => {
+    jest.spyOn(Shell.prototype, 'exec').mockRejectedValue(new Error('test'))
+    const plugin = new TestPlugin('test')
+    await expect(plugin.exec('echo "Hello World"')).rejects.toThrow('test')
   })
 
   test('fetches resource', async () => {
@@ -164,7 +212,7 @@ describe('Plugin', () => {
     expect(response).toEqual({ message: 'Hello World' })
   })
 
-  test('re-throw error when fetch fails', async () => {
+  test('re-throws error when fetch fails', async () => {
     jest.spyOn(HTTP.prototype, 'fetch').mockRejectedValue(new Error('test'))
     const plugin = new TestPlugin('test')
     await expect(plugin.fetch('http://example.com')).rejects.toThrow('test')
