@@ -164,4 +164,12 @@ describe('Plugin', () => {
     expect(fetchSpy).toHaveBeenCalledWith('http://example.com', {})
     expect(response).toEqual({ message: 'Hello World' })
   })
+
+  test('re-throw error when fetch fails', async () => {
+    expect(async () => {
+      jest.spyOn(HTTP.prototype, 'fetch').mockRejectedValue(new Error('test'))
+      const plugin = new TestPlugin('test')
+      await plugin.fetch('http://example.com')
+    }).rejects.toThrow('test')
+  })
 })
