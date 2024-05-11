@@ -91,7 +91,7 @@ class Config {
     const { packpub } = data
 
     // Load internal plugins before external
-    let pluginConfigs = Config.INTERNAL_PLUGINS
+    let pluginConfigs = structuredClone(Config.INTERNAL_PLUGINS)
 
     if (packpub && packpub.plugins) {
       const { internal, external } = packpub.plugins
@@ -99,10 +99,11 @@ class Config {
       if (internal) {
         Object.keys(Config.INTERNAL_PLUGINS).forEach(key => {
           if (internal[key] && internal[key].disabled) {
-            // Do not load the plugin if it is disabled
+            // Do not load plugin if disabled
             this.logger.log(`Skipping disabled plugin: ${key}`)
+            delete pluginConfigs[key]
           } else {
-            // Merge the configurations if the plugin is not disabled
+            // Merge configurations
             pluginConfigs[key] = {
               ...Config.INTERNAL_PLUGINS[key],
               ...internal[key]
