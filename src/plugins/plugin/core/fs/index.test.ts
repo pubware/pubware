@@ -28,13 +28,11 @@ describe('FileSystem', () => {
   })
 
   test('throws error when reading a file that does not exist', async () => {
-    expect(async () => {
-      jest
-        .mocked(fs.readFile)
-        .mockRejectedValue(new Error('Failed to read file'))
-      const fileSystem = new FileSystem()
-      await fileSystem.read('error.txt')
-    }).rejects.toThrow('Failed to read file')
+    jest.mocked(fs.readFile).mockRejectedValue(new Error('Failed to read file'))
+    const fileSystem = new FileSystem()
+    await expect(fileSystem.read('error.txt')).rejects.toThrow(
+      'Failed to read file'
+    )
   })
 
   test('writes content to file', async () => {
@@ -48,13 +46,13 @@ describe('FileSystem', () => {
     })
   })
 
-  test('throws error when writing to a file that does not exist', () => {
-    expect(async () => {
-      jest
-        .mocked(fs.writeFile)
-        .mockRejectedValue(new Error('Failed to write to file'))
-      const fileSystem = new FileSystem()
-      await fileSystem.write('error.txt', content)
-    }).rejects.toThrow('Failed to write to file')
+  test('throws error when writing to a file that does not exist', async () => {
+    jest
+      .mocked(fs.writeFile)
+      .mockRejectedValue(new Error('Failed to write to file'))
+    const fileSystem = new FileSystem()
+    await expect(fileSystem.write('error.txt', content)).rejects.toThrow(
+      'Failed to write to file'
+    )
   })
 })

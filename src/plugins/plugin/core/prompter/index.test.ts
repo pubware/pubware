@@ -26,12 +26,10 @@ describe('Prompter', () => {
   })
 
   test('throws error when input fails', async () => {
-    expect(async () => {
-      const message = "What's your name?"
-      jest.mocked(input).mockRejectedValue(new Error('Input failed'))
-      const prompter = new Prompter()
-      await prompter.input(message)
-    }).rejects.toThrow('Input failed')
+    const message = "What's your name?"
+    jest.mocked(input).mockRejectedValue(new Error('Input failed'))
+    const prompter = new Prompter()
+    await expect(prompter.input(message)).rejects.toThrow('Input failed')
   })
 
   test('prompts for confirmation', async () => {

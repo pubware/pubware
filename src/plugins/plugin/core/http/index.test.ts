@@ -24,25 +24,19 @@ describe('HTTP', () => {
   })
 
   test('throws error when response is not ok', async () => {
-    expect(async () => {
-      jest.spyOn(global, 'fetch').mockResolvedValue({
-        ok: false,
-        statusText: 'Not Found',
-        status: 404,
-        json: () => Promise.resolve({ message: 'Not found' })
-      } as Response)
-      const http = new HTTP()
-      await http.fetch(url)
-    }).rejects.toThrow('HTTP Error: 404 Not Found')
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      ok: false,
+      statusText: 'Not Found',
+      status: 404,
+      json: () => Promise.resolve({ message: 'Not found' })
+    } as Response)
+    const http = new HTTP()
+    await expect(http.fetch(url)).rejects.toThrow('HTTP Error: 404 Not Found')
   })
 
   test('throws error on network failure', async () => {
-    expect(async () => {
-      jest
-        .spyOn(global, 'fetch')
-        .mockRejectedValue(new Error('Network failure'))
-      const http = new HTTP()
-      await http.fetch(url)
-    }).rejects.toThrow('Network failure')
+    jest.spyOn(global, 'fetch').mockRejectedValue(new Error('Network failure'))
+    const http = new HTTP()
+    await expect(http.fetch(url)).rejects.toThrow('Network failure')
   })
 })

@@ -166,10 +166,8 @@ describe('Plugin', () => {
   })
 
   test('re-throw error when fetch fails', async () => {
-    expect(async () => {
-      jest.spyOn(HTTP.prototype, 'fetch').mockRejectedValue(new Error('test'))
-      const plugin = new TestPlugin('test')
-      await plugin.fetch('http://example.com')
-    }).rejects.toThrow('test')
+    jest.spyOn(HTTP.prototype, 'fetch').mockRejectedValue(new Error('test'))
+    const plugin = new TestPlugin('test')
+    await expect(plugin.fetch('http://example.com')).rejects.toThrow('test')
   })
 })

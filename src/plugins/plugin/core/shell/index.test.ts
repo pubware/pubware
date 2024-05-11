@@ -56,15 +56,13 @@ describe('Shell', () => {
   })
 
   test('throws error if command execution fails', async () => {
-    expect(async () => {
-      const error = new Error('Command failed')
-      jest
-        .spyOn(child_process, 'exec')
-        .mockImplementation((cmd, callback: any) =>
-          callback(error, { stdout: '', stderr: '' })
-        )
-      const shell = new Shell()
-      await shell.exec(command)
-    }).rejects.toThrow('Command failed')
+    const error = new Error('Command failed')
+    jest
+      .spyOn(child_process, 'exec')
+      .mockImplementation((cmd, callback: any) =>
+        callback(error, { stdout: '', stderr: '' })
+      )
+    const shell = new Shell()
+    await expect(shell.exec(command)).rejects.toThrow('Command failed')
   })
 })
