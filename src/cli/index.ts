@@ -15,6 +15,9 @@ type Options = {
   }
 }
 
+/**
+ * CLI for the packpub publisher.
+ */
 class CLI {
   private static NAME: string = 'packpub'
   private static DESCRIPTION: string = 'Agnostic & extensible package publisher'
@@ -32,6 +35,9 @@ class CLI {
   private program: Command
   private logger: Logger
 
+  /**
+   * Initializes a new instance of the CLI class.
+   */
   constructor() {
     this.program = new Command()
     this.program
@@ -46,11 +52,20 @@ class CLI {
     this.logger = new Logger('cli')
   }
 
+  /**
+   * Parses command line arguments into usable options.
+   * @param {string[]} args The array of command line arguments.
+   * @returns {Flags} An object containing the parsed flags.
+   */
   private parseOptions(args: string[]): Flags {
     this.program.parse(args)
     return this.program.opts()
   }
 
+  /**
+   * Logs all enabled flags from the command line options.
+   * @param {Flags} flags The flags parsed from the command line.
+   */
   private logEnabledFlags(flags: Flags) {
     for (const flag of Object.keys(flags)) {
       this.logger.log(`Flag enabled: ${CLI.OPTIONS[flag as keyof Flags]?.arg}`)
@@ -58,7 +73,11 @@ class CLI {
   }
 
   /**
-   * Execute CLI.
+   * Executes CLI.
+   * This method initializes configuration, sets up lifecycle events for plugins,
+   * and executes the CLI lifecycle.
+   * @param {string[]} args The command line arguments to process.
+   * @returns {Promise<void>} A promise that resolves when the CLI has completed execution.
    */
   async run(args: string[]): Promise<void> {
     this.logger.log('Started.')
