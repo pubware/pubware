@@ -17,6 +17,20 @@ describe('Plugin', () => {
     jest.restoreAllMocks()
   })
 
+  test('inits with `false` dry and headless flags', async () => {
+    const plugin = new TestPlugin('test')
+    expect(plugin.flags.dry).toBe(false)
+    expect(plugin.flags.headless).toBe(false)
+  })
+
+  test('sets dry and headless flags', async () => {
+    const plugin = new TestPlugin('test')
+    plugin.flags.dry = true
+    plugin.flags.headless = true
+    expect(plugin.flags.dry).toBe(true)
+    expect(plugin.flags.headless).toBe(true)
+  })
+
   test('logs message', async () => {
     const logSpy = jest
       .spyOn(Logger.prototype, 'log')
