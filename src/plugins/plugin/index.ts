@@ -9,6 +9,18 @@ import { Flags, ExecOptions } from './lib/types.js'
  * Abstract class representing a plugin with various utility methods.
  * Provides functionality for logging, user prompting, file system operations,
  * shell commands, and HTTP requests.
+ *
+ * This class defines a series of lifecycle hooks that can be implemented by subclasses.
+ * These hooks are designed to be called at specific stages of a plugin's lifecycle, providing
+ * customizable behavior at critical points such as initialization, version bumping, and publishing.
+ *
+ * Implementing the following hooks allows for control over the plugin's lifecycle functionality:
+ * - init: Called when the plugin is first initialized.
+ * - preBump: Called before the plugin's version is bumped.
+ * - bump: Called to handle the version bump.
+ * - prePublish: Called before the plugin is published.
+ * - publish: Called to handle the publishing process.
+ * - postPublish: Called after the plugin has been published.
  */
 abstract class Plugin {
   private _name: string
