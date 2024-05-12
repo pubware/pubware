@@ -3,7 +3,17 @@ import util from 'util'
 
 const execPromise = util.promisify(nodeExec)
 
+/**
+ * Class responsible for executing shell commands.
+ */
 class Shell {
+  /**
+   * Executes a shell command with additional arguments.
+   * @param {string} cmd The main command to execute.
+   * @param {...string} args Additional arguments to be passed to the command.
+   * @returns {Promise<void>} A promise that resolves when the command has been executed.
+   * @throws {Error} Throws an error if the command execution fails.
+   */
   async exec(cmd: string, ...args: string[]): Promise<void> {
     try {
       const command = `${cmd} ${args.join(' ')}`.trim()
