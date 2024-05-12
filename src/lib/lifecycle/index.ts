@@ -11,6 +11,9 @@ type Event =
 type Callback<T extends any[], R> = (...args: T) => Promise<R> | R
 type Hooks = Record<Event, Queue<Callback<any[], any>>>
 
+/**
+ * Class responsible for managing and executing lifecycle events.
+ */
 class Lifecycle {
   static EVENTS: Event[] = [
     'init',
@@ -23,6 +26,9 @@ class Lifecycle {
   private hooks: Hooks = {} as Hooks
   private logger: Logger
 
+  /**
+   * Creates an instance of Lifecycle.
+   */
   constructor() {
     Lifecycle.EVENTS.forEach(EVENT => {
       this.hooks[EVENT] = new Queue<Callback<any[], any>>()
@@ -30,11 +36,23 @@ class Lifecycle {
     this.logger = new Logger('lifecycle')
   }
 
+  /**
+   * Registers a callback for a specified event.
+   * @param {Event} event The event to register the callback for.
+   * @param {Callback<T, R>} cb The callback function to be executed when the event is triggered.
+   * @returns {this} The instance of this Lifecycle for chaining.
+   * @template T Array of any type representing the callback parameters.
+   * @template R The return type of the callback, can be a Promise or a value.
+   */
   on<T extends any[], R>(event: Event, cb: Callback<T, R>): this {
     this.hooks[event].insert(cb)
     return this
   }
 
+  /**
+   * Triggers all callbacks associated with a given event.
+   * @param {Event} event The event to trigger.
+   */
   async trigger(event: Event): Promise<void> {
     this.logger.log(`Executing hooks for lifecycle event: ${event}`)
 
@@ -49,6 +67,9 @@ class Lifecycle {
     }
   }
 
+  /**
+   * Sequentially triggers all lifecycle events.
+   */
   async run(): Promise<void> {
     for (const event of Lifecycle.EVENTS) {
       await this.trigger(event)

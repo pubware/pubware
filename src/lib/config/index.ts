@@ -3,8 +3,11 @@ import path from 'node:path'
 import Logger from '../logger/index.js'
 import { Flags } from '../../cli/index.js'
 
-/*
- * Example config:
+/**
+ * Class for dynamic loading and configuration of plugins for the CLI.
+ * Plugins are either internal (bundled with the application) or external (defined by the user).
+ *
+ * Example:
  * {
  *   "packpub": {
  *     "plugins": {
@@ -21,7 +24,6 @@ import { Flags } from '../../cli/index.js'
  *   }
  * }
  */
-
 class Config {
   private static INTERNAL_PLUGINS: Record<string, object> = {
     npm: {},
@@ -30,19 +32,38 @@ class Config {
   private _plugins: any[]
   private logger: Logger
 
+  /**
+   * Creates an instance of Config.
+   */
   constructor() {
     this._plugins = []
     this.logger = new Logger('config')
   }
 
+  /**
+   * Gets the list of all loaded plugins.
+   * @returns {any[]} Array of loaded plugin instances.
+   */
   get plugins(): any[] {
     return this._plugins
   }
 
+  /**
+   * Determines the plugin name from a file path or module name.
+   * If the name starts with '.', it is treated as a path and parsed to extract the name.
+   * @param {string} name The plugin name or path.
+   * @returns {string} The resolved plugin name.
+   */
   private getPluginName(name: string) {
     return name.startsWith('.') ? path.parse(name).name : name
   }
 
+  /**
+   * Parses a JSON string into an object. Throws an error if parsing fails.
+   * @param {string} data The JSON string to parse.
+   * @returns {any} The parsed JSON object.
+   * @throws {Error} If the JSON cannot be parsed.
+   */
   private parseJson(data: string): any {
     try {
       const json = JSON.parse(data)
@@ -52,6 +73,28 @@ class Config {
     }
   }
 
+  /**
+   * Reads and parses the configuration file for the application.
+   * First tries to read 'packpub.json', and if not found, reads 'package.json'.
+   * @returns {Promise<any>} The parsed configuration object.
+   */
+  private async readConfigFile(): Promise<any> {
+    try {
+      const data = await fs.readFile('packpub.json', 'utf-8')
+      return this.parseJson(data)
+    } catch {
+      const data = await fs.readFile('package.json', 'utf-8')
+      return this.parseJson(data)
+    }
+  }
+
+  /**
+   * Dynamically loads a plugin module based on the plugin identifier.
+   * Attempts to load from the node_modules directory first, then falls back to a local directory.
+   * @param {string} plugin The plugin identifier or path.
+   * @returns {Promise<any>} The loaded plugin module.
+   * @throws {Error} If the plugin cannot be loaded from either location.
+   */
   private async load(plugin: string): Promise<any> {
     this.logger.log(`Loading plugin: ${this.getPluginName(plugin)}`)
 
@@ -76,16 +119,12 @@ class Config {
     }
   }
 
-  private async readConfigFile(): Promise<any> {
-    try {
-      const data = await fs.readFile('packpub.json', 'utf-8')
-      return this.parseJson(data)
-    } catch {
-      const data = await fs.readFile('package.json', 'utf-8')
-      return this.parseJson(data)
-    }
-  }
-
+  /**
+   * Initializes plugins based on the application configuration and provided CLI flags.
+   * Loads and configures both internal and external plugins.
+   * @param {Flags} flags The CLI flags that might affect plugin behavior.
+   * @returns {Promise<void>}
+   */
   async init(flags: Flags): Promise<void> {
     const data = await this.readConfigFile()
     const { packpub } = data
