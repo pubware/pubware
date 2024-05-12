@@ -5,6 +5,11 @@ import FileSystem from './core/fs/index.js'
 import HTTP from './core/http/index.js'
 import { Flags, ExecOptions } from './lib/types.js'
 
+/**
+ * Abstract class representing a plugin with various utility methods.
+ * Provides functionality for logging, user prompting, file system operations,
+ * shell commands, and HTTP requests.
+ */
 abstract class Plugin {
   private _name: string
   private _flags: Flags
@@ -14,6 +19,10 @@ abstract class Plugin {
   private fs: FileSystem
   private http: HTTP
 
+  /**
+   * Creates an instance of Plugin.
+   * @param {string} name The name of the plugin.
+   */
   constructor(name: string) {
     this._name = name
     this._flags = {
@@ -27,22 +36,44 @@ abstract class Plugin {
     this.http = new HTTP()
   }
 
+  /**
+   * Gets name of the plugin.
+   * @return {string} The name of the plugin.
+   */
   get name(): string {
     return this._name
   }
 
+  /**
+   * Gets flags of the plugin.
+   * @return {Flags} The flags of the plugin.
+   */
   get flags(): Flags {
     return this._flags
   }
 
+  /**
+   * Sets flags of the plugin.
+   * @param {Flags} flags The new flags for the plugin.
+   */
   set flags(flags: Flags) {
     this._flags = { ...this._flags, ...flags }
   }
 
+  /**
+   * Logs a message.
+   * @param {string} message The message to log.
+   */
   log(message: string) {
     this.logger.log(message)
   }
 
+  /**
+   * Prompts the user with a specified message and returns the input as a string.
+   * @param {string} message The prompt message.
+   * @param {string} [defaultValue=''] The default value returned in headless mode.
+   * @return {Promise<string>} The user input.
+   */
   async prompt(message: string, defaultValue: string = ''): Promise<string> {
     this.logger.info('Prompting user')
 
@@ -58,6 +89,12 @@ abstract class Plugin {
     }
   }
 
+  /**
+   * Prompts the user for a boolean confirmation.
+   * @param {string} message The confirmation message.
+   * @param {boolean} [defaultValue=false] The default value returned in headless mode.
+   * @return {Promise<boolean>} The user's confirmation as true or false.
+   */
   async promptConfirm(
     message: string,
     defaultValue: boolean = false
@@ -76,6 +113,13 @@ abstract class Plugin {
     }
   }
 
+  /**
+   * Prompts the user to select from a list of choices.
+   * @param {string} message The message to display.
+   * @param {Choices} choices The choices for selection.
+   * @param {string} [defaultValue=''] The default value returned in headless mode.
+   * @return {Promise<string>} The user-selected option.
+   */
   async promptSelect(
     message: string,
     choices: Choices,
@@ -95,6 +139,11 @@ abstract class Plugin {
     }
   }
 
+  /**
+   * Reads the contents of a file.
+   * @param {string} path The path to the file.
+   * @return {Promise<string>} The contents of the file.
+   */
   async read(path: string): Promise<string> {
     this.logger.info(`Reading file: ${path}`)
 
@@ -106,6 +155,12 @@ abstract class Plugin {
     }
   }
 
+  /**
+   * Writes data to a file.
+   * @param {string} path The file path where data will be written.
+   * @param {string} data The data to write.
+   * @return {Promise<void>} A promise that resolves when the write is complete.
+   */
   async write(path: string, data: string): Promise<void> {
     this.logger.info(`Writing to file: ${path}`)
 
@@ -122,6 +177,12 @@ abstract class Plugin {
     }
   }
 
+  /**
+   * Executes a shell command.
+   * @param {string} cmd The command to execute.
+   * @param {ExecOptions} [options={ write: true }] Execution options.
+   * @return {Promise<void>} A promise that resolves when the command has been executed.
+   */
   async exec(
     cmd: string,
     options: ExecOptions = { write: true }
@@ -141,6 +202,13 @@ abstract class Plugin {
     }
   }
 
+  /**
+   * Fetches a resource from a URL.
+   * @param {string} url The URL of the resource to fetch.
+   * @param {RequestInit} [options={}] Options for the HTTP request.
+   * @return {Promise<T>} A promise that resolves with the fetched resource.
+   * @template T The expected type of the fetched resource.
+   */
   async fetch<T>(url: string, options: RequestInit = {}): Promise<T> {
     this.logger.info(`Fetching resource: ${url}`)
 
@@ -152,6 +220,7 @@ abstract class Plugin {
     }
   }
 
+  // Lifecycle hooks
   init?(): void
   preBump?(): void
   bump?(): void
