@@ -13,7 +13,7 @@ interface Config {
 }
 
 interface Options {
-  config?: Config
+  config?: Partial<Config>
 }
 
 class NPM extends Plugin {

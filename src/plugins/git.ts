@@ -10,7 +10,7 @@ interface Config {
 }
 
 interface Options {
-  config?: Config
+  config?: Partial<Config>
 }
 
 class Git extends Plugin {
