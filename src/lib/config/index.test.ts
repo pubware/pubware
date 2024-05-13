@@ -20,8 +20,8 @@ describe('Config', () => {
     await config.init({})
 
     expect(config.plugins.length).toBe(2)
-    expect(config.plugins[0].constructor.name).toBe('NPM')
-    expect(config.plugins[1].constructor.name).toBe('Git')
+    expect(config.plugins[0].name).toBe('npm')
+    expect(config.plugins[1].name).toBe('git')
   })
 
   test('disables internal npm plugin', async () => {
@@ -42,7 +42,7 @@ describe('Config', () => {
     await config.init({})
 
     expect(config.plugins.length).toBe(1)
-    expect(config.plugins[0].constructor.name).toBe('Git')
+    expect(config.plugins[0].name).toBe('git')
   })
 
   test('disables internal git plugin', async () => {
@@ -63,7 +63,7 @@ describe('Config', () => {
     await config.init({})
 
     expect(config.plugins.length).toBe(1)
-    expect(config.plugins[0].constructor.name).toBe('NPM')
+    expect(config.plugins[0].name).toBe('npm')
   })
 
   test('disables both internal plugins', async () => {
@@ -110,8 +110,8 @@ describe('Config', () => {
     await config.init({})
 
     expect(config.plugins.length).toBe(2)
-    expect(config.plugins[0].constructor.name).toBe('Git')
-    expect(config.plugins[1].constructor.name).toBe('NPM')
+    expect(config.plugins[0].name).toBe('git')
+    expect(config.plugins[1].name).toBe('npm')
   })
 
   test('maps CLI flags to plugins', async () => {
