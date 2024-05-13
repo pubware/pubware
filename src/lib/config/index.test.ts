@@ -88,4 +88,41 @@ describe('Config', () => {
 
     expect(config.plugins.length).toBe(0)
   })
+
+  test('loads external plugin', async () => {
+    jest.mocked(fs.readFile).mockResolvedValue(
+      JSON.stringify({
+        packpub: {
+          plugins: {
+            internal: {
+              npm: {
+                disabled: true
+              }
+            },
+            external: {
+              npm: {}
+            }
+          }
+        }
+      })
+    )
+    const config = new Config()
+    await config.init({})
+
+    expect(config.plugins.length).toBe(2)
+    expect(config.plugins[0].constructor.name).toBe('Git')
+    expect(config.plugins[1].constructor.name).toBe('NPM')
+  })
+
+  test('maps CLI flags to plugins', async () => {
+    jest.mocked(fs.readFile).mockResolvedValue(JSON.stringify({}))
+    const config = new Config()
+    await config.init({ dryRun: true, headless: true })
+
+    for (const plugin of config.plugins) {
+      for (const flag of Object.values(plugin.flags)) {
+        expect(flag).toBe(true)
+      }
+    }
+  })
 })
