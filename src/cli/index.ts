@@ -36,7 +36,7 @@ class CLI {
   private logger: Logger
 
   /**
-   * Initializes a new instance of the CLI class.
+   * Creates an instance of CLI.
    */
   constructor() {
     this.program = new Command()
@@ -53,7 +53,7 @@ class CLI {
   }
 
   /**
-   * Parses command line arguments into usable options.
+   * Parses command line arguments.
    * @param {string[]} args The array of command line arguments.
    * @returns {Flags} An object containing the parsed flags.
    */
@@ -73,9 +73,7 @@ class CLI {
   }
 
   /**
-   * Executes CLI.
-   * This method initializes configuration, sets up lifecycle events for plugins,
-   * and executes the CLI lifecycle.
+   * Initializes configuration, sets up lifecycle events for plugins, and executes the lifecycle.
    * @param {string[]} args The command line arguments to process.
    * @returns {Promise<void>} A promise that resolves when the CLI has completed execution.
    */

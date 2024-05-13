@@ -12,7 +12,7 @@ type Callback<T extends any[], R> = (...args: T) => Promise<R> | R
 type Hooks = Record<Event, Queue<Callback<any[], any>>>
 
 /**
- * Class responsible for managing and executing lifecycle events.
+ * Class responsible for managing and executing hookable lifecycle events.
  */
 class Lifecycle {
   static EVENTS: Event[] = [

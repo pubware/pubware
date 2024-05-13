@@ -4,7 +4,7 @@ import Logger from '../logger/index.js'
 import { Flags } from '../../cli/index.js'
 
 /**
- * Class for dynamic loading and configuration of plugins for the CLI.
+ * Class for configuration and dynamic loading of plugins for the CLI.
  * Plugins are either internal (bundled with the application) or external (defined by the user).
  *
  * Example:

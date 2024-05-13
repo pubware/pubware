@@ -15,8 +15,8 @@ class Logger {
   }
 
   /**
-   * Generates a formatted log prefix based on the plugin context and optional log type.
-   * @param {PluginContext} [type] The type of log message (info, warn, error).
+   * Generates a formatted log prefix based on the plugin context and log type.
+   * @param {PluginContext} [type] The type of log message.
    * @returns {string} The formatted log prefix.
    */
   private pluginContext(type?: PluginContext): string {
@@ -34,7 +34,7 @@ class Logger {
   }
 
   /**
-   * Logs a generic message with the default log context.
+   * Logs a generic message.
    * @param {string} message The message to log.
    */
   log(message: string) {

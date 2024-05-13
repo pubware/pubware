@@ -1,5 +1,5 @@
 /**
- * Class for logging plugin messages.
+ * Class for logging messages.
  */
 class Logger {
   private context: string
