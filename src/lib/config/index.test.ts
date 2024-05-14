@@ -17,7 +17,7 @@ describe('Config', () => {
   test('loads npm and git plugins', async () => {
     jest.mocked(fs.readFile).mockResolvedValue(JSON.stringify({}))
     const config = new Config()
-    await config.init({})
+    await config.init({ dryRun: false, headless: false })
 
     expect(config.plugins.length).toBe(2)
     expect(config.plugins[0].name).toBe('npm')
@@ -39,7 +39,7 @@ describe('Config', () => {
       })
     )
     const config = new Config()
-    await config.init({})
+    await config.init({ dryRun: false, headless: false })
 
     expect(config.plugins.length).toBe(1)
     expect(config.plugins[0].name).toBe('git')
@@ -60,7 +60,7 @@ describe('Config', () => {
       })
     )
     const config = new Config()
-    await config.init({})
+    await config.init({ dryRun: false, headless: false })
 
     expect(config.plugins.length).toBe(1)
     expect(config.plugins[0].name).toBe('npm')
@@ -84,7 +84,7 @@ describe('Config', () => {
       })
     )
     const config = new Config()
-    await config.init({})
+    await config.init({ dryRun: false, headless: false })
 
     expect(config.plugins.length).toBe(0)
   })
@@ -107,14 +107,14 @@ describe('Config', () => {
       })
     )
     const config = new Config()
-    await config.init({})
+    await config.init({ dryRun: false, headless: false })
 
     expect(config.plugins.length).toBe(2)
     expect(config.plugins[0].name).toBe('git')
     expect(config.plugins[1].name).toBe('npm')
   })
 
-  test('maps CLI flags to plugins', async () => {
+  test('maps flags to plugins', async () => {
     jest.mocked(fs.readFile).mockResolvedValue(JSON.stringify({}))
     const config = new Config()
     await config.init({ dryRun: true, headless: true })

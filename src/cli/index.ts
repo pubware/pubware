@@ -2,16 +2,13 @@ import { Command } from 'commander'
 import Logger from '../lib/logger/index.js'
 import Config from '../lib/config/index.js'
 import Lifecycle from '../lib/lifecycle/index.js'
-
-export interface Flags {
-  dryRun?: boolean
-  headless?: boolean
-}
+import { Flags } from '../lib/types.js'
 
 type Options = {
   [key in keyof Flags]: {
     arg: string
     description: string
+    default: string | boolean
   }
 }
 
@@ -25,11 +22,13 @@ class CLI {
   private static OPTIONS: Options = {
     dryRun: {
       arg: '--dry-run',
-      description: 'Report on what changes would have happened'
+      description: 'Report on what changes would have happened',
+      default: false
     },
     headless: {
       arg: '--headless',
-      description: 'Run without an interface'
+      description: 'Run without an interface',
+      default: false
     }
   }
   private program: Command
@@ -46,7 +45,7 @@ class CLI {
       .version(CLI.VERSION)
 
     for (const option of Object.values(CLI.OPTIONS)) {
-      this.program.option(option.arg, option.description)
+      this.program.option(option.arg, option.description, option.default)
     }
 
     this.logger = new Logger('cli')

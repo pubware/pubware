@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import Logger from '../logger/index.js'
-import { Flags } from '../../cli/index.js'
+import { Flags } from '../types.js'
 
 /**
  * Class for configuration and dynamic loading of plugins for the CLI.
@@ -126,6 +126,7 @@ class Config {
    * @returns {Promise<void>}
    */
   async init(flags: Flags): Promise<void> {
+    const { dryRun, headless } = flags
     const data = await this.readConfigFile()
     const { packpub } = data
 
@@ -161,7 +162,7 @@ class Config {
       const plugin = new Plugin({ config })
 
       // Map CLI flags to plugin
-      plugin.flags = { dry: flags.dryRun, headless: flags.headless }
+      plugin.flags = { dry: dryRun, headless }
 
       this._plugins.push(plugin)
     }
