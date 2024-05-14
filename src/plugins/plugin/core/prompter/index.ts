@@ -13,7 +13,7 @@ export type Choices = (Choice | Separator)[]
  */
 class Prompter {
   /**
-   * Prompts the user for input with a specific message.
+   * Prompts the user for generic input.
    * @param {string} message The message to display to the user.
    * @returns {Promise<string>} A promise that resolves to the user's input.
    * @throws {Error} Throws an error if the input prompt fails.

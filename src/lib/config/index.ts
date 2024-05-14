@@ -4,7 +4,7 @@ import Logger from '../logger/index.js'
 import { Flags } from '../types.js'
 
 /**
- * Class for configuration and dynamic loading of plugins for the CLI.
+ * Class for configuration and dynamic loading of plugins.
  * Plugins are either internal (bundled with the application) or external (defined by the user).
  *
  * Example:
@@ -59,7 +59,7 @@ class Config {
   }
 
   /**
-   * Parses a JSON string into an object. Throws an error if parsing fails.
+   * Parses a JSON string into an object.
    * @param {string} data The JSON string to parse.
    * @returns {any} The parsed JSON object.
    * @throws {Error} If the JSON cannot be parsed.
@@ -74,8 +74,8 @@ class Config {
   }
 
   /**
-   * Reads and parses the configuration file for the application.
-   * First tries to read 'packpub.json', and if not found, reads 'package.json'.
+   * Reads and parses the configuration file.
+   * Supports configuration with either 'packpub.json' or within 'package.json'.
    * @returns {Promise<any>} The parsed configuration object.
    */
   private async readConfigFile(): Promise<any> {
@@ -120,9 +120,8 @@ class Config {
   }
 
   /**
-   * Initializes plugins based on the application configuration and provided CLI flags.
-   * Loads and configures both internal and external plugins.
-   * @param {Flags} flags The CLI flags that might affect plugin behavior.
+   * Initializes and loads plugins based on the application configuration.
+   * @param {Flags} flags The CLI flags.
    * @returns {Promise<void>}
    */
   async init(flags: Flags): Promise<void> {

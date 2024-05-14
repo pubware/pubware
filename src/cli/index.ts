@@ -53,17 +53,17 @@ class CLI {
 
   /**
    * Parses command line arguments.
-   * @param {string[]} args The array of command line arguments.
-   * @returns {Flags} An object containing the parsed flags.
+   * @param {string[]} args The command line arguments.
+   * @returns {Flags} The parsed flags.
    */
-  private parseOptions(args: string[]): Flags {
+  private parseArgs(args: string[]): Flags {
     this.program.parse(args)
     return this.program.opts()
   }
 
   /**
-   * Logs all enabled flags from the command line options.
-   * @param {Flags} flags The flags parsed from the command line.
+   * Logs all enabled flags.
+   * @param {Flags} flags The parsed flags.
    */
   private logEnabledFlags(flags: Flags) {
     for (const flag of Object.keys(flags)) {
@@ -73,13 +73,13 @@ class CLI {
 
   /**
    * Initializes configuration, sets up lifecycle events for plugins, and executes the lifecycle.
-   * @param {string[]} args The command line arguments to process.
+   * @param {string[]} args The command line arguments.
    * @returns {Promise<void>} A promise that resolves when the CLI has completed execution.
    */
   async run(args: string[]): Promise<void> {
     this.logger.log('Started.')
 
-    const flags = this.parseOptions(args)
+    const flags = this.parseArgs(args)
 
     this.logEnabledFlags(flags)
 

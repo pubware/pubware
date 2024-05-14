@@ -12,7 +12,7 @@ type Callback<T extends any[], R> = (...args: T) => Promise<R> | R
 type Hooks = Record<Event, Queue<Callback<any[], any>>>
 
 /**
- * Class responsible for managing and executing hookable lifecycle events.
+ * Class responsible for managing and executing lifecycle events.
  */
 class Lifecycle {
   static EVENTS: Event[] = [
@@ -38,11 +38,11 @@ class Lifecycle {
 
   /**
    * Registers a callback for a specified event.
-   * @param {Event} event The event to register the callback for.
+   * @param {Event} event The event to register the callback.
    * @param {Callback<T, R>} cb The callback function to be executed when the event is triggered.
-   * @returns {this} The instance of this Lifecycle for chaining.
+   * @returns {this} The instance for chaining.
    * @template T Array of any type representing the callback parameters.
-   * @template R The return type of the callback, can be a Promise or a value.
+   * @template R The return type of the callback.
    */
   on<T extends any[], R>(event: Event, cb: Callback<T, R>): this {
     this.hooks[event].insert(cb)

@@ -13,7 +13,7 @@ class Queue<T> {
   }
 
   /**
-   * Get the number of items in the queue.
+   * Gets the number of items in the queue.
    * @returns {number} The number of items in the queue.
    */
   get size(): number {

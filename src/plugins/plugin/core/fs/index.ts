@@ -13,9 +13,9 @@ const optsDefault: Options = {
  */
 class FileSystem {
   /**
-   * Reads the content of a file at a specified path.
+   * Reads the content of a file.
    * @param {string} path The path to the file.
-   * @param {Options} [opts=optsDefault] The options for reading the file, including encoding.
+   * @param {Options} [opts=optsDefault] The options for reading the file.
    * @returns {Promise<string>} A promise that resolves with the content of the file.
    * @throws {Error} Throws an error if the file cannot be read.
    */
@@ -28,10 +28,10 @@ class FileSystem {
   }
 
   /**
-   * Writes content to a file at a specified path.
+   * Writes content to a file.
    * @param {string} path The path to the file.
    * @param {string} content The content to write to the file.
-   * @param {Options} [opts=optsDefault] The options for writing to the file, including encoding.
+   * @param {Options} [opts=optsDefault] The options for writing to the file.
    * @returns {Promise<void>} A promise that resolves when the file has been successfully written.
    * @throws {Error} Throws an error if the file cannot be written.
    */
