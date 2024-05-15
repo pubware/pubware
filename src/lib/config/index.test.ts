@@ -114,6 +114,26 @@ describe('Config', () => {
     expect(config.plugins[1].name).toBe('npm')
   })
 
+  test('maps configs to plugins', async () => {
+    jest.mocked(fs.readFile).mockResolvedValue(
+      JSON.stringify({
+        packpub: {
+          plugins: {
+            internal: {
+              npm: {
+                preReleaseId: 'alpha'
+              }
+            }
+          }
+        }
+      })
+    )
+    const config = new Config()
+    await config.init({ dryRun: false, headless: false })
+
+    expect(config.plugins[0].config.preReleaseId).toBe('alpha')
+  })
+
   test('maps flags to plugins', async () => {
     jest.mocked(fs.readFile).mockResolvedValue(JSON.stringify({}))
     const config = new Config()
