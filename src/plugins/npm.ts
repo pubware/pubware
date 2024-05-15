@@ -15,23 +15,16 @@ interface Config {
 class NPM extends Plugin {
   private config: Config
 
-  constructor({
-    tagCommit,
-    preReleaseId,
-    buildCmd,
-    versionArgs,
-    publishArgs,
-    defaults
-  }: Partial<Config>) {
+  constructor(config: Partial<Config>) {
     super('npm')
     this.config = {
-      tagCommit: tagCommit ?? false,
-      preReleaseId: preReleaseId ?? '',
-      buildCmd: buildCmd ?? 'npm run build',
-      versionArgs: versionArgs ?? '',
-      publishArgs: publishArgs ?? '',
+      tagCommit: config.tagCommit ?? false,
+      preReleaseId: config.preReleaseId ?? '',
+      buildCmd: config.buildCmd ?? 'npm run build',
+      versionArgs: config.versionArgs ?? '',
+      publishArgs: config.publishArgs ?? '',
       defaults: {
-        choice: defaults?.choice ?? ''
+        choice: config.defaults?.choice ?? ''
       }
     }
   }
