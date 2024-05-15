@@ -12,7 +12,6 @@ describe('Git', () => {
     jest
       .spyOn(git, 'read')
       .mockResolvedValue(JSON.stringify({ version: '4.4.4' }))
-    jest.spyOn(git, 'log').mockImplementation(() => {})
     const execSpy = jest.spyOn(git, 'exec').mockResolvedValue()
     await git.postPublish()
 
@@ -20,5 +19,32 @@ describe('Git', () => {
     expect(execSpy).toHaveBeenCalledWith('git push origin')
     expect(execSpy).toHaveBeenCalledWith("git tag '-a' v4.4.4 '-m' v4.4.4")
     expect(execSpy).toHaveBeenCalledWith('git push origin v4.4.4')
+  })
+
+  test('supports prompt for commit message', async () => {
+    const git = new Git({
+      commitVersion: false
+    })
+    jest.spyOn(git, 'promptConfirm').mockResolvedValue(true)
+    jest.spyOn(git, 'prompt').mockResolvedValue('A commit message')
+    const execSpy = jest.spyOn(git, 'exec').mockResolvedValue()
+    await git.postPublish()
+
+    expect(execSpy).toHaveBeenCalledWith('git commit -m "A commit message"')
+  })
+
+  test('supports custom remote branch', async () => {
+    const git = new Git({
+      remote: 'custom'
+    })
+    jest.spyOn(git, 'promptConfirm').mockResolvedValue(true)
+    jest
+      .spyOn(git, 'read')
+      .mockResolvedValue(JSON.stringify({ version: '5.5.5' }))
+    const execSpy = jest.spyOn(git, 'exec').mockResolvedValue()
+    await git.postPublish()
+
+    expect(execSpy).toHaveBeenCalledWith('git commit -m "5.5.5"')
+    expect(execSpy).toHaveBeenCalledWith('git push custom')
   })
 })

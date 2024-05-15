@@ -2,7 +2,6 @@ import Plugin from './plugin/index.js'
 
 interface Config {
   commitVersion: boolean
-  tagVersion: boolean
   remote: string
   defaults: {
     message: string
@@ -16,7 +15,6 @@ class Git extends Plugin {
     super('git')
     this.config = {
       commitVersion: config.commitVersion ?? true,
-      tagVersion: config.tagVersion ?? true,
       remote: config.remote ?? 'origin',
       defaults: {
         message: config.defaults?.message ?? ''
@@ -109,7 +107,7 @@ class Git extends Plugin {
     await this.commit()
     await this.push(this.config.remote)
 
-    if (this.config.tagVersion) {
+    if (this.config.commitVersion) {
       const tag = await this.tag()
       await this.push(this.config.remote, tag)
     }
