@@ -142,8 +142,11 @@ class Git extends Plugin {
     }
   }
 
-  // Lifecycle hooks
-
+  /**
+   * Lifecycle post-publish hook.
+   * Commit changes and push to the remote repository.
+   * @returns {Promise<void>}
+   */
   async postPublish(): Promise<void> {
     await this.commit()
     await this.push(this.config.remote)

@@ -141,13 +141,21 @@ class NPM extends Plugin {
     return choice
   }
 
-  // Lifecycle hooks
-
+  /**
+   * Lifecycle pre-bump hook.
+   * Build the package and log the version.
+   * @returns {Promise<void>}
+   */
   async preBump(): Promise<void> {
     await this.build()
     await this.logVersion()
   }
 
+  /**
+   * Lifecycle bump hook.
+   * Bump the package version.
+   * @returns {Promise<void>}
+   */
   async bump(): Promise<void> {
     const version = await this.promptBump()
     const { versionArgs, tagCommit } = this.config
@@ -158,10 +166,20 @@ class NPM extends Plugin {
     )
   }
 
+  /**
+   * Lifecycle pre-publish hook.
+   * Log package version.
+   * @returns {Promise<void>}
+   */
   async prePublish(): Promise<void> {
     await this.logVersion()
   }
 
+  /**
+   * Lifecycle publish hook.
+   * Publish the package.
+   * @returns {Promise<void>}
+   */
   async publish(): Promise<void> {
     await this.exec(`npm publish ${this.config.publishArgs}`)
   }
