@@ -3,7 +3,7 @@
  */
 class HTTP {
   /**
-   * Fetches data from a URL and returns the data as a JSON object.
+   * Fetch data from a URL and returns the data as a JSON object.
    * @template T The type of the data expected to be returned from the fetch call.
    * @param {string} url The URL to fetch data from.
    * @param {RequestInit} [options] The options for the fetch request, such as headers, method, etc.

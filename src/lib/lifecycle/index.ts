@@ -27,7 +27,7 @@ class Lifecycle {
   private logger: Logger
 
   /**
-   * Creates an instance of Lifecycle.
+   * Create an instance of Lifecycle.
    */
   constructor() {
     Lifecycle.EVENTS.forEach(EVENT => {
@@ -37,7 +37,7 @@ class Lifecycle {
   }
 
   /**
-   * Registers a callback for a specified event.
+   * Register a callback for a specified event.
    * @param {Event} event The event to register the callback.
    * @param {Callback<T, R>} cb The callback function to be executed when the event is triggered.
    * @returns {this} The instance for chaining.
@@ -50,7 +50,7 @@ class Lifecycle {
   }
 
   /**
-   * Triggers all callbacks associated with a given event.
+   * Trigger all callbacks associated with a given event.
    * @param {Event} event The event to trigger.
    */
   async trigger(event: Event): Promise<void> {
@@ -68,7 +68,7 @@ class Lifecycle {
   }
 
   /**
-   * Sequentially triggers all lifecycle events.
+   * Sequentially trigger all lifecycle events.
    */
   async run(): Promise<void> {
     for (const event of Lifecycle.EVENTS) {

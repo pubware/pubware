@@ -12,15 +12,15 @@ import { Flags, ExecOptions } from './lib/types.js'
  *
  * This class defines a series of lifecycle hooks that can be implemented by subclasses.
  * These hooks are designed to be called at specific stages of a plugin's lifecycle, providing
- * customizable behavior at critical points such as initialization, version bumping, and publishing.
+ * customizable behavior at critical events such as initialization, bumping, and publishing.
  *
- * Implementing the following hooks allows for control over the plugin's lifecycle functionality:
- * - init: Called when the plugin is first initialized.
- * - preBump: Called before the plugin's version is bumped.
+ * Implementing the following hooks allows for control over the plugin's lifecycle:
+ * - init: Called when the plugin is initialized.
+ * - preBump: Called before the version is bumped.
  * - bump: Called to handle the version bump.
- * - prePublish: Called before the plugin is published.
+ * - prePublish: Called before the package is published.
  * - publish: Called to handle the publishing process.
- * - postPublish: Called after the plugin has been published.
+ * - postPublish: Called after the package has been published.
  */
 abstract class Plugin {
   private _name: string
@@ -32,7 +32,7 @@ abstract class Plugin {
   private http: HTTP
 
   /**
-   * Creates an instance of Plugin.
+   * Create an instance of Plugin.
    * @param {string} name The name of the plugin.
    */
   constructor(name: string) {
@@ -49,23 +49,23 @@ abstract class Plugin {
   }
 
   /**
-   * Gets name of the plugin.
-   * @return {string} The name of the plugin.
+   * Get name of the plugin.
+   * @returns {string} The name of the plugin.
    */
   get name(): string {
     return this._name
   }
 
   /**
-   * Gets flags of the plugin.
-   * @return {Flags} The flags of the plugin.
+   * Get flags of the plugin.
+   * @returns {Flags} The flags of the plugin.
    */
   get flags(): Flags {
     return this._flags
   }
 
   /**
-   * Sets flags of the plugin.
+   * Set flags of the plugin.
    * @param {Flags} flags The new flags for the plugin.
    */
   set flags(flags: Flags) {
@@ -73,7 +73,7 @@ abstract class Plugin {
   }
 
   /**
-   * Logs a message.
+   * Log a message.
    * @param {string} message The message to log.
    */
   log(message: string) {
@@ -81,10 +81,11 @@ abstract class Plugin {
   }
 
   /**
-   * Prompts the user with a specified message and returns the input as a string.
+   * Prompt the user for generic input.
    * @param {string} message The prompt message.
    * @param {string} [defaultValue=''] The default value returned in headless mode.
-   * @return {Promise<string>} The user input.
+   * @returns {Promise<string>} The input.
+   * @throws {Error} Throws an error if prompt fails.
    */
   async prompt(message: string, defaultValue: string = ''): Promise<string> {
     this.logger.info('Prompting user')
@@ -102,10 +103,11 @@ abstract class Plugin {
   }
 
   /**
-   * Prompts the user for a boolean confirmation.
+   * Prompt the user for a boolean confirmation.
    * @param {string} message The confirmation message.
    * @param {boolean} [defaultValue=false] The default value returned in headless mode.
-   * @return {Promise<boolean>} The user's confirmation as true or false.
+   * @returns {Promise<boolean>} The confirmation as true or false.
+   * @throws {Error} Throws an error if prompt fails.
    */
   async promptConfirm(
     message: string,
@@ -126,11 +128,12 @@ abstract class Plugin {
   }
 
   /**
-   * Prompts the user to select from a list of choices.
+   * Prompt the user to select from a list of choices.
    * @param {string} message The message to display.
    * @param {Choices} choices The choices for selection.
-   * @param {string} [defaultValue=''] The default value returned in headless mode.
-   * @return {Promise<string>} The user-selected option.
+   * @param {string} [defaultValue=''] The default value.
+   * @returns {Promise<string>} The selected option.
+   * @throws {Error} Throws an error if prompt fails.
    */
   async promptSelect(
     message: string,
@@ -152,9 +155,10 @@ abstract class Plugin {
   }
 
   /**
-   * Reads the contents of a file.
+   * Read the content of a file.
    * @param {string} path The path to the file.
-   * @return {Promise<string>} The contents of the file.
+   * @returns {Promise<string>} The content of the file.
+   * @throws {Error} Throws an error if read fails.
    */
   async read(path: string): Promise<string> {
     this.logger.info(`Reading file: ${path}`)
@@ -168,12 +172,13 @@ abstract class Plugin {
   }
 
   /**
-   * Writes data to a file.
+   * Write content to a file.
    * @param {string} path The file path where data will be written.
-   * @param {string} data The data to write.
-   * @return {Promise<void>} A promise that resolves when the write is complete.
+   * @param {string} content The content to write.
+   * @returns {Promise<void>} A promise that resolves when the write is complete.
+   * @throws {Error} Throws an error if write fails.
    */
-  async write(path: string, data: string): Promise<void> {
+  async write(path: string, content: string): Promise<void> {
     this.logger.info(`Writing to file: ${path}`)
 
     if (this.flags.dry) {
@@ -182,7 +187,7 @@ abstract class Plugin {
     }
 
     try {
-      await this.fs.write(path, data)
+      await this.fs.write(path, content)
     } catch (err) {
       this.logger.error('Failed to write to file')
       throw err
@@ -190,10 +195,11 @@ abstract class Plugin {
   }
 
   /**
-   * Executes a shell command.
+   * Execute a shell command.
    * @param {string} cmd The command to execute.
    * @param {ExecOptions} [options={ write: true }] Execution options.
-   * @return {Promise<void>} A promise that resolves when the command has been executed.
+   * @returns {Promise<void>} A promise that resolves when the command has been executed.
+   * @throws {Error} Throws an error if execution fails.
    */
   async exec(
     cmd: string,
@@ -215,11 +221,12 @@ abstract class Plugin {
   }
 
   /**
-   * Fetches a resource from a URL.
+   * Fetch a resource.
    * @param {string} url The URL of the resource to fetch.
    * @param {RequestInit} [options={}] Options for the HTTP request.
-   * @return {Promise<T>} A promise that resolves with the fetched resource.
+   * @returns {Promise<T>} A promise that resolves with the fetched resource.
    * @template T The expected type of the fetched resource.
+   * @throws {Error} Throws an error if fetch fails.
    */
   async fetch<T>(url: string, options: RequestInit = {}): Promise<T> {
     this.logger.info(`Fetching resource: ${url}`)

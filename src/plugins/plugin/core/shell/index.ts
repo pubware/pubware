@@ -8,7 +8,7 @@ const execPromise = util.promisify(nodeExec)
  */
 class Shell {
   /**
-   * Executes a shell command.
+   * Execute a shell command.
    * @param {string} cmd The main command to execute.
    * @param {...string} args Additional arguments to be passed to the command.
    * @returns {Promise<void>} A promise that resolves when the command has been executed.

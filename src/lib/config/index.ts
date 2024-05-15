@@ -33,7 +33,7 @@ class Config {
   private logger: Logger
 
   /**
-   * Creates an instance of Config.
+   * Create an instance of Config.
    */
   constructor() {
     this._plugins = []
@@ -41,7 +41,7 @@ class Config {
   }
 
   /**
-   * Gets the list of all loaded plugins.
+   * Get the list of all loaded plugins.
    * @returns {any[]} Array of loaded plugin instances.
    */
   get plugins(): any[] {
@@ -49,7 +49,7 @@ class Config {
   }
 
   /**
-   * Determines the plugin name from a file path or module name.
+   * Determine if the plugin name is from a file path or module name.
    * If the name starts with '.', it is treated as a path and parsed to extract the name.
    * @param {string} name The plugin name or path.
    * @returns {string} The resolved plugin name.
@@ -59,7 +59,7 @@ class Config {
   }
 
   /**
-   * Parses a JSON string into an object.
+   * Parse a JSON string into an object.
    * @param {string} data The JSON string to parse.
    * @returns {any} The parsed JSON object.
    * @throws {Error} If the JSON cannot be parsed.
@@ -74,7 +74,7 @@ class Config {
   }
 
   /**
-   * Reads and parses the configuration file.
+   * Read and parse the application's configuration file.
    * Supports configuration with either 'packpub.json' or within 'package.json'.
    * @returns {Promise<any>} The parsed configuration object.
    */
@@ -89,7 +89,7 @@ class Config {
   }
 
   /**
-   * Dynamically loads a plugin module based on the plugin identifier.
+   * Dynamically load a plugin module based on the plugin identifier.
    * Attempts to load from the node_modules directory first, then falls back to a local directory.
    * @param {string} plugin The plugin identifier or path.
    * @returns {Promise<any>} The loaded plugin module.
@@ -120,7 +120,7 @@ class Config {
   }
 
   /**
-   * Initializes and loads plugins based on the application configuration.
+   * Initialize and load plugins based on the application's configuration.
    * @param {Flags} flags The CLI flags.
    * @returns {Promise<void>}
    */

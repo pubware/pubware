@@ -5,7 +5,7 @@ class Logger {
   private context: string
 
   /**
-   * Creates an instance of Logger.
+   * Create an instance of Logger.
    * @param {string} context The context of the logger.
    */
   constructor(context: string) {
@@ -13,7 +13,7 @@ class Logger {
   }
 
   /**
-   * Logs a message with the context.
+   * Log a message with context.
    * @param {string} message The message to log.
    */
   log(message: string) {

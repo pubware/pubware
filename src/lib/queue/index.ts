@@ -6,14 +6,14 @@ class Queue<T> {
   private items: T[]
 
   /**
-   * Creates an instance of Queue.
+   * Create an instance of Queue.
    */
   constructor() {
     this.items = []
   }
 
   /**
-   * Gets the number of items in the queue.
+   * Get the number of items in the queue.
    * @returns {number} The number of items in the queue.
    */
   get size(): number {
@@ -29,16 +29,16 @@ class Queue<T> {
   }
 
   /**
-   * Inserts a new item at the end of the queue.
-   * @param {T} item The item to be inserted.
+   * Insert a new item into the queue.
+   * @param {T} item The item to be inserted into the queue.
    */
   insert(item: T) {
     this.items.push(item)
   }
 
   /**
-   * Removes the item at the front of the queue and returns it.
-   * @returns {T} The item removed from the front of the queue.
+   * Remove and return the item from the queue.
+   * @returns {T} The item removed from the queue.
    * @throws {Error} If the queue is empty.
    */
   remove(): T {
@@ -50,7 +50,7 @@ class Queue<T> {
   }
 
   /**
-   * Peeks at the front item of the queue without removing it.
+   * Peek into the front of the queue.
    * @returns {T} The item at the front of the queue.
    * @throws {Error} If the queue is empty.
    */
