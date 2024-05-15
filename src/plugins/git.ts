@@ -9,21 +9,22 @@ interface Config {
   }
 }
 
-interface Options {
-  config?: Partial<Config>
-}
-
 class Git extends Plugin {
   private config: Config
 
-  constructor({ config }: Options) {
+  constructor({
+    commitVersion,
+    tagVersion,
+    remote,
+    defaults
+  }: Partial<Config>) {
     super('git')
     this.config = {
-      commitVersion: config?.commitVersion ?? true,
-      tagVersion: config?.tagVersion ?? true,
-      remote: config?.remote ?? 'origin',
+      commitVersion: commitVersion ?? true,
+      tagVersion: tagVersion ?? true,
+      remote: remote ?? 'origin',
       defaults: {
-        message: config?.defaults?.message ?? ''
+        message: defaults?.message ?? ''
       }
     }
   }

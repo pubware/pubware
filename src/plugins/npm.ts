@@ -12,23 +12,26 @@ interface Config {
   }
 }
 
-interface Options {
-  config?: Partial<Config>
-}
-
 class NPM extends Plugin {
   private config: Config
 
-  constructor({ config }: Options) {
+  constructor({
+    tagCommit,
+    preReleaseId,
+    buildCmd,
+    versionArgs,
+    publishArgs,
+    defaults
+  }: Partial<Config>) {
     super('npm')
     this.config = {
-      tagCommit: config?.tagCommit ?? false,
-      preReleaseId: config?.preReleaseId ?? '',
-      buildCmd: config?.buildCmd ?? 'npm run build',
-      versionArgs: config?.versionArgs ?? '',
-      publishArgs: config?.publishArgs ?? '',
+      tagCommit: tagCommit ?? false,
+      preReleaseId: preReleaseId ?? '',
+      buildCmd: buildCmd ?? 'npm run build',
+      versionArgs: versionArgs ?? '',
+      publishArgs: publishArgs ?? '',
       defaults: {
-        choice: config?.defaults?.choice ?? ''
+        choice: defaults?.choice ?? ''
       }
     }
   }

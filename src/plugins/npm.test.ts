@@ -21,9 +21,7 @@ describe('NPM', () => {
 
   test('supports custom build cmd', async () => {
     const npm = new NPM({
-      config: {
-        buildCmd: 'npm run custom-build'
-      }
+      buildCmd: 'npm run custom-build'
     })
     jest
       .spyOn(npm, 'read')
@@ -81,9 +79,7 @@ describe('NPM', () => {
       }
     ]
     const npm = new NPM({
-      config: {
-        preReleaseId: 'alpha'
-      }
+      preReleaseId: 'alpha'
     })
     const promptSpy = jest.spyOn(npm, 'promptSelect').mockResolvedValue('patch')
     jest.spyOn(npm, 'exec').mockResolvedValue()
@@ -98,9 +94,7 @@ describe('NPM', () => {
 
   test('supports custom version args', async () => {
     const npm = new NPM({
-      config: {
-        versionArgs: '--custom-arg=foo'
-      }
+      versionArgs: '--custom-arg=foo'
     })
     jest.spyOn(npm, 'promptSelect').mockResolvedValue('patch')
     const execSpy = jest.spyOn(npm, 'exec').mockResolvedValue()
@@ -113,9 +107,7 @@ describe('NPM', () => {
 
   test('supports tag commit arg', async () => {
     const npm = new NPM({
-      config: {
-        tagCommit: true
-      }
+      tagCommit: true
     })
     jest.spyOn(npm, 'promptSelect').mockResolvedValue('patch')
     const execSpy = jest.spyOn(npm, 'exec').mockResolvedValue()
@@ -147,9 +139,7 @@ describe('NPM', () => {
 
   test('supports custom publish args', async () => {
     const npm = new NPM({
-      config: {
-        publishArgs: '--custom-arg=foo'
-      }
+      publishArgs: '--custom-arg=foo'
     })
     const execSpy = jest.spyOn(npm, 'exec').mockResolvedValue()
     await npm.publish()

@@ -158,7 +158,7 @@ class Config {
 
     for (const [name, config] of Object.entries(pluginConfigs)) {
       const Plugin = await this.load(name)
-      const plugin = new Plugin({ config })
+      const plugin = new Plugin({ ...config })
 
       // Map CLI flags to plugin
       plugin.flags = { dry: dryRun, headless }
