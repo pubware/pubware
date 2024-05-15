@@ -8,9 +8,17 @@ interface Config {
   }
 }
 
+/**
+ * Class representing a Git plugin.
+ * @extends Plugin
+ */
 class Git extends Plugin {
   private config: Config
 
+  /**
+   * Create an instance of Git.
+   * @param {Partial<Config>} config Config for the plugin.
+   */
   constructor(config: Partial<Config>) {
     super('git')
     this.config = {
@@ -22,6 +30,11 @@ class Git extends Plugin {
     }
   }
 
+  /**
+   * Read the version from the package.json file.
+   * @returns {Promise<string>} The current package version.
+   * @throws Throws an error if the package.json file cannot be parsed.
+   */
   private async getPackageVersion(): Promise<string> {
     const data = await this.read('./package.json')
 
@@ -33,18 +46,33 @@ class Git extends Plugin {
     }
   }
 
+  /**
+   * Display the git status.
+   */
   async status() {
     await this.exec('git status', { write: false })
   }
 
+  /**
+   * Add files to the git staging area.
+   * @param {...string} args The files.
+   * @returns {Promise<void>}
+   */
   async add(...args: string[]) {
     await this.exec(`git add ${args.join(' ').trim()}`)
   }
 
+  /**
+   * Stage all files.
+   */
   async stageAll() {
     await this.add('.')
   }
 
+  /**
+   * Commit staged changes.
+   * @throws Throws an error if the commit is not confirmed or if the commit message is empty.
+   */
   async commit() {
     await this.stageAll()
     await this.status()
@@ -82,6 +110,11 @@ class Git extends Plugin {
     }
   }
 
+  /**
+   * Create a git tag with the current package version.
+   * @returns {Promise<string>} The tag.
+   * @throws Throws an error if the tag creation fails.
+   */
   async tag(): Promise<string> {
     const version = await this.getPackageVersion()
     const tag = `v${version}`
@@ -94,6 +127,12 @@ class Git extends Plugin {
     }
   }
 
+  /**
+   * Push commits and tags to the remote repository.
+   * @param {string} remote The remote repository name.
+   * @param {string} [tag=''] The tag to push.
+   * @throws Throws an error if the push fails.
+   */
   async push(remote: string, tag: string = ''): Promise<void> {
     try {
       const options = [remote, tag].filter(Boolean)
@@ -102,6 +141,8 @@ class Git extends Plugin {
       throw err
     }
   }
+
+  // Lifecycle hooks
 
   async postPublish(): Promise<void> {
     await this.commit()
