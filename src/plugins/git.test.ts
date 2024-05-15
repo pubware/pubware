@@ -21,6 +21,19 @@ describe('Git', () => {
     expect(execSpy).toHaveBeenCalledWith('git push origin v4.4.4')
   })
 
+  test('throws error with no confirmation', async () => {
+    const git = new Git({})
+    jest.spyOn(git, 'promptConfirm').mockResolvedValue(false)
+    jest
+      .spyOn(git, 'read')
+      .mockResolvedValue(JSON.stringify({ version: '4.4.4' }))
+    jest.spyOn(git, 'exec').mockResolvedValue()
+
+    await expect(git.postPublish()).rejects.toThrow(
+      'Failed to confirm commit changes'
+    )
+  })
+
   test('supports prompt for commit message', async () => {
     const git = new Git({
       commitVersion: false
@@ -31,6 +44,19 @@ describe('Git', () => {
     await git.postPublish()
 
     expect(execSpy).toHaveBeenCalledWith('git commit -m "A commit message"')
+  })
+
+  test('throws error with no commit message', async () => {
+    const git = new Git({
+      commitVersion: false
+    })
+    jest.spyOn(git, 'promptConfirm').mockResolvedValue(true)
+    jest.spyOn(git, 'prompt').mockResolvedValue('')
+    jest.spyOn(git, 'exec').mockResolvedValue()
+
+    await expect(git.postPublish()).rejects.toThrow(
+      'git commit must contain a message'
+    )
   })
 
   test('supports custom remote branch', async () => {
