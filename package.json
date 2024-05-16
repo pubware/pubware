@@ -1,12 +1,19 @@
 {
   "name": "@packpub/packpub",
   "version": "0.0.0",
-  "description": "Package publisher",
+  "description": "Agnostic & extensible package publisher",
   "author": "William Grosset (https://williamgrosset.com)",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/packpub/packpub"
   },
+  "keywords": [
+    "package",
+    "publisher",
+    "release",
+    "cli"
+  ],
   "type": "module",
   "engines": {
     "node": ">=18"
@@ -15,6 +22,10 @@
   "bin": {
     "packpub": "./bin/packpub.js"
   },
+  "files": [
+    "bin",
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
