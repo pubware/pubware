@@ -1,9 +1,7 @@
 <div align="center">
-<h1>packpub</h1>
-
-<img src="https://i.ibb.co/18HCfhG/packpub-logo.png" alt="logo" height="65%" width="65%" style="margin-top:10px;margin-bottom:10px" />
-
-<p>Agnostic & extensible package publisher</p>
+  <h1>packpub</h1>
+  <img src="https://i.ibb.co/18HCfhG/packpub-logo.png" alt="logo" height="75%" width="75%" />
+  <p>Agnostic & extensible package publisher</p>
 </div>
 
 ## Table of Contents
@@ -12,14 +10,14 @@
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Plugins](#plugins)
 - [Configuration](#configuration)
+- [Plugins](#plugins)
 - [Development](#development)
 - [License](#License)
 
 ## Overview
 
-Packpub is an **agnostic** and **extensible** package publisher. Agnostic refers to the ability to be used in a variety of environments. Packpub can be run with any `npm`, `yarn`, `pnpm` project, or other publishing processes with a Node runtime. Extensibility refers to the ability to add additional functionality. Packpub can be bundled with community-made plugins to extend publishing capabilities.
+Packpub is an **agnostic** and **extensible** package publisher. Agnostic refers to the ability to be used in a variety of environments. Packpub can be run with any `npm`, `yarn`, `pnpm` project, or other publishing processes (Python packages, Ruby gems, etc.) with a Node runtime. Extensibility refers to the ability to add additional functionality. Packpub can be bundled with community-made plugins to extend publishing capabilities.
 
 ### 🔥 Features
 
@@ -81,7 +79,7 @@ npm run publish --headless
 
 ## Configuration
 
-Configuration files are supported either with a `packpub.json` file or within `package.json`. Optionally pass values to plugins based on plugin-specific parameters.
+Configuration files are supported either with a `packpub.json` file or within `package.json`. Pass values to plugins based on plugin-specific parameters.
 
 ```json
 {
@@ -102,7 +100,7 @@ Configuration files are supported either with a `packpub.json` file or within `p
 
 ## Plugins
 
-Plugins extend the functionality of packpub. Plugins are defined in the configuration file as either `internal` or `external`. The `internal` plugins come pre-bundled with packpub, such as the `npm` and `git` plugins. The `external` plugins are configured per-project by the user.
+Plugins extend the functionality of packpub and can be tailored to any project. Plugins are defined in the configuration file as either `internal` or `external`. The `internal` plugins come pre-bundled with packpub, such as the `npm` and `git` plugins. The `external` plugins represent the additional project-based plugins.
 
 ### Internal
 
@@ -138,7 +136,7 @@ The `external` plugins are executed in the order they are defined:
 ```
 
 > [!IMPORTANT]
-> The `key` must match the dependency name when referencing a plugin from `node_modules`
+> Plugin `key` must match the dependency name when referencing a plugin from `node_modules`
 
 Local plugins are also supported:
 
