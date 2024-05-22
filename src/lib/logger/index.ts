@@ -17,7 +17,7 @@ class Logger {
    * @param {string} message The message to log.
    */
   log(message: string) {
-    console.log(`[packpub][${this.context}]: ${message}`)
+    console.log(`[pubware][${this.context}]: ${message}`)
   }
 }
 

@@ -1,6 +1,6 @@
 <div align="center">
-  <h1>packpub</h1>
-  <img src="https://i.ibb.co/18HCfhG/packpub-logo.png" alt="logo" height="75%" width="75%" />
+  <h1>pubware</h1>
+  <img src="https://i.ibb.co/qxT05WK/pubware-logo.png" alt="logo" height="75%" width="75%" />
   <p>Agnostic & extensible package publisher</p>
 </div>
 
@@ -17,7 +17,7 @@
 
 ## Overview
 
-Packpub is an **agnostic** and **extensible** package publisher. Agnostic refers to the ability to be used in a variety of environments. Packpub can be run with any `npm`, `yarn`, `pnpm` project, or other publishing processes (Python packages, Ruby gems, etc.) with a Node runtime. Extensibility refers to the ability to add additional functionality. Packpub can be bundled with community-made plugins to extend publishing capabilities.
+Pubware is an **agnostic** and **extensible** package publisher. Agnostic refers to the ability to be used in a variety of environments. Pubware can be run with any `npm`, `yarn`, `pnpm` project, or other publishing processes (Python packages, Ruby gems, etc.) with a Node runtime. Extensibility refers to the ability to add additional functionality. Pubware can be bundled with community-made plugins to extend publishing capabilities.
 
 ### 🔥 Features
 
@@ -35,17 +35,17 @@ Packpub is an **agnostic** and **extensible** package publisher. Agnostic refers
 
 ## Installation
 
-Install `@packpub/packpub` as a dev dependency:
+Install `@pubware/pubware` as a dev dependency:
 
 ```zsh
-npm install -D @packpub/packpub
+npm install -D @pubware/pubware
 ```
 
 Add the `publish` script to `package.json`:
 
 ```json
 "scripts": {
-  "publish": "packpub"
+  "publish": "pubware"
 }
 ```
 
@@ -60,7 +60,7 @@ npm run publish
 Or with `npx`:
 
 ```zsh
-npx packpub
+npx pubware
 ```
 
 ### Args
@@ -79,11 +79,11 @@ npm run publish --headless
 
 ## Configuration
 
-Configuration files are supported either with a `packpub.json` file or within `package.json`. Pass values to plugins based on plugin-specific parameters.
+Configuration files are supported either with a `pubware.json` file or within `package.json`. Pass values to plugins based on plugin-specific parameters.
 
 ```json
 {
-  "packpub": {
+  "pubware": {
     "plugins": {
       "internal": {
         "npm": {},
@@ -100,7 +100,7 @@ Configuration files are supported either with a `packpub.json` file or within `p
 
 ## Plugins
 
-Plugins extend the functionality of packpub and can be tailored to any project. Plugins are defined in the configuration file as either `internal` or `external`. The `internal` plugins come pre-bundled with packpub, such as the `npm` and `git` plugins. The `external` plugins represent the additional project-based plugins.
+Plugins extend the functionality of pubware and can be tailored to any project. Plugins are defined in the configuration file as either `internal` or `external`. The `internal` plugins come pre-bundled with pubware, such as the `npm` and `git` plugins. The `external` plugins represent the additional project-based plugins.
 
 ### Internal
 
@@ -119,7 +119,7 @@ Both `internal` plugins, `npm` and `git`, have a unique `disabled` attribute, as
 }
 ```
 
-Learn more about the [npm](https://github.com/packpub/npm) and [git](https://github.com/packpub/git) plugins.
+Learn more about the [npm](https://github.com/pubware/npm) and [git](https://github.com/pubware/git) plugins.
 
 ### External
 
@@ -150,9 +150,9 @@ Local plugins are also supported:
 
 ### Creating Plugins
 
-Plugins support various utility methods and lifecycle hooks that make it easy to build and integrate with packpub.
+Plugins support various utility methods and lifecycle hooks that make it easy to build and integrate with pubware.
 
-Learn more about [creating plugins](https://github.com/packpub/plugin).
+Learn more about [creating plugins](https://github.com/pubware/plugin).
 
 ## Development
 
@@ -172,9 +172,9 @@ pnpm link .
 Run the build:
 
 ```zsh
-pnpm packpub
+pnpm pubware
 # or
-pnpm run packpub
+pnpm run pubware
 ```
 
 ## License

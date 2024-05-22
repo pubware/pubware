@@ -13,10 +13,10 @@ type Options = {
 }
 
 /**
- * CLI for the packpub publisher.
+ * Pubware CLI.
  */
 class CLI {
-  private static NAME: string = 'packpub'
+  private static NAME: string = 'pubware'
   private static DESCRIPTION: string = 'Agnostic & extensible package publisher'
   private static VERSION: string = '0.0.0'
   private static OPTIONS: Options = {

@@ -1,12 +1,12 @@
 {
-  "name": "@packpub/packpub",
+  "name": "@pubware/pubware",
   "version": "0.0.0",
   "description": "Agnostic & extensible package publisher",
   "author": "William Grosset (https://williamgrosset.com)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/packpub/packpub"
+    "url": "https://github.com/pubware/pubware"
   },
   "keywords": [
     "package",
@@ -20,7 +20,7 @@
   },
   "exports": "./dist/index.js",
   "bin": {
-    "packpub": "./bin/packpub.js"
+    "pubware": "./bin/pubware.js"
   },
   "files": [
     "bin",
@@ -29,7 +29,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
-    "packpub": "packpub",
+    "pubware": "pubware",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "devDependencies": {

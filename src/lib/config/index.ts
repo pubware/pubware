@@ -9,7 +9,7 @@ import { Flags } from '../types.js'
  *
  * Example:
  * {
- *   "packpub": {
+ *   "pubware": {
  *     "plugins": {
  *       "internal": {
  *         "npm": {},
@@ -75,12 +75,12 @@ class Config {
 
   /**
    * Read and parse the application's configuration file.
-   * Supports configuration with either 'packpub.json' or within 'package.json'.
+   * Supports configuration with either 'pubware.json' or within 'package.json'.
    * @returns {Promise<any>} The parsed configuration object.
    */
   private async readConfigFile(): Promise<any> {
     try {
-      const data = await fs.readFile('packpub.json', 'utf-8')
+      const data = await fs.readFile('pubware.json', 'utf-8')
       return this.parseJson(data)
     } catch {
       const data = await fs.readFile('package.json', 'utf-8')
@@ -127,13 +127,13 @@ class Config {
   async init(flags: Flags): Promise<void> {
     const { dryRun, headless } = flags
     const data = await this.readConfigFile()
-    const { packpub } = data
+    const { pubware } = data
 
     // Load internal plugins before external
     let pluginConfigs = structuredClone(Config.INTERNAL_PLUGINS)
 
-    if (packpub && packpub.plugins) {
-      const { internal, external } = packpub.plugins
+    if (pubware && pubware.plugins) {
+      const { internal, external } = pubware.plugins
 
       if (internal) {
         Object.keys(Config.INTERNAL_PLUGINS).forEach(key => {

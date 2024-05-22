@@ -20,7 +20,7 @@ describe('Logger', () => {
     logger.log('Hello, world!')
 
     expect(consoleLogSpy).toHaveBeenCalledWith(
-      '[packpub][plugin][test]: Hello, world!'
+      '[pubware][plugin][test]: Hello, world!'
     )
   })
 
@@ -29,7 +29,7 @@ describe('Logger', () => {
     logger.info('Information message')
 
     expect(consoleLogSpy).toHaveBeenCalledWith(
-      '[packpub][plugin][test][info]: Information message'
+      '[pubware][plugin][test][info]: Information message'
     )
   })
 
@@ -38,7 +38,7 @@ describe('Logger', () => {
     logger.warn('Warning message')
 
     expect(consoleLogSpy).toHaveBeenCalledWith(
-      '[packpub][plugin][test][warning]: Warning message'
+      '[pubware][plugin][test][warning]: Warning message'
     )
   })
 
@@ -47,7 +47,7 @@ describe('Logger', () => {
     logger.error('Error message')
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
-      '[packpub][plugin][test][error]: Error message'
+      '[pubware][plugin][test][error]: Error message'
     )
   })
 })

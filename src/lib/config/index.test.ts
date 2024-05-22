@@ -27,7 +27,7 @@ describe('Config', () => {
   test('disables internal npm plugin', async () => {
     jest.mocked(fs.readFile).mockResolvedValue(
       JSON.stringify({
-        packpub: {
+        pubware: {
           plugins: {
             internal: {
               npm: {
@@ -48,7 +48,7 @@ describe('Config', () => {
   test('disables internal git plugin', async () => {
     jest.mocked(fs.readFile).mockResolvedValue(
       JSON.stringify({
-        packpub: {
+        pubware: {
           plugins: {
             internal: {
               git: {
@@ -69,7 +69,7 @@ describe('Config', () => {
   test('disables both internal plugins', async () => {
     jest.mocked(fs.readFile).mockResolvedValue(
       JSON.stringify({
-        packpub: {
+        pubware: {
           plugins: {
             internal: {
               npm: {
@@ -92,7 +92,7 @@ describe('Config', () => {
   test('loads external plugin', async () => {
     jest.mocked(fs.readFile).mockResolvedValue(
       JSON.stringify({
-        packpub: {
+        pubware: {
           plugins: {
             internal: {
               npm: {
@@ -117,7 +117,7 @@ describe('Config', () => {
   test('maps configs to plugins', async () => {
     jest.mocked(fs.readFile).mockResolvedValue(
       JSON.stringify({
-        packpub: {
+        pubware: {
           plugins: {
             internal: {
               npm: {

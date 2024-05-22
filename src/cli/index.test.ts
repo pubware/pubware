@@ -14,7 +14,7 @@ describe('CLI', () => {
   test('attaches events to lifecycle', async () => {
     const lifecycleListenerSpy = jest.spyOn(Lifecycle.prototype, 'on')
     const cli = new CLI()
-    await cli.run(['node', '../bin/packpub.js'])
+    await cli.run(['node', '../bin/pubware.js'])
 
     expect(lifecycleListenerSpy).toHaveBeenCalledWith(
       'preBump',
@@ -43,7 +43,7 @@ describe('CLI', () => {
       .spyOn(Lifecycle.prototype, 'run')
       .mockResolvedValue()
     const cli = new CLI()
-    await cli.run(['node', '../bin/packpub.js'])
+    await cli.run(['node', '../bin/pubware.js'])
 
     expect(lifecycleSpy).toHaveBeenCalled()
   })

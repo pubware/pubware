@@ -13,6 +13,6 @@ describe('Logger', () => {
     const logger = new Logger('test')
     logger.log('Hello, world!')
 
-    expect(consoleLogSpy).toHaveBeenCalledWith('[packpub][test]: Hello, world!')
+    expect(consoleLogSpy).toHaveBeenCalledWith('[pubware][test]: Hello, world!')
   })
 })

@@ -20,7 +20,7 @@ class Logger {
    * @returns {string} The formatted log prefix.
    */
   private pluginContext(type?: PluginContext): string {
-    const consoleContext = `[packpub][plugin][${this.context}]`
+    const consoleContext = `[pubware][plugin][${this.context}]`
 
     if (type === 'info') {
       return `${consoleContext}[info]`
