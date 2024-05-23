@@ -86,8 +86,8 @@ Configuration is supported either with a `pubware.json` file or within `package.
   "pubware": {
     "plugins": {
       "internal": {
-        "npm": {},
-        "git": {}
+        "@pubware/npm": {},
+        "@pubware/git": {}
       },
       "external": {
         "github": {},
@@ -100,26 +100,26 @@ Configuration is supported either with a `pubware.json` file or within `package.
 
 ## Plugins
 
-Plugins extend the functionality of pubware and can be tailored to any project. Plugins are defined in the configuration file as either `internal` or `external`. The `internal` plugins come pre-bundled with pubware, such as the `npm` and `git` plugins. The `external` plugins represent the additional project-based plugins.
+Plugins extend the functionality of pubware and can be tailored to any project. Plugins are defined in the configuration file as either `internal` or `external`. The `internal` plugins come pre-bundled with pubware, such as the `@pubware/npm` and `@pubware/git` plugins. The `external` plugins represent the additional project-based plugins.
 
 ### Internal
 
-Both `internal` plugins, `npm` and `git`, have a unique `disabled` attribute, as well as their original configuration:
+Both `internal` plugins, `@pubware/npm` and `@pubware/git`, have a unique `disabled` attribute, as well as their original configuration:
 
 ```json
 {
   "internal": {
-    "npm": {
+    "@pubware/npm": {
       "disabled": false
     },
-    "git": {
+    "@pubware/git": {
       "disabled": false
     }
   }
 }
 ```
 
-Learn more about the [npm](https://github.com/pubware/npm) and [git](https://github.com/pubware/git) plugins.
+Learn more about the [@pubware/npm](https://github.com/pubware/npm) and [@pubware/git](https://github.com/pubware/git) plugins.
 
 ### External
 
@@ -136,7 +136,7 @@ The `external` plugins are executed in the order they are defined:
 ```
 
 > [!IMPORTANT]
-> Plugin `key` must match the dependency name when referencing a plugin from `node_modules`
+> A plugin `key` must match the dependency import name when referencing from `node_modules`
 
 Local plugins are also supported:
 

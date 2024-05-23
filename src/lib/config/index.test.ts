@@ -30,7 +30,7 @@ describe('Config', () => {
         pubware: {
           plugins: {
             internal: {
-              npm: {
+              '@pubware/npm': {
                 disabled: true
               }
             }
@@ -51,7 +51,7 @@ describe('Config', () => {
         pubware: {
           plugins: {
             internal: {
-              git: {
+              '@pubware/git': {
                 disabled: true
               }
             }
@@ -72,10 +72,10 @@ describe('Config', () => {
         pubware: {
           plugins: {
             internal: {
-              npm: {
+              '@pubware/npm': {
                 disabled: true
               },
-              git: {
+              '@pubware/git': {
                 disabled: true
               }
             }
@@ -95,12 +95,12 @@ describe('Config', () => {
         pubware: {
           plugins: {
             internal: {
-              npm: {
+              '@pubware/npm': {
                 disabled: true
               }
             },
             external: {
-              npm: {}
+              '@pubware/npm': {}
             }
           }
         }
@@ -120,7 +120,7 @@ describe('Config', () => {
         pubware: {
           plugins: {
             internal: {
-              npm: {
+              '@pubware/npm': {
                 preReleaseId: 'alpha'
               }
             }

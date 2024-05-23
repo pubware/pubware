@@ -12,8 +12,8 @@ import { Flags } from '../types.js'
  *   "pubware": {
  *     "plugins": {
  *       "internal": {
- *         "npm": {},
- *         "git": {}
+ *         "@pubware/npm": {},
+ *         "@pubware/git": {}
  *       },
  *       "external": {
  *         "github": {},
@@ -26,8 +26,8 @@ import { Flags } from '../types.js'
  */
 class Config {
   private static INTERNAL_PLUGINS: Record<string, object> = {
-    npm: {},
-    git: {}
+    '@pubware/npm': {},
+    '@pubware/git': {}
   }
   private _plugins: any[]
   private logger: Logger
@@ -102,9 +102,7 @@ class Config {
 
     try {
       // Attempt to load plugin from node_modules
-      // const module = await import(plugin)
-      // TODO Remove once `npm` module is imported
-      const module = await import(`../../plugins/${plugin}.js`)
+      const module = await import(plugin)
       Plugin = module.default
       return Plugin
     } catch (err) {
