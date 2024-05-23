@@ -17,7 +17,7 @@
 
 ## Overview
 
-Pubware is an **agnostic** and **extensible** package publisher. Agnostic refers to the ability to be used in a variety of environments. Pubware can be run with any `npm`, `yarn`, `pnpm` project, or other publishing processes (Python packages, Ruby gems, etc.) with a Node runtime. Extensibility refers to the ability to add additional functionality. Pubware can be bundled with community-made plugins to extend publishing capabilities.
+Pubware is an **agnostic** and **extensible** package publisher. Agnostic refers to the ability to be used with any `npm`, `yarn`, `pnpm` project, or other publishing processes (Python packages, Ruby gems, etc.) with a Node runtime. Extensibility refers to the ability to be bundled with community-made plugins to extend publishing capabilities. Pubware can be tailored to any project requirements.
 
 ### 🔥 Features
 
@@ -35,10 +35,10 @@ Pubware is an **agnostic** and **extensible** package publisher. Agnostic refers
 
 ## Installation
 
-Install `@pubware/pubware` as a dev dependency:
+Install `pubware` as a dev dependency:
 
 ```zsh
-npm install -D @pubware/pubware
+npm install -D pubware
 ```
 
 Add the `publish` script to `package.json`:
@@ -79,7 +79,7 @@ npm run publish --headless
 
 ## Configuration
 
-Configuration files are supported either with a `pubware.json` file or within `package.json`. Pass values to plugins based on plugin-specific parameters.
+Configuration is supported either with a `pubware.json` file or within `package.json`. Pass values to plugins based on plugin-specific parameters.
 
 ```json
 {
