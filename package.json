@@ -13,7 +13,12 @@
     "publisher",
     "publish",
     "release",
-    "cli"
+    "plugins",
+    "npm",
+    "git",
+    "cli",
+    "node",
+    "typescript"
   ],
   "type": "module",
   "engines": {
@@ -30,8 +35,8 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
-    "pubware": "pubware",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "pubware": "pubware"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

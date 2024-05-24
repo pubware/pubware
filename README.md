@@ -159,10 +159,15 @@ Learn more about [creating plugins](https://github.com/pubware/plugin).
 
 ## Development
 
-Install the modules and create a build:
+Install the modules:
 
 ```zsh
 pnpm install
+```
+
+Create a build:
+
+```zsh
 pnpm build
 ```
 
@@ -176,8 +181,6 @@ Run the build:
 
 ```zsh
 pnpm pubware
-# or
-pnpm run pubware
 ```
 
 ## License
