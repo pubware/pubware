@@ -17,7 +17,7 @@
 
 ## Overview
 
-Pubware is an **agnostic** and **extensible** package publisher. Agnostic refers to the ability to be used with any `npm`, `yarn`, `pnpm` project, or other publishing processes (Python packages, Ruby gems, etc.) with a Node runtime. Extensibility refers to the ability to be bundled with community-made plugins to extend publishing capabilities. Pubware can be tailored to any project requirements.
+Pubware is an **agnostic** and **extensible** package publisher. Pubware supports any `npm`, `yarn`, `pnpm` project, or other publishing processes (Python packages, Ruby gems, etc.) with a Node runtime. Additionally, publishing functionality can be extended with community-made plugins. Pubware can be customized to any publisher requirements.
 
 ### 🔥 Features
 
@@ -71,7 +71,7 @@ Pass the `--dry-run` arg to run and report on what changes would have happened:
 npm run publish --dry-run
 ```
 
-Pass the `--headless` arg to run without an interface (used for CI):
+Pass the `--headless` arg to run without an interface (CI support):
 
 ```zsh
 npm run publish --headless
@@ -79,7 +79,7 @@ npm run publish --headless
 
 ## Configuration
 
-Configuration is supported either with a `pubware.json` file or within `package.json`. Pass values to plugins based on plugin-specific parameters.
+Configuration is supported either with a `pubware.json` file or within `package.json`. You can pass values to plugins based on plugin-specific parameters.
 
 ```json
 {
@@ -91,7 +91,10 @@ Configuration is supported either with a `pubware.json` file or within `package.
       },
       "external": {
         "github": {},
-        "slack": {}
+        "slack": {},
+        "custom-plugin": {
+          "key": "value"
+        }
       }
     }
   }
@@ -100,7 +103,7 @@ Configuration is supported either with a `pubware.json` file or within `package.
 
 ## Plugins
 
-Plugins extend the functionality of pubware and can be tailored to any project. Plugins are defined in the configuration file as either `internal` or `external`. The `internal` plugins come pre-bundled with pubware, such as the `@pubware/npm` and `@pubware/git` plugins. The `external` plugins represent the additional project-based plugins.
+Plugins extend the functionality of pubware and can be configured per project. Plugins are defined in the configuration as either `internal` or `external`. The `internal` plugins come pre-bundled with pubware, such as the `@pubware/npm` and `@pubware/git` plugins. The `external` plugins represent the additional project-based plugins.
 
 ### Internal
 
@@ -128,8 +131,8 @@ The `external` plugins are executed in the order they are defined:
 ```json
 {
   "external": {
-    "github": {},
-    "slack": {},
+    "gitlab": {},
+    "discord": {},
     "doordash": {}
   }
 }
@@ -150,7 +153,7 @@ Local plugins are also supported:
 
 ### Creating Plugins
 
-Plugins support various utility methods and lifecycle hooks that make it easy to build and integrate with pubware.
+Plugins support various utility methods and lifecycle hooks that make it easy to integrate with pubware.
 
 Learn more about [creating plugins](https://github.com/pubware/plugin).
 
