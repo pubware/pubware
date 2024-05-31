@@ -19,7 +19,7 @@
 
 <div>
   <img src="https://img.shields.io/github/actions/workflow/status/pubware/pubware/ci.yml" alt="Build status" />
-  <img src="https://badge.fury.io/js/pubware.svg" alt="Npm version" />
+  <img src="https://img.shields.io/npm/v/pubware" alt="NPM version" />
 </div>
 
 Pubware is an agnostic and extensible package publisher. Pubware supports any `npm`, `yarn`, `pnpm` project, or other publishing processes (Python packages, Ruby gems, etc.) with a Node runtime. Additionally, functionality can be extended with community-made plugins. Pubware can be customized to any publishing requirements.
