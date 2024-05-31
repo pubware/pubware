@@ -1,8 +1,12 @@
-<div align="center">
+ <center>
   <h1>pubware</h1>
-  <img src="https://i.ibb.co/qxT05WK/pubware-logo.png" alt="logo" height="75%" width="75%" />
+  <center>
+    <img src="https://img.shields.io/github/actions/workflow/status/pubware/pubware/ci.yml" alt="Build status" />
+    <img src="https://badge.fury.io/js/pubware.svg" alt="Npm version" />
+  </center>
+  <img src="https://i.ibb.co/qxT05WK/pubware-logo.png" alt="logo" height="75%" width="75%" style="margin-top:10px;" />
   <p>Agnostic & extensible package publisher</p>
-</div>
+</center>
 
 ## Table of Contents
 
