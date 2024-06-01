@@ -1,6 +1,6 @@
 {
   "name": "pubware",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "Agnostic & extensible package publisher",
   "author": "William Grosset (https://williamgrosset.com)",
   "license": "MIT",
