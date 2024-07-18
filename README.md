@@ -1,6 +1,6 @@
  <div align="center">
   <h1>pubware</h1>
-  <img src="https://i.ibb.co/qxT05WK/pubware-logo.png" alt="logo" height="75%" width="75%" />
+  <img src="https://github.com/user-attachments/assets/a5a716d6-8578-4511-a0fb-4113b53e6715" alt="logo" height="75%" width="75%" />
   <p>Agnostic & extensible package publisher</p>
 </div>
 
